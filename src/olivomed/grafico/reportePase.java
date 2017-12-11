@@ -2,16 +2,30 @@ package olivomed.grafico;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import olivomed.logica.ServiciosDB;
+import olivomed.logica.transaccionPase;
+import olivomed.modelos.Deduccion;
+import olivomed.modelos.Pase;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 /**
  *
@@ -46,9 +60,9 @@ public class reportePase extends javax.swing.JFrame {
         jMes = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
         jMedico = new javax.swing.JComboBox<>();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jAño = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -64,7 +78,7 @@ public class reportePase extends javax.swing.JFrame {
         jToolBar1.add(jLabel19);
 
         comboFiltro.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        comboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CODIGO", "NOMBRE", "CAPATAZ" }));
+        comboFiltro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CODIGO", "NOMBRE", " " }));
         jToolBar1.add(comboFiltro);
 
         jLabel20.setForeground(new java.awt.Color(204, 204, 255));
@@ -105,12 +119,21 @@ public class reportePase extends javax.swing.JFrame {
         jTable2.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {}
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-
+                "Numero", "CODIGO", "NOMBRE", "VALOR"
             }
-        ));
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
         jTable2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jTable2MouseClicked(evt);
@@ -135,36 +158,24 @@ public class reportePase extends javax.swing.JFrame {
         jMedico.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodriguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy" }));
 
-        jButton2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jButton2.setText("Generar por mes");
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jButton3.setText("Generar por medico");
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
         jButton4.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jButton4.setText("Ambos");
+        jButton4.setText("Generar");
         jButton4.setFocusable(false);
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jLabel5.setText("Año");
+
+        jAño.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jAño.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jAñoKeyPressed(evt);
             }
         });
 
@@ -176,7 +187,9 @@ public class reportePase extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -185,34 +198,31 @@ public class reportePase extends javax.swing.JFrame {
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
                         .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)))
-                .addContainerGap())
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jAño, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4)
+                        .addGap(35, 35, 35))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(13, 13, 13)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel3)
+                        .addComponent(jMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4)
+                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel5)
+                        .addComponent(jAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton4))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(30, Short.MAX_VALUE))
         );
 
         pack();
@@ -235,6 +245,7 @@ public class reportePase extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        crearTable();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTable2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable2MouseClicked
@@ -245,20 +256,14 @@ public class reportePase extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable2KeyPressed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        mostrarDatosMes();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        mostrarDatosMedico();
-    }//GEN-LAST:event_jButton3ActionPerformed
-
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        MostarAmbos();
+        setPases();
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jAñoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jAñoKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jAñoKeyPressed
 
     /**
      * @param args the command line arguments
@@ -295,9 +300,8 @@ public class reportePase extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> comboFiltro;
+    private javax.swing.JTextField jAño;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
@@ -307,6 +311,7 @@ public class reportePase extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JComboBox<String> jMedico;
     private javax.swing.JComboBox<String> jMes;
     private javax.swing.JScrollPane jScrollPane2;
@@ -315,82 +320,35 @@ public class reportePase extends javax.swing.JFrame {
     private javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 
-    public void MostarAmbos() {
-        try {
-            generarColumnas();
-            String mes = jMes.getSelectedItem().toString();
-            String medico = jMedico.getSelectedItem().toString();
-            ServiciosDB service = new ServiciosDB();
-            String query = "SELECT * FROM PASE WHERE MES = " + "'" + mes + "'" + " AND MEDICO = " + "'" + medico + "'";
-            Statement st = service.con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            this.jTable2.setModel(modelo);
-            ResultSetMetaData rsMd = rs.getMetaData();
-            int cantidadColumnas = rsMd.getColumnCount();
-            while (rs.next()) {
-                Object[] fila = new Object[cantidadColumnas];
-                for (int i = 0; i < cantidadColumnas; i++) {
-                    fila[i] = rs.getObject(i + 1);
-                }
-                modelo.addRow(fila);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(reposteClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void mostrarDatosMedico() {
-        try {
-            generarColumnas();
-            String mes = jMes.getSelectedItem().toString();
-            String medico = jMedico.getSelectedItem().toString();
-            ServiciosDB service = new ServiciosDB();
-            String query = "SELECT * FROM PASE WHERE MEDICO = " + "'" + medico + "'" ;
-            Statement st = service.con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            this.jTable2.setModel(modelo);
-            ResultSetMetaData rsMd = rs.getMetaData();
-            int cantidadColumnas = rsMd.getColumnCount();
-            while (rs.next()) {
-                Object[] fila = new Object[cantidadColumnas];
-                for (int i = 0; i < cantidadColumnas; i++) {
-                    fila[i] = rs.getObject(i + 1);
-                }
-                modelo.addRow(fila);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(reposteClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void mostrarDatosMes() {
-        try {
-            generarColumnas();
-            String mes = jMes.getSelectedItem().toString();
-            String medico = jMedico.getSelectedItem().toString();
-            ServiciosDB service = new ServiciosDB();
-            String query = "SELECT * FROM PASE WHERE MES = " + "'" + mes + "'" ;
-            Statement st = service.con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            this.jTable2.setModel(modelo);
-            ResultSetMetaData rsMd = rs.getMetaData();
-            int cantidadColumnas = rsMd.getColumnCount();
-            while (rs.next()) {
-                Object[] fila = new Object[cantidadColumnas];
-                for (int i = 0; i < cantidadColumnas; i++) {
-                    fila[i] = rs.getObject(i + 1);
-                }
-                modelo.addRow(fila);
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(reposteClientes.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public void agregarFilas() {
+        DefaultTableModel temp = (DefaultTableModel) jTable2.getModel();
+        Object nuevo[] = {"", "", "", "", "", "", "", "", "", "", ""};
+        temp.addRow(nuevo);
     }
 
-    public void generarColumnas() {
-        modelo.addColumn("CODIGO");
-        modelo.addColumn("NOMBRE");
-        modelo.addColumn("CAPATAZ");
+    public void setPases() {
+        String mes = jMes.getSelectedItem().toString();
+        String medico = jMedico.getSelectedItem().toString();
+        transaccionPase service = new transaccionPase();
+        Pase p;
+        float suma = (float) 0.0;
+        ArrayList<Pase> pases;
+        pases = (ArrayList<Pase>) service.obtenerUltimoPaseByMesMedico(mes, medico);
+        for (int x = 0; x < pases.size(); x++) {
+            p = pases.get(x);
+            int anio = Integer.parseInt(jAño.getText());
+            if (anio == obtenerAnio(p.getFecha())) {
+                agregarFilas();
+                jTable2.setValueAt(x + 1, x, 0);
+                jTable2.setValueAt(p.getIdempleado(), x, 1);
+                jTable2.setValueAt(p.getNombre(), x, 2);
+                jTable2.setValueAt(p.getValor(), x, 3);
+                suma = suma + p.getValor();
+            }
+        }
+        DefaultTableModel temp = (DefaultTableModel) jTable2.getModel();
+        Object nuevo[] = {"", "", "", suma,};
+        temp.addRow(nuevo);
     }
 
     public void filtro() {
@@ -401,9 +359,128 @@ public class reportePase extends javax.swing.JFrame {
         if (comboFiltro.getSelectedItem() == "NOMBRE") {
             columnaABuscar = 1;
         }
-        if (comboFiltro.getSelectedItem() == "CAPATAZ") {
-            columnaABuscar = 3;
-        }
         trsFiltro.setRowFilter(RowFilter.regexFilter(txtFiltro.getText(), columnaABuscar));
+    }
+
+    public int obtenerAnio(String jfecha) {
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+            String fecha = jfecha;
+            Date date = format.parse(fecha);
+            String formato = "yyyy";
+            SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+            return Integer.parseInt(dateFormat.format(date));
+        } catch (ParseException ex) {
+            Logger.getLogger(reportePase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    public void crearTable() {
+        try {
+            String mes = jMes.getSelectedItem().toString();
+            String medico = jMedico.getSelectedItem().toString();
+            float sumaded = (float) 0.0;
+            String parrafo1 = "PASES MEDICOS";
+            String parrafo2 = jMedico.getSelectedItem().toString();
+            String parrafo3 = jMes.getSelectedItem().toString() + " del año " + jAño.getText();
+            String parrafo4 = "___________________________________";
+            String parrafo5 = "Firma";
+
+            String path = "template.docx";
+            XWPFDocument writedoc = new XWPFDocument(new FileInputStream(new File(path)));
+
+            XWPFParagraph paragraph1 = writedoc.createParagraph();
+            XWPFRun run1 = paragraph1.createRun();
+            run1.setFontSize(12);
+            run1.setFontFamily("Consolas");
+            run1.setText(parrafo1);
+            paragraph1.setAlignment(ParagraphAlignment.CENTER);
+
+            XWPFParagraph paragraph2 = writedoc.createParagraph();
+            XWPFRun run2 = paragraph2.createRun();
+            run2.setFontSize(12);
+            run2.setBold(true);
+            run2.setFontFamily("Consolas");
+            run2.setText(parrafo2);
+            paragraph2.setAlignment(ParagraphAlignment.CENTER);
+
+            XWPFParagraph paragraph3 = writedoc.createParagraph();
+            XWPFRun run3 = paragraph3.createRun();
+            run3.setFontSize(12);
+            run3.setFontFamily("Consolas");
+            run3.setText(parrafo3);
+            paragraph3.setAlignment(ParagraphAlignment.CENTER);
+
+            int nRows = jTable2.getRowCount();
+            int nCols = jTable2.getColumnCount();
+            XWPFTable tableOne = writedoc.createTable(nRows, nCols);
+            XWPFTableRow tableOneRowOne = tableOne.getRow(0);
+            tableOneRowOne.getCell(0).setText("Nº");
+            tableOneRowOne.getCell(1).setText("CODIGO");
+            tableOneRowOne.getCell(2).setText("EMPLEADO");
+            tableOneRowOne.getCell(3).setText("DEDUCCION");
+
+            for (int i = 0; i < jTable2.getRowCount(); i++) {
+                XWPFTableRow row = tableOne.getRow(i);
+                row.getCell(0).setText(Integer.toString(i));
+            }
+
+            transaccionPase service = new transaccionPase();
+            Pase p;
+            float suma = (float) 0.0;
+            Deduccion ded;
+            int rowNr = 1;
+
+            ArrayList<Pase> pases;
+            pases = (ArrayList<Pase>) service.obtenerUltimoPaseByMesMedico(mes, medico);
+            for (int x = 0; x < pases.size(); x++) {
+                p = pases.get(x);
+                int anio = Integer.parseInt(jAño.getText());
+                if (anio == obtenerAnio(p.getFecha())) {
+                    agregarFilas();
+                    XWPFTableRow row = tableOne.getRow(rowNr++);
+                    row.getCell(1).setText(p.getIdempleado());
+                    row.getCell(2).setText(p.getNombre());
+                    row.getCell(3).setText(formatNumber(p.getValor()));
+                    suma = suma + p.getValor();
+                }
+            }
+            XWPFTableRow row = tableOne.getRow(nRows-1);
+            row.getCell(3).setText(formatNumber(suma));
+            
+            XWPFParagraph paragraph4 = writedoc.createParagraph();
+            XWPFRun run4 = paragraph4.createRun();
+            run4.setFontSize(12);
+            run4.addBreak();
+            run4.addBreak();
+            run4.addBreak();
+            run4.setFontFamily("Consolas");
+            run4.setText(parrafo4);
+            paragraph4.setAlignment(ParagraphAlignment.CENTER);
+
+            XWPFParagraph paragraph5 = writedoc.createParagraph();
+            XWPFRun run5 = paragraph5.createRun();
+            run5.setFontSize(12);
+            run5.setFontFamily("Consolas");
+            run5.setText(parrafo5);
+            paragraph5.setAlignment(ParagraphAlignment.CENTER);
+
+            try (FileOutputStream outStream = new FileOutputStream("Pases medicos de "+ medico + " mes de " + mes + " año " + jAño.getText()+".docx")) {
+                writedoc.write(outStream);
+                JOptionPane.showMessageDialog(null, "ARCHIVO CREADO CON EXITO!");
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(reportePase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public String formatNumber(float cantidad) {
+        String res;
+        DecimalFormat formato = new DecimalFormat("#,###.00");
+        res = formato.format(cantidad);
+        return res;
     }
 }

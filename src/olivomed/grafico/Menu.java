@@ -40,9 +40,11 @@ public class Menu extends javax.swing.JFrame {
         jMenu5 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -117,31 +119,50 @@ public class Menu extends javax.swing.JFrame {
         jMenuBar1.add(jMenu5);
 
         jMenu6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/Pase.png"))); // NOI18N
-        jMenu6.setText("Reportes");
+        jMenu6.setText("Generar Pases");
 
-        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/registroDeducion.png"))); // NOI18N
-        jMenuItem6.setText("Deducciones");
-        jMenu6.add(jMenuItem6);
-
-        jMenuItem7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/registroEmpleado.png"))); // NOI18N
-        jMenuItem7.setText("Empleados");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/mes.png"))); // NOI18N
+        jMenuItem9.setText("Por mes");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
+                jMenuItem9ActionPerformed(evt);
             }
         });
-        jMenu6.add(jMenuItem7);
+        jMenu6.add(jMenuItem9);
 
-        jMenuItem8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/registromedico.png"))); // NOI18N
-        jMenuItem8.setText("Pases medicos");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/registromedico.png"))); // NOI18N
+        jMenuItem10.setText("Por Medico");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                jMenuItem10ActionPerformed(evt);
             }
         });
-        jMenu6.add(jMenuItem8);
+        jMenu6.add(jMenuItem10);
+
+        jMenuItem11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/amos.png"))); // NOI18N
+        jMenuItem11.setText("Ambos");
+        jMenuItem11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem11ActionPerformed(evt);
+            }
+        });
+        jMenu6.add(jMenuItem11);
 
         jMenuBar1.add(jMenu6);
+
+        jMenu7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/proximasdeducciones.png"))); // NOI18N
+        jMenu7.setText("Proximas deducciones");
+
+        jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/prximasdeduciones menu ite,.png"))); // NOI18N
+        jMenuItem6.setText("Generar proximas deducciones");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu7.add(jMenuItem6);
+
+        jMenuBar1.add(jMenu7);
 
         setJMenuBar(jMenuBar1);
 
@@ -189,17 +210,29 @@ public class Menu extends javax.swing.JFrame {
         dp.setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void jMenuItem11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem11ActionPerformed
         // TODO add your handling code here:
         reportePase rp = new reportePase();
         rp.setVisible(true);
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_jMenuItem11ActionPerformed
 
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
         // TODO add your handling code here:
-        reposteClientes rc = new reposteClientes();
-        rc.setVisible(true);
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
+        reportePaseMedico rpm = new reportePaseMedico();
+        rpm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+        reportePaseMes rpm = new reportePaseMes();
+        rpm.setVisible(true);
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        proximasDeducciones pd = new proximasDeducciones();
+        pd.setVisible(true);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -229,10 +262,8 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Menu().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Menu().setVisible(true);
         });
     }
 
@@ -243,15 +274,17 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;
     private javax.swing.JMenu jMenu6;
+    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     // End of variables declaration//GEN-END:variables
 
     private void setIcon() {

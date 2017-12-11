@@ -100,7 +100,7 @@ public class transaccionPase {
     
     public List<Pase> findAllPases() throws SQLException {
         try (Statement stmt = service.con.createStatement()) {
-            String query = "SELECT * FROM EMPLEADO";
+            String query = "SELECT * FROM PASE";
             ResultSet rs = stmt.executeQuery(query);
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
@@ -136,6 +136,80 @@ public class transaccionPase {
     public List<Pase> obtenerUltimoPaseByIdCliente(String idCliente) {
         try {
             String query = "SELECT * FROM PASE WHERE IDEMPLEADO = " + "'" + idCliente + "'" + " ORDER BY CONTADOR DESC";
+            PreparedStatement stmt = service.con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Pase> depts = new ArrayList<>();
+            while (rs.next()) {
+                depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
+                    rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
+                    rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+            }
+            return depts;
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+     public List<Pase> obtenerUltimoPaseByMesMedico(String mes, String medico) {
+        try {
+            String query = "SELECT * FROM PASE WHERE MES = " + "'" + mes + "'" + " AND MEDICO = " + "'" + medico + "'";
+            PreparedStatement stmt = service.con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Pase> depts = new ArrayList<>();
+            while (rs.next()) {
+                depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
+                    rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
+                    rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+            }
+            return depts;
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+     
+     
+     public List<Pase> obtenerUltimoPaseByMes(String mes) {
+        try {
+            String query = "SELECT * FROM PASE WHERE MES = " + "'" + mes + "'";
+            PreparedStatement stmt = service.con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Pase> depts = new ArrayList<>();
+            while (rs.next()) {
+                depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
+                    rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
+                    rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+            }
+            return depts;
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+     
+     public List<Pase> obtenerUltimoPaseByMedico(String medico) {
+        try {
+            String query = "SELECT * FROM PASE WHERE MEDICO = " + "'" + medico + "'";
+            PreparedStatement stmt = service.con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Pase> depts = new ArrayList<>();
+            while (rs.next()) {
+                depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
+                    rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
+                    rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+            }
+            return depts;
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+     
+      public List<Pase> listEmpleadosConDeducciones() {
+        try {
+            String query = "SELECT * FROM PASE LEFT JOIN DEDUCCION ON PASE.IDPASE = DEDUCCION.IDPASE "
+                    + "WHERE DEDUCCION.SALDO < 1 ";
             PreparedStatement stmt = service.con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             ArrayList<Pase> depts = new ArrayList<>();

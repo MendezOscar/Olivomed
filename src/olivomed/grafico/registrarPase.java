@@ -263,7 +263,7 @@ public class registrarPase extends javax.swing.JFrame {
         jLabel8.setText("MEDICO");
 
         jMedico.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodiguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy" }));
+        jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodriguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy" }));
 
         jLabel9.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel9.setText("FECHA");

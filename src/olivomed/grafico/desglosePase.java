@@ -1,7 +1,11 @@
-
 package olivomed.grafico;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -13,9 +17,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static olivomed.grafico.estadoCuentas.txtFiltro;
 import olivomed.logica.transaccionPase;
 import olivomed.modelos.Pase;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 /**
  *
@@ -23,11 +32,9 @@ import olivomed.modelos.Pase;
  */
 public class desglosePase extends javax.swing.JFrame {
 
-
     public desglosePase() {
         initComponents();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -204,7 +211,8 @@ public class desglosePase extends javax.swing.JFrame {
     }//GEN-LAST:event_txtFiltroKeyPressed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+       // TODO add your handling code here:
+        crearTable();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jTable2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable2KeyPressed
@@ -213,7 +221,7 @@ public class desglosePase extends javax.swing.JFrame {
 
     private void jFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFechaKeyPressed
         // TODO add your handling code here:
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             buscarPase();
         }
     }//GEN-LAST:event_jFechaKeyPressed
@@ -325,21 +333,21 @@ public class desglosePase extends javax.swing.JFrame {
                     float saldo = (float) jTable2.getValueAt(x, 6);
                     jTable2.setValueAt(saldo - pres.getDeduccion(), x + 1, 6);
                 }
-                
+
             }
         } catch (SQLException ex) {
             Logger.getLogger(desglosePase.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-    
+
     public void agregarFilas() {
         DefaultTableModel temp = (DefaultTableModel) jTable2.getModel();
         Object nuevo[] = {"", "", "", "", "", "", "", "", "", "", ""};
         temp.addRow(nuevo);
     }
 
-    private Object sumarDiasFecha(String fecha, int dias) {
+    private String sumarDiasFecha(String fecha, int dias) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             Date d = format.parse(fecha);
@@ -348,7 +356,7 @@ public class desglosePase extends javax.swing.JFrame {
             calendar.add(Calendar.DAY_OF_YEAR, dias);
             String dat = calendar.getTime().toString();
             DateFormat formatter = new SimpleDateFormat(
-            "EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+                    "EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
             Date date = (Date) formatter.parse(dat);
             Calendar cal = Calendar.getInstance();
             cal.setTime(date);
@@ -358,5 +366,103 @@ public class desglosePase extends javax.swing.JFrame {
             Logger.getLogger(desglosePase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+
+    public void crearTable() {
+        try {
+            String idPrestamo = txtFiltro.getText();
+            transaccionPase service = new transaccionPase();
+            Pase pres = service.findByIdPase(idPrestamo);
+
+            String parrafo1 = "PASE MEDICO";
+            String parrafo2 = "Desglose de pase ";
+            String parrafo3 = "Otorgado a: " + pres.getNombre();
+            String parrafo4 = "Pagadero en " + pres.getPagos() + " pagos quincenales";
+
+            String path = "template.docx";
+            XWPFDocument writedoc = new XWPFDocument(new FileInputStream(new File(path)));
+
+            XWPFParagraph paragraph1 = writedoc.createParagraph();
+            XWPFRun run1 = paragraph1.createRun();
+            run1.setFontSize(14);
+            run1.setBold(true);
+            run1.setFontFamily("Consolas");
+            run1.setText(parrafo1);
+            paragraph1.setAlignment(ParagraphAlignment.CENTER);
+
+            XWPFParagraph paragraph2 = writedoc.createParagraph();
+            XWPFRun run2 = paragraph2.createRun();
+            run2.setFontSize(12);
+            run2.setBold(true);
+            run2.setFontFamily("Consolas");
+            run2.setText(parrafo2);
+            paragraph2.setAlignment(ParagraphAlignment.CENTER);
+
+            XWPFParagraph paragraph3 = writedoc.createParagraph();
+            XWPFRun run3 = paragraph3.createRun();
+            run3.setFontSize(12);
+            run3.setFontFamily("Consolas");
+            run3.setText(parrafo3);
+            paragraph3.setAlignment(ParagraphAlignment.CENTER);
+
+            XWPFParagraph paragraph4 = writedoc.createParagraph();
+            XWPFRun run4 = paragraph4.createRun();
+            run4.setFontSize(12);
+            run4.setFontFamily("Consolas");
+            run4.setText(parrafo4);
+            paragraph4.setAlignment(ParagraphAlignment.CENTER);
+
+            int nRows = jTable2.getRowCount();
+            int nCols = jTable2.getColumnCount();
+            XWPFTable tableOne = writedoc.createTable(nRows, nCols);
+            XWPFTableRow tableOneRowOne = tableOne.getRow(0);
+            tableOneRowOne.getCell(0).setText("DEDUCCION");
+            tableOneRowOne.getCell(1).setText("NUMERO");
+            tableOneRowOne.getCell(2).setText("FECHA");
+            tableOneRowOne.getCell(3).setText("PASE");
+            tableOneRowOne.getCell(4).setText("PAGOS");
+            tableOneRowOne.getCell(5).setText("DEDUCCION");
+            tableOneRowOne.getCell(6).setText("SALDO");
+
+            for (int x = 0; x < 1; x++) {
+                XWPFTableRow tableRowTwo = tableOne.getRow(1);
+                tableRowTwo.getCell(1).setText(Float.toString(pres.getNumero()));
+                tableRowTwo.getCell(2).setText(pres.getFecha());
+                tableRowTwo.getCell(3).setText(Float.toString(pres.getValor()));
+                tableRowTwo.getCell(4).setText(Float.toString(pres.getPagos()));
+                tableRowTwo.getCell(6).setText(Float.toString(pres.getValor()));
+            }
+
+            int rowNr = 2;
+            String fecha = jFecha.getText();
+            for (int x = 0; x < pres.getPagos(); x++) {
+                agregarFilas();
+                if (x == 0) {
+                    XWPFTableRow row = tableOne.getRow(rowNr++);
+                    row.getCell(0).setText(Integer.toString(x + 1));
+                    row.getCell(2).setText(jFecha.getText());
+                    row.getCell(5).setText(Float.toString(pres.getDeduccion()));
+                    row.getCell(6).setText(Float.toString(pres.getValor() - pres.getDeduccion()));
+                } else {
+                    String dat = (String) jTable2.getValueAt(x, 2);
+                    XWPFTableRow row = tableOne.getRow(rowNr++);
+                    row.getCell(0).setText(Integer.toString(x + 1));
+                    row.getCell(2).setText(sumarDiasFecha(dat, 14));
+                    row.getCell(5).setText(Float.toString(pres.getDeduccion()));
+                    float saldo = (float) jTable2.getValueAt(x, 6);
+                    row.getCell(6).setText(Float.toString(saldo - pres.getDeduccion()));
+                }
+            }
+
+            try (FileOutputStream outStream = new FileOutputStream("Desglose de pase de " + pres.getNombre() + ".docx")) {
+                writedoc.write(outStream);
+                JOptionPane.showMessageDialog(null, "ARCHIVO CREADO CON EXITO!");
+            }
+
+        } catch (SQLException | FileNotFoundException ex) {
+            Logger.getLogger(desglosePase.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(desglosePase.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
