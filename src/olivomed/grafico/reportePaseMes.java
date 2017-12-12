@@ -64,7 +64,7 @@ public class reportePaseMes extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jToolBar1.setBackground(new java.awt.Color(204, 204, 255));
+        jToolBar1.setBackground(new java.awt.Color(204, 255, 255));
         jToolBar1.setRollover(true);
 
         jLabel1.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
@@ -207,8 +207,8 @@ public class reportePaseMes extends javax.swing.JFrame {
                         .addComponent(jAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton4))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addGap(30, 30, 30))
         );
 
         pack();

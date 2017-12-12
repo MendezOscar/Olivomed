@@ -63,12 +63,13 @@ public class registrarPase extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jToolBar3.setBackground(new java.awt.Color(204, 204, 255));
+        jToolBar3.setBackground(new java.awt.Color(204, 255, 255));
         jToolBar3.setRollover(true);
 
         jLabel41.setForeground(new java.awt.Color(204, 204, 255));
         jToolBar3.add(jLabel41);
 
+        jButton3.setBackground(new java.awt.Color(204, 255, 255));
         jButton3.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/guardar.png"))); // NOI18N
         jButton3.setText("Guardar");
@@ -84,10 +85,11 @@ public class registrarPase extends javax.swing.JFrame {
         });
         jToolBar3.add(jButton3);
 
-        jLabel14.setForeground(new java.awt.Color(204, 204, 255));
+        jLabel14.setForeground(new java.awt.Color(204, 255, 255));
         jLabel14.setText(".......");
         jToolBar3.add(jLabel14);
 
+        jButton4.setBackground(new java.awt.Color(204, 255, 255));
         jButton4.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/modicar.png"))); // NOI18N
         jButton4.setText("Modificar");
@@ -104,10 +106,11 @@ public class registrarPase extends javax.swing.JFrame {
         });
         jToolBar3.add(jButton4);
 
-        jLabel15.setForeground(new java.awt.Color(204, 204, 255));
+        jLabel15.setForeground(new java.awt.Color(204, 255, 255));
         jLabel15.setText(".......");
         jToolBar3.add(jLabel15);
 
+        jButton5.setBackground(new java.awt.Color(204, 255, 255));
         jButton5.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/eliminar.png"))); // NOI18N
         jButton5.setText("Eliminar");
@@ -124,10 +127,11 @@ public class registrarPase extends javax.swing.JFrame {
         });
         jToolBar3.add(jButton5);
 
-        jLabel16.setForeground(new java.awt.Color(204, 204, 255));
+        jLabel16.setForeground(new java.awt.Color(204, 255, 255));
         jLabel16.setText(".......");
         jToolBar3.add(jLabel16);
 
+        jButton6.setBackground(new java.awt.Color(204, 255, 255));
         jButton6.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/limpiar.png"))); // NOI18N
         jButton6.setText("Limpiar");
@@ -144,10 +148,11 @@ public class registrarPase extends javax.swing.JFrame {
         });
         jToolBar3.add(jButton6);
 
-        jLabel17.setForeground(new java.awt.Color(204, 204, 255));
+        jLabel17.setForeground(new java.awt.Color(204, 255, 255));
         jLabel17.setText(".......");
         jToolBar3.add(jLabel17);
 
+        jButton7.setBackground(new java.awt.Color(204, 255, 255));
         jButton7.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/buscar.png"))); // NOI18N
         jButton7.setText("Buscar");
@@ -164,10 +169,11 @@ public class registrarPase extends javax.swing.JFrame {
         });
         jToolBar3.add(jButton7);
 
-        jLabel18.setForeground(new java.awt.Color(204, 204, 255));
+        jLabel18.setForeground(new java.awt.Color(204, 255, 255));
         jLabel18.setText(".......");
         jToolBar3.add(jLabel18);
 
+        jButton8.setBackground(new java.awt.Color(204, 255, 255));
         jButton8.setFont(new java.awt.Font("Consolas", 0, 12)); // NOI18N
         jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/reporte.png"))); // NOI18N
         jButton8.setText("reporte");
@@ -432,6 +438,8 @@ public class registrarPase extends javax.swing.JFrame {
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
+        reportePase rp = new reportePase();
+        rp.setVisible(true);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEmpleadoActionPerformed
@@ -484,7 +492,7 @@ public class registrarPase extends javax.swing.JFrame {
     private void jTable2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable2KeyPressed
         // TODO add your handling code here:
         int cell = jTable2.getSelectedColumn();
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && cell == 2) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && cell == 3) {
             DecimalFormat df = new DecimalFormat("#.00");
             float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
             int pagos = Integer.parseInt(String.valueOf(tm.getValueAt(0, 2)));
@@ -679,7 +687,7 @@ public class registrarPase extends javax.swing.JFrame {
         String doc = null;
         if (null != doctor) {
             switch (doctor) {
-                case "Dr. Ezer Rodiguez":
+                case "Dr. Ezer Rodriguez":
                     doc = "ER";
                     break;
                 case "Dra. Gilma Ramirez":

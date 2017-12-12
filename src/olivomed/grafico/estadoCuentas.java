@@ -66,7 +66,7 @@ public class estadoCuentas extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jToolBar1.setBackground(new java.awt.Color(204, 204, 255));
+        jToolBar1.setBackground(new java.awt.Color(204, 255, 255));
         jToolBar1.setRollover(true);
 
         jLabel1.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N

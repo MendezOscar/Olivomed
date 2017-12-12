@@ -144,8 +144,8 @@ public final class proximasDeducciones extends javax.swing.JFrame {
                         .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
+                .addGap(26, 26, 26))
         );
 
         pack();
@@ -227,11 +227,13 @@ public final class proximasDeducciones extends javax.swing.JFrame {
                     ded = aded.get(0);
                 }
                 if (ded == null) {
+                    agregarFilas();
                     jTable3.setValueAt(pase.getIdempleado(), x, 1);
                     jTable3.setValueAt(pase.getNombre(), x, 2);
                     jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
                     sumaded = sumaded + pase.getDeduccion();
                 } else if (ded.getSaldo() > 1) {
+                    agregarFilas();
                     jTable3.setValueAt(pase.getIdempleado(), x, 1);
                     jTable3.setValueAt(pase.getNombre(), x, 2);
                     jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
