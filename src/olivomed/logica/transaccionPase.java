@@ -133,9 +133,9 @@ public class transaccionPase {
         return null;
     }
 
-    public List<Pase> obtenerUltimoPaseByIdCliente(String idCliente) {
+    public List<Pase> obtenerUltimoPaseByIdCliente(String idCliente, String medico) {
         try {
-            String query = "SELECT * FROM PASE WHERE IDEMPLEADO = " + "'" + idCliente + "'" + " ORDER BY CONTADOR DESC";
+            String query = "SELECT * FROM PASE WHERE IDEMPLEADO = " + "'" + idCliente + "'" +" AND MEDICO = " + "'" + medico + "'"+ " ORDER BY CONTADOR DESC";
             PreparedStatement stmt = service.con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             ArrayList<Pase> depts = new ArrayList<>();

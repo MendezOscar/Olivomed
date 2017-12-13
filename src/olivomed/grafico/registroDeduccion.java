@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -23,7 +24,7 @@ import olivomed.modelos.Pase;
  *
  * @author Oscar Mendez
  */
-public class registroDeduccion extends javax.swing.JFrame {
+public final class registroDeduccion extends javax.swing.JFrame {
 
     public DefaultTableModel tm;
     Date fechaActual;
@@ -31,6 +32,7 @@ public class registroDeduccion extends javax.swing.JFrame {
     public registroDeduccion() {
         initComponents();
         this.tm = (DefaultTableModel) jTable2.getModel();
+        setearFecha();
     }
 
     @SuppressWarnings("unchecked")
@@ -307,6 +309,10 @@ public class registroDeduccion extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -319,17 +325,12 @@ public class registroDeduccion extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel9)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(29, 29, 29))))
+                                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
@@ -337,18 +338,19 @@ public class registroDeduccion extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel10)
                             .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
@@ -363,7 +365,7 @@ public class registroDeduccion extends javax.swing.JFrame {
                             .addComponent(jDeduccion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(15, 15, 15)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 25, Short.MAX_VALUE))
+                .addGap(0, 27, Short.MAX_VALUE))
         );
 
         pack();
@@ -453,19 +455,31 @@ public class registroDeduccion extends javax.swing.JFrame {
     private void jPaseKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPaseKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            Deduccion ded = verificarPagos();
-            if (ded == null) {
-                setearCodigo();
-                buscarPase();
-                buscarEmpleado();
-                buscarMedico();
-            } else if (ded.getSaldo() < 1) {
-                JOptionPane.showMessageDialog(null, "El Prestamo: " + ded.getIdPase() + " ya esta pagado");
-            } else {
-                setearCodigo();
-                buscarPase();
-                buscarEmpleado();
-                buscarMedico();
+            try {
+                String idPase = jPase.getText();
+                transaccionPase service = new transaccionPase();
+                Pase p = service.findByIdPase(idPase);
+                if (p == null) {
+                    JOptionPane.showMessageDialog(null, "El Pase: " + idPase + " no existe");
+                } else {
+                    Deduccion ded = verificarPagos();
+                    if (ded == null) {
+                        setearCodigo();
+                        buscarPase();
+                        buscarEmpleado();
+                        buscarMedico();
+                    } else if (ded.getSaldo() < 1) {
+                        JOptionPane.showMessageDialog(null, "El Pase: " + ded.getIdPase() + " ya esta pagado");
+                    } else {
+                        setearCodigo();
+                        buscarPase();
+                        buscarEmpleado();
+                        buscarMedico();
+                    }
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(registroDeduccion.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_jPaseKeyPressed
@@ -817,6 +831,11 @@ public class registroDeduccion extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(registroDeduccion.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
+    }
+
+    public void setearFecha() {
+        fechaActual = new Date();
+        jFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaActual));
     }
 }
