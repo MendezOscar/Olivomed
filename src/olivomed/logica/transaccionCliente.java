@@ -19,13 +19,14 @@ public class transaccionCliente {
 
     public void createCliente(Empleado clie) {
         String query = "INSERT INTO EMPLEADO "
-                + "(CODIGO, NOMBRE, CONTADOR, CAPATAZ) "
-                + "VALUES (? , ? , ?, ?)";
+                + "(CODIGO, NOMBRE, CONTADOR, CAPATAZ, TIPO) "
+                + "VALUES (? , ? , ?, ?, ?)";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, clie.getIdEmpleado());
             stmt.setString(2, clie.getNombre());
             stmt.setInt(3, clie.getContador());
             stmt.setString(4, clie.getCapataz());
+            stmt.setString(5, clie.getTipo());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, " El empleado: " + clie.getIdEmpleado() + " se ha guardado Exitosamente.");
         } catch (SQLException se) {
@@ -36,12 +37,13 @@ public class transaccionCliente {
 
     public void updateCliente(String id, Empleado clie) throws SQLException {
         String query = "UPDATE EMPLEADO "
-                + "SET NOMBRE=?, CAPATAZ =?"
+                + "SET NOMBRE=?, CAPATAZ =?, TIPO =?"
                 + "WHERE CODIGO=?";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, clie.getNombre());
             stmt.setString(2, clie.getCapataz());
-            stmt.setString(3, clie.getIdEmpleado());
+            stmt.setString(3, clie.getTipo());
+            stmt.setString(4, clie.getIdEmpleado());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "El empleado: " + id + " se ha actualizado correctamente.");
         } catch (SQLException se) {
@@ -74,7 +76,7 @@ public class transaccionCliente {
                 return null;
             }
             return (new Empleado(rs.getString("CODIGO"), rs.getString("NOMBRE"), rs.getInt("CONTADOR"),
-                    rs.getString("CAPATAZ")));
+                    rs.getString("CAPATAZ"), rs.getString("TIPO")));
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(null, "ERROR Codigo de empleado: " + id + "no se ha encontrado.");
         }
@@ -88,11 +90,12 @@ public class transaccionCliente {
             ArrayList<Empleado> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Empleado(rs.getString("CODIGO"), rs.getString("NOMBRE"), rs.getInt("CONTADOR"),
-                        rs.getString("CAPATAZ")));
+                        rs.getString("CAPATAZ"), rs.getString("TIPO")));
             }
             return depts;
         } catch (SQLException se) {
-            JOptionPane.showMessageDialog(null, "ERROR.");
+            System.out.println(se.toString());
+            JOptionPane.showMessageDialog(null, "ERROR. ");
         }
         return null;
     }

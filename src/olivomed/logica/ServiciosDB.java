@@ -14,12 +14,13 @@ import javax.swing.JOptionPane;
 public class ServiciosDB {
     public Connection con = null;
     Statement st;
-    String sURL = "jdbc:mysql://localhost:3306/olivopmed";
-    
+    String url = "jdbc:oracle:thin:@localhost:1521/xe";
+    String username = "OLIVOPMED";
+    String password = "medico";
 
     public ServiciosDB() {
         try {
-            con = DriverManager.getConnection(sURL,"root","olivodb");
+            con = DriverManager.getConnection(url, username, password);
         } catch (SQLException se) {
             System.out.println(se.toString());
             JOptionPane.showMessageDialog(null, "Error al conectar");

@@ -156,7 +156,7 @@ public class reportePase extends javax.swing.JFrame {
         jLabel4.setText("Medico");
 
         jMedico.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodriguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy" }));
+        jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodriguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy", "Clinica Los Angeles" }));
 
         jButton4.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jButton4.setText("Generar");

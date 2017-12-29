@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static olivomed.grafico.registroDeduccion.jFecha;
 import olivomed.logica.transaccionCliente;
 import olivomed.logica.transaccionPase;
 import olivomed.modelos.Empleado;
@@ -62,6 +61,8 @@ public final class registrarPase extends javax.swing.JFrame {
         jMedico = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jFecha = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        jEstado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -267,7 +268,7 @@ public final class registrarPase extends javax.swing.JFrame {
         jLabel8.setText("MEDICO");
 
         jMedico.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodriguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy" }));
+        jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodriguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy", "Clinica Los Angeles" }));
 
         jLabel9.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel9.setText("FECHA");
@@ -284,6 +285,17 @@ public final class registrarPase extends javax.swing.JFrame {
             }
         });
 
+        jLabel10.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jLabel10.setText("ESTADO");
+
+        jEstado.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DEDUCIBLE", "NO DEDUCIBLE" }));
+        jEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jEstadoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -295,27 +307,32 @@ public final class registrarPase extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(196, 196, 196)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 110, Short.MAX_VALUE))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
@@ -346,7 +363,9 @@ public final class registrarPase extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)
+                            .addComponent(jEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 32, Short.MAX_VALUE))
@@ -488,14 +507,20 @@ public final class registrarPase extends javax.swing.JFrame {
 
     private void jTable2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable2KeyPressed
         // TODO add your handling code here:
+        String estado = jEstado.getSelectedItem().toString();
         int cell = jTable2.getSelectedColumn();
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && cell == 3) {
-            DecimalFormat df = new DecimalFormat("#.00");
-            float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
-            int pagos = Integer.parseInt(String.valueOf(tm.getValueAt(0, 2)));
-            float deduccion = valor / pagos;
-            System.out.println(df.format(deduccion));
-            jTable2.setValueAt(df.format(deduccion), 0, 3);
+        if ("DEDUCIBLE".equals(estado)) {
+            if (evt.getKeyCode() == KeyEvent.VK_ENTER && cell == 3) {
+                DecimalFormat df = new DecimalFormat("#.00");
+                float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
+                int pagos = Integer.parseInt(String.valueOf(tm.getValueAt(0, 2)));
+                float deduccion = valor / pagos;
+                System.out.println(df.format(deduccion));
+                jTable2.setValueAt(df.format(deduccion), 0, 3);
+            }
+        } else if ("NO DEDUCIBLE".equals(estado)){
+            jTable2.setValueAt(0, 0, 2);
+            jTable2.setValueAt(0.0, 0, 3);
         }
     }//GEN-LAST:event_jTable2KeyPressed
 
@@ -506,6 +531,10 @@ public final class registrarPase extends javax.swing.JFrame {
     private void jFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFechaKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFechaKeyPressed
+
+    private void jEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEstadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jEstadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -549,7 +578,9 @@ public final class registrarPase extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     public static javax.swing.JTextField jEmpleado;
+    private javax.swing.JComboBox<String> jEstado;
     public static javax.swing.JTextField jFecha;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -583,7 +614,8 @@ public final class registrarPase extends javax.swing.JFrame {
         String medico = jMedico.getSelectedItem().toString();
         String mes = obtenerMes();
         int pagos = Integer.parseInt(String.valueOf(tm.getValueAt(0, 2)));
-        p = new Pase(idPase, idEmpleado, nombre, fecha, valor, deduccion, contador, numero, medico, mes, pagos);
+        String estado = jEstado.getSelectedItem().toString();
+        p = new Pase(idPase, idEmpleado, nombre, fecha, valor, deduccion, contador, numero, medico, mes, pagos, estado);
         return p;
     }
 
@@ -608,6 +640,7 @@ public final class registrarPase extends javax.swing.JFrame {
         jTable2.setValueAt(p.getPagos(), 0, 2);
         jTable2.setValueAt(p.getDeduccion(), 0, 3);
         jMedico.setSelectedItem(p.getMedico());
+        jEstado.setSelectedItem(p.getEstado());
     }
 
     public int setearnumero() {
@@ -692,6 +725,9 @@ public final class registrarPase extends javax.swing.JFrame {
                     break;
                 case "Dr. Norman Godoy":
                     doc = "NG";
+                    break;
+                case "Clinica Los Angeles":
+                    doc = "CN";
                     break;
                 default:
                     break;

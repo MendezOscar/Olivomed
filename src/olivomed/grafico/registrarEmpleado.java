@@ -51,6 +51,8 @@ public final class registrarEmpleado extends javax.swing.JFrame {
         jNombre = new javax.swing.JTextField();
         jLabel31 = new javax.swing.JLabel();
         jCapataz = new javax.swing.JComboBox<>();
+        jLabel32 = new javax.swing.JLabel();
+        jTipo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -235,6 +237,12 @@ public final class registrarEmpleado extends javax.swing.JFrame {
         jCapataz.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jCapataz.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jose Isidro Yanez", "Jaime Arturo Rojas", "Miguel Alfredo Lopez", "Jose Martin Corea Molina", "Carlos Martinez", "Hernan Reyes", "Oscar Banegas", "Jose Hernandez", "Recursos Humanos" }));
 
+        jLabel32.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jLabel32.setText("CATEGORIA");
+
+        jTipo.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Eventual", "Mensual", "Socio" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -252,13 +260,17 @@ public final class registrarEmpleado extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel29)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel31)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jCapataz, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jCapataz, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel32)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel29)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCliente, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -267,8 +279,13 @@ public final class registrarEmpleado extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel32)
+                            .addComponent(jTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel29)
                             .addComponent(jCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -279,8 +296,7 @@ public final class registrarEmpleado extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel31)
-                            .addComponent(jCapataz, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(jLabel2))
+                            .addComponent(jCapataz, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 14, Short.MAX_VALUE))
         );
 
@@ -466,10 +482,12 @@ public final class registrarEmpleado extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel32;
     private javax.swing.JLabel jLabel36;
     private javax.swing.JLabel jLabel39;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JTextField jNombre;
+    private javax.swing.JComboBox<String> jTipo;
     private javax.swing.JToolBar jToolBar3;
     // End of variables declaration//GEN-END:variables
 
@@ -479,7 +497,8 @@ public final class registrarEmpleado extends javax.swing.JFrame {
         String nombre= jNombre.getText();
         String capataz = jCapataz.getSelectedItem().toString();
         int numero = setearnumero();
-        emp = new Empleado(idCliente, nombre, numero, capataz);
+        String Tipo = jTipo.getSelectedItem().toString();
+        emp = new Empleado(idCliente, nombre, numero, capataz, Tipo);
         return emp;
     }
 
@@ -492,6 +511,7 @@ public final class registrarEmpleado extends javax.swing.JFrame {
         jNombre.setText(emp.getNombre());
         jCliente.setText(emp.getIdEmpleado());
         jCapataz.setSelectedItem(emp.getCapataz());
+        jTipo.setSelectedItem(emp.getTipo());
     }
     
     public int setearnumero() {
