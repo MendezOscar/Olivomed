@@ -1,16 +1,32 @@
-
 package olivomed.grafico;
 
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import olivomed.logica.transaccionCliente;
 import olivomed.logica.transaccionPase;
+import olivomed.modelos.Empleado;
 import olivomed.modelos.Pase;
+import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
+import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
+import org.apache.poi.xwpf.usermodel.XWPFRun;
+import org.apache.poi.xwpf.usermodel.XWPFTable;
+import org.apache.poi.xwpf.usermodel.XWPFTableRow;
 
 /**
  *
@@ -18,10 +34,14 @@ import olivomed.modelos.Pase;
  */
 public final class reporteContabilidad extends javax.swing.JFrame {
 
+    public DefaultTableModel tm;
+
     public reporteContabilidad() {
         initComponents();
         setColunma1();
+        this.tm = (DefaultTableModel) jTable2.getModel();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -167,11 +187,18 @@ public final class reporteContabilidad extends javax.swing.JFrame {
 
     private void jAñoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jAñoKeyPressed
         // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            setPasesSocios();
+            setPasesMensuales();
+            setPasesEventuales();
+            setPasesNoDeducibles();
+            setTotal();
+        }
     }//GEN-LAST:event_jAñoKeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        //crearTable();
+        crearTable();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -224,8 +251,8 @@ public final class reporteContabilidad extends javax.swing.JFrame {
         Object nuevo[] = {"", "", "", "", "", "", "", "", "", "", ""};
         temp.addRow(nuevo);
     }
-    
-    public void setColunma1(){
+
+    public void setColunma1() {
         jTable2.setValueAt("Eventuales", 0, 0);
         jTable2.setValueAt("Mensuales", 1, 0);
         jTable2.setValueAt("Socios", 2, 0);
@@ -233,31 +260,138 @@ public final class reporteContabilidad extends javax.swing.JFrame {
         jTable2.setValueAt("TOTAL", 4, 0);
     }
 
-    public void setPases() {
+    public void setPasesSocios() {
         String mes = jMes.getSelectedItem().toString();
         String medico = jMedico.getSelectedItem().toString();
         transaccionPase service = new transaccionPase();
+        transaccionCliente tc = new transaccionCliente();
         Pase p;
+        String idCliente;
+        Empleado emp;
         float suma = (float) 0.0;
         ArrayList<Pase> pases;
         pases = (ArrayList<Pase>) service.obtenerUltimoPaseByMesMedico(mes, medico);
         for (int x = 0; x < pases.size(); x++) {
-            p = pases.get(x);
-            int anio = Integer.parseInt(jAño.getText());
-            if (anio == obtenerAnio(p.getFecha())) {
-                agregarFilas();
-                jTable2.setValueAt(x + 1, x, 0);
-                jTable2.setValueAt(p.getIdempleado(), x, 1);
-                jTable2.setValueAt(p.getNombre(), x, 2);
-                jTable2.setValueAt(p.getValor(), x, 3);
-                suma = suma + p.getValor();
+            try {
+                p = pases.get(x);
+                idCliente = p.getIdempleado();
+                emp = tc.findByIdClientes(idCliente);
+                int anio = Integer.parseInt(jAño.getText());
+                if ("Socio".equals(emp.getTipo())) {
+                    if (anio == obtenerAnio(p.getFecha())) {
+                        if ("DEDUCIBLE".equals(p.getEstado())) {
+                            suma = suma + p.getValor();
+                        }
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(reporteContabilidad.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        DefaultTableModel temp = (DefaultTableModel) jTable2.getModel();
-        Object nuevo[] = {"", "", "", suma,};
-        temp.addRow(nuevo);
+        jTable2.setValueAt(suma, 2, 1);
     }
-    
+
+    public void setPasesEventuales() {
+        String mes = jMes.getSelectedItem().toString();
+        String medico = jMedico.getSelectedItem().toString();
+        transaccionPase service = new transaccionPase();
+        transaccionCliente tc = new transaccionCliente();
+        Pase p;
+        String idCliente;
+        Empleado emp;
+        float suma = (float) 0.0;
+        ArrayList<Pase> pases;
+        pases = (ArrayList<Pase>) service.obtenerUltimoPaseByMesMedico(mes, medico);
+        for (int x = 0; x < pases.size(); x++) {
+            try {
+                p = pases.get(x);
+                idCliente = p.getIdempleado();
+                emp = tc.findByIdClientes(idCliente);
+                int anio = Integer.parseInt(jAño.getText());
+                if ("Eventual".equals(emp.getTipo())) {
+                    if (anio == obtenerAnio(p.getFecha())) {
+                        if ("DEDUCIBLE".equals(p.getEstado())) {
+                            suma = suma + p.getValor();
+                        }
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(reporteContabilidad.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        jTable2.setValueAt(suma, 0, 1);
+    }
+
+    public void setPasesMensuales() {
+        String mes = jMes.getSelectedItem().toString();
+        String medico = jMedico.getSelectedItem().toString();
+        transaccionPase service = new transaccionPase();
+        transaccionCliente tc = new transaccionCliente();
+        Pase p;
+        String idCliente;
+        Empleado emp;
+        float suma = (float) 0.0;
+        ArrayList<Pase> pases;
+        pases = (ArrayList<Pase>) service.obtenerUltimoPaseByMesMedico(mes, medico);
+        for (int x = 0; x < pases.size(); x++) {
+            try {
+                p = pases.get(x);
+                idCliente = p.getIdempleado();
+                emp = tc.findByIdClientes(idCliente);
+                int anio = Integer.parseInt(jAño.getText());
+                if ("Mensual".equals(emp.getTipo())) {
+                    if (anio == obtenerAnio(p.getFecha())) {
+                        if ("DEDUCIBLE".equals(p.getEstado())) {
+                            suma = suma + p.getValor();
+                        }
+                    }
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(reporteContabilidad.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        jTable2.setValueAt(suma, 1, 1);
+    }
+
+    public void setPasesNoDeducibles() {
+        String mes = jMes.getSelectedItem().toString();
+        String medico = jMedico.getSelectedItem().toString();
+        transaccionPase service = new transaccionPase();
+        transaccionCliente tc = new transaccionCliente();
+        Pase p;
+        String idCliente;
+        Empleado emp;
+        float suma = (float) 0.0;
+        ArrayList<Pase> pases;
+        pases = (ArrayList<Pase>) service.obtenerUltimoPaseByMesMedico(mes, medico);
+        for (int x = 0; x < pases.size(); x++) {
+            try {
+                p = pases.get(x);
+                idCliente = p.getIdempleado();
+                emp = tc.findByIdClientes(idCliente);
+                int anio = Integer.parseInt(jAño.getText());
+                if (anio == obtenerAnio(p.getFecha())) {
+                    if ("NO DEDUCIBLE".equals(p.getEstado())) {
+                        suma = suma + p.getValor();
+                    }
+                }
+
+            } catch (SQLException ex) {
+                Logger.getLogger(reporteContabilidad.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        jTable2.setValueAt(suma, 3, 1);
+    }
+
+    public void setTotal() {
+        float socios = Float.parseFloat(String.valueOf(tm.getValueAt(2, 1)));
+        float eventual = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
+        float mensual = Float.parseFloat(String.valueOf(tm.getValueAt(1, 1)));
+        float nodeducible = Float.parseFloat(String.valueOf(tm.getValueAt(3, 1)));
+        float sumatotal = socios + eventual + mensual + nodeducible;
+        jTable2.setValueAt(sumatotal, 4, 1);
+    }
+
     public int obtenerAnio(String jfecha) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -271,11 +405,118 @@ public final class reporteContabilidad extends javax.swing.JFrame {
         }
         return 0;
     }
-    
+
     public String formatNumber(float cantidad) {
         String res;
         DecimalFormat formato = new DecimalFormat("#,###.00");
         res = formato.format(cantidad);
         return res;
+    }
+
+    private void crearTable() {
+        try {
+            float sumaded = (float) 0.0;
+            String parrafo1 = "DEDUCCIONES PASES MEDICOS REPORTE GENERAL";
+            String parrafo5 = jMedico.getSelectedItem().toString();
+            String parrafo2 = "Concernientes al mes de " + jMes.getSelectedItem().toString() + " del año " + jAño.getText();
+            String parrafo3 = "___________________________________";
+            String parrafo4 = "Firma";
+
+            String path = "template.docx";
+            XWPFDocument writedoc = new XWPFDocument(new FileInputStream(new File(path)));
+
+            XWPFParagraph paragraph1 = writedoc.createParagraph();
+            XWPFRun run1 = paragraph1.createRun();
+            run1.setFontSize(12);
+            run1.setFontFamily("Consolas");
+            run1.setText(parrafo1);
+            paragraph1.setAlignment(ParagraphAlignment.CENTER);
+
+            XWPFParagraph paragraph5 = writedoc.createParagraph();
+            XWPFRun run5 = paragraph5.createRun();
+            run5.setFontSize(12);
+            run5.setBold(true);
+            run5.setFontFamily("Consolas");
+            run5.setText(parrafo5);
+            paragraph5.setAlignment(ParagraphAlignment.CENTER);
+
+            XWPFParagraph paragraph2 = writedoc.createParagraph();
+            XWPFRun run2 = paragraph2.createRun();
+            run2.setFontSize(12);
+            run2.setBold(true);
+            run2.setFontFamily("Consolas");
+            run2.setText(parrafo2);
+            paragraph2.setAlignment(ParagraphAlignment.CENTER);
+
+            int nRows = jTable2.getRowCount() + 1;
+            int nCols = jTable2.getColumnCount();
+            XWPFTable tableOne = writedoc.createTable(nRows, nCols);
+            XWPFTableRow tableOneRowOne = tableOne.getRow(0);
+            tableOneRowOne.getCell(0).setText("DEDUCCIONES");
+            tableOneRowOne.getCell(1).setText("SALDOS");
+            float socios = Float.parseFloat(String.valueOf(tm.getValueAt(2, 1)));
+            float eventual = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
+            float mensual = Float.parseFloat(String.valueOf(tm.getValueAt(1, 1)));
+            float nodeducible = Float.parseFloat(String.valueOf(tm.getValueAt(3, 1)));
+            float sumatotal = Float.parseFloat(String.valueOf(tm.getValueAt(4, 1)));
+            int rowNr = 1;
+            for (int i = 0; i < 7 ; i++) {
+                XWPFTableRow row = tableOne.getRow(rowNr++);
+                switch (i) {
+                    case 0:
+                        row.getCell(0).setText("Eventuales");
+                        row.getCell(1).setText(Float.toString(eventual));
+                        break;
+                    case 1:
+                        row.getCell(0).setText("Mesuales");
+                        row.getCell(1).setText(Float.toString(mensual));
+                        break;
+                    case 2:
+                        row.getCell(0).setText("Socios");
+                        row.getCell(1).setText(Float.toString(socios));
+                        break;
+                    case 3:
+                        row.getCell(0).setText("No deducibles");
+                        row.getCell(1).setText(Float.toString(nodeducible));
+                        break;
+                    case 4:
+                        row.getCell(0).setText("TOTAL");
+                        row.getCell(1).setText(Float.toString(sumatotal));
+                       break;
+                }
+
+            }
+
+            XWPFParagraph paragraph3 = writedoc.createParagraph();
+            XWPFRun run3 = paragraph3.createRun();
+            run3.setFontSize(12);
+            run3.addBreak();
+            run3.addBreak();
+            run3.addBreak();
+            run3.setFontFamily("Consolas");
+            run3.setText(parrafo3);
+            paragraph3.setAlignment(ParagraphAlignment.CENTER);
+
+            XWPFParagraph paragraph4 = writedoc.createParagraph();
+            XWPFRun run4 = paragraph4.createRun();
+            run4.setFontSize(12);
+            run4.addBreak();
+            run4.addBreak();
+            run4.addBreak();
+            run4.setFontFamily("Consolas");
+            run4.setText(parrafo4);
+            paragraph4.setAlignment(ParagraphAlignment.CENTER);
+
+            try (FileOutputStream outStream = new FileOutputStream("reporte a contabilidad de "
+                    + jMedico.getSelectedItem().toString() + " del mes de " + jMes.getSelectedItem().toString()
+                    + " del año " + jAño.getText() + ".docx")) {
+                writedoc.write(outStream);
+                JOptionPane.showMessageDialog(null, "ARCHIVO CREADO CON EXITO!");
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(reporteContabilidad.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 }
