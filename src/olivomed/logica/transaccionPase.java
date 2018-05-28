@@ -57,9 +57,9 @@ public class transaccionPase {
             stmt.setInt(6, p.getNumero());
             stmt.setString(7, p.getMedico());
             stmt.setString(8, p.getMes());
-            stmt.setString(9, p.getIdPase());
+            stmt.setInt(9, p.getPagos());
             stmt.setString(10, p.getEstado());
-            stmt.setInt(11, p.getPagos());
+            stmt.setString(11, p.getIdPase());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "El pase: " + id + " se ha actualizado correctamente.");
         } catch (SQLException se) {
@@ -214,10 +214,10 @@ public class transaccionPase {
         return null;
     }
 
-   public List<Pase> listEmpleadosDeduccion(String tipoEmpleado) {
+    public List<Pase> listEmpleadosDeduccion(String tipoEmpleado, String Medico) {
         try {
             String query = "SELECT * FROM PASE LEFT JOIN EMPLEADO ON PASE.IDEMPLEADO = EMPLEADO.CODIGO "
-                    + "WHERE EMPLEADO.TIPO = " + "'" + tipoEmpleado + "'";
+                    + "WHERE EMPLEADO.TIPO = " + "'" + tipoEmpleado + "'" + "AND PASE.MEDICO = " + "'" + Medico + "'";
             PreparedStatement stmt = service.con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             ArrayList<Pase> depts = new ArrayList<>();
@@ -233,5 +233,5 @@ public class transaccionPase {
         }
         return null;
     }
-   
+
 }

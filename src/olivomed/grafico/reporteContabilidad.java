@@ -422,7 +422,7 @@ public final class reporteContabilidad extends javax.swing.JFrame {
             String parrafo3 = "___________________________________";
             String parrafo4 = "Firma";
 
-            String path = "template.docx";
+            String path = "C:\\Users\\CRISTINA\\Documents\\OLIVOPMED\\Olivomed\\template.docx";
             XWPFDocument writedoc = new XWPFDocument(new FileInputStream(new File(path)));
 
             XWPFParagraph paragraph1 = writedoc.createParagraph();
@@ -465,23 +465,23 @@ public final class reporteContabilidad extends javax.swing.JFrame {
                 switch (i) {
                     case 0:
                         row.getCell(0).setText("Eventuales");
-                        row.getCell(1).setText(Float.toString(eventual));
+                        row.getCell(1).setText(formatNumber(eventual));
                         break;
                     case 1:
                         row.getCell(0).setText("Mesuales");
-                        row.getCell(1).setText(Float.toString(mensual));
+                        row.getCell(1).setText(formatNumber(mensual));
                         break;
                     case 2:
                         row.getCell(0).setText("Socios");
-                        row.getCell(1).setText(Float.toString(socios));
+                        row.getCell(1).setText(formatNumber(socios));
                         break;
                     case 3:
                         row.getCell(0).setText("No deducibles");
-                        row.getCell(1).setText(Float.toString(nodeducible));
+                        row.getCell(1).setText(formatNumber(nodeducible));
                         break;
                     case 4:
                         row.getCell(0).setText("TOTAL");
-                        row.getCell(1).setText(Float.toString(sumatotal));
+                        row.getCell(1).setText(formatNumber(sumatotal));
                        break;
                 }
 
@@ -507,7 +507,7 @@ public final class reporteContabilidad extends javax.swing.JFrame {
             run4.setText(parrafo4);
             paragraph4.setAlignment(ParagraphAlignment.CENTER);
 
-            try (FileOutputStream outStream = new FileOutputStream("reporte a contabilidad de "
+            try (FileOutputStream outStream = new FileOutputStream("C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\reporte a contabilidad de "
                     + jMedico.getSelectedItem().toString() + " del mes de " + jMes.getSelectedItem().toString()
                     + " del año " + jAño.getText() + ".docx")) {
                 writedoc.write(outStream);

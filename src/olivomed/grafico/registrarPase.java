@@ -307,12 +307,12 @@ public final class registrarPase extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(196, 196, 196)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -623,11 +623,10 @@ public final class registrarPase extends javax.swing.JFrame {
         jPase.setText("");
         jEmpleado.setText("");
         jNombre.setText("");
-        jFecha.setText("");
-        jTable2.setValueAt(0, 0, 0);
-        jTable2.setValueAt(0.0, 0, 1);
-        jTable2.setValueAt(0, 0, 2);
-        jTable2.setValueAt(0.0, 0, 3);
+        jTable2.setValueAt("", 0, 0);
+        jTable2.setValueAt("", 0, 1);
+        jTable2.setValueAt("", 0, 2);
+        jTable2.setValueAt("", 0, 3);
     }
 
     public void setearBusqueda(Pase p) {

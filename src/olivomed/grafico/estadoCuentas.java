@@ -330,7 +330,7 @@ public class estadoCuentas extends javax.swing.JFrame {
             String parrafo3 = "Otorgado a: " + pres.getNombre();
             String parrafo4 = "Pagadero en " + pres.getPagos() + " pagos quincenales";
 
-            String path = "template.docx";
+            String path = "C:\\Users\\CRISTINA\\Documents\\OLIVOPMED\\Olivomed\\template.docx";
             XWPFDocument writedoc = new XWPFDocument(new FileInputStream(new File(path)));
 
             XWPFParagraph paragraph1 = writedoc.createParagraph();
@@ -400,7 +400,7 @@ public class estadoCuentas extends javax.swing.JFrame {
                 row.getCell(6).setText(Float.toString(ded.getSaldo()));
             }
 
-            try (FileOutputStream outStream = new FileOutputStream("Estado de cuentas de " + pres.getNombre() + ".docx")) {
+            try (FileOutputStream outStream = new FileOutputStream("C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\Estado de cuentas de " + pres.getNombre() + ".docx")) {
                 writedoc.write(outStream);
                 JOptionPane.showMessageDialog(null, "ARCHIVO CREADO CON EXITO!");
             }

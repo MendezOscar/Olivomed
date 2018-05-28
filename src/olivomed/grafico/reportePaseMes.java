@@ -368,7 +368,7 @@ public class reportePaseMes extends javax.swing.JFrame {
             String parrafo4 = "___________________________________";
             String parrafo5 = "Firma";
 
-            String path = "template.docx";
+            String path = "C:\\Users\\CRISTINA\\Documents\\OLIVOPMED\\Olivomed\\template.docx";
             XWPFDocument writedoc = new XWPFDocument(new FileInputStream(new File(path)));
 
             XWPFParagraph paragraph1 = writedoc.createParagraph();
@@ -439,7 +439,7 @@ public class reportePaseMes extends javax.swing.JFrame {
             run5.setText(parrafo5);
             paragraph5.setAlignment(ParagraphAlignment.CENTER);
 
-            try (FileOutputStream outStream = new FileOutputStream("Pases medicos de "+ mes + " del año " + jAño.getText()+".docx")) {
+            try (FileOutputStream outStream = new FileOutputStream("C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\Pases medicos de "+ mes + " del año " + jAño.getText()+".docx")) {
                 writedoc.write(outStream);
                 JOptionPane.showMessageDialog(null, "ARCHIVO CREADO CON EXITO!");
             }

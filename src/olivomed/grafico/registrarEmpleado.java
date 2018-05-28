@@ -235,7 +235,7 @@ public final class registrarEmpleado extends javax.swing.JFrame {
         jLabel31.setText("CAPATAZ");
 
         jCapataz.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jCapataz.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jose Isidro Yanez", "Jaime Arturo Rojas", "Miguel Alfredo Lopez", "Jose Martin Corea Molina", "Carlos Martinez", "Hernan Reyes", "Oscar Banegas", "Jose Hernandez", "Recursos Humanos" }));
+        jCapataz.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Jose Isidro Yanez", "Jaime Arturo Rojas", "Miguel Alfredo Lopez", "Jose Martin Corea Molina", "Carlos Martinez", "Hernan Reyes", "Oscar Banegas", "Jose Hernandez", "Administracion", "Ninguno" }));
 
         jLabel32.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel32.setText("CATEGORIA");

@@ -379,7 +379,7 @@ public class desglosePase extends javax.swing.JFrame {
             String parrafo3 = "Otorgado a: " + pres.getNombre();
             String parrafo4 = "Pagadero en " + pres.getPagos() + " pagos quincenales";
 
-            String path = "template.docx";
+            String path = "C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\template.docx";
             XWPFDocument writedoc = new XWPFDocument(new FileInputStream(new File(path)));
 
             XWPFParagraph paragraph1 = writedoc.createParagraph();
@@ -454,7 +454,7 @@ public class desglosePase extends javax.swing.JFrame {
                 }
             }
 
-            try (FileOutputStream outStream = new FileOutputStream("Desglose de pase de " + pres.getNombre() + ".docx")) {
+            try (FileOutputStream outStream = new FileOutputStream("C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\Desglose de pase de " + pres.getNombre() + ".docx")) {
                 writedoc.write(outStream);
                 JOptionPane.showMessageDialog(null, "ARCHIVO CREADO CON EXITO!");
             }

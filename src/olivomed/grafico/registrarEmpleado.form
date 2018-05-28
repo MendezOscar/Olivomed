@@ -377,7 +377,7 @@
           <Font name="Consolas" size="14" style="0"/>
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="9">
+          <StringArray count="10">
             <StringItem index="0" value="Jose Isidro Yanez"/>
             <StringItem index="1" value="Jaime Arturo Rojas"/>
             <StringItem index="2" value="Miguel Alfredo Lopez"/>
@@ -386,7 +386,8 @@
             <StringItem index="5" value="Hernan Reyes"/>
             <StringItem index="6" value="Oscar Banegas"/>
             <StringItem index="7" value="Jose Hernandez"/>
-            <StringItem index="8" value="Recursos Humanos"/>
+            <StringItem index="8" value="Administracion"/>
+            <StringItem index="9" value="Ninguno"/>
           </StringArray>
         </Property>
       </Properties>

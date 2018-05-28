@@ -200,7 +200,7 @@ public class Login extends javax.swing.JFrame {
     private void claveKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_claveKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if ("olivomed".equals(usuario.getText()) && "medico".equals(clave.getText())) {
+            if ("olimed".equals(usuario.getText()) && "medico".equals(clave.getText())) {
                 Menu mn = new Menu();
                 mn.setVisible(true);
             } else {
@@ -215,7 +215,7 @@ public class Login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if ("olivomed".equals(usuario.getText()) && "medico".equals(clave.getText())) {
+        if ("olimed".equals(usuario.getText()) && "medico".equals(clave.getText())) {
             Menu mn = new Menu();
             mn.setVisible(true);
         } else {

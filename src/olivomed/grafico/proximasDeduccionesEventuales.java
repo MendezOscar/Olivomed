@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -32,7 +31,6 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
 
     public proximasDeduccionesEventuales() {
         initComponents();
-        setearDeduccion();
         setIcon();
     }
 
@@ -48,6 +46,9 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jHasta = new javax.swing.JTextField();
         jDesde = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jMedico = new javax.swing.JComboBox<>();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -110,6 +111,23 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jLabel4.setText("Medico");
+
+        jMedico.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodriguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy" }));
+
+        jButton2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jButton2.setText("Generar");
+        jButton2.setFocusable(false);
+        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -117,38 +135,55 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 901, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 901, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jLabel3)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(10, 10, 10)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel2)
-                        .addComponent(jLabel3)
-                        .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 88, Short.MAX_VALUE)
-                .addGap(26, 26, 26))
+                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel4))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                .addGap(72, 72, 72))
         );
 
         pack();
@@ -174,6 +209,11 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
     private void jFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFechaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFechaActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        setearDeduccion();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -213,11 +253,14 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     public static javax.swing.JTextField jDesde;
     public static javax.swing.JTextField jHasta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JComboBox<String> jMedico;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
@@ -227,34 +270,36 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
         transaccionPase service = new transaccionPase();
         transaccionDeduccion serv = new transaccionDeduccion();
         Pase pase;
+        String Medico = jMedico.getSelectedItem().toString();
         Deduccion ded;
         ArrayList<Pase> depts;
-        depts = (ArrayList<Pase>) service.listEmpleadosDeduccion("Eventual");
+        depts = (ArrayList<Pase>) service.listEmpleadosDeduccion("Eventual" , Medico);
         for (int x = 0; x < depts.size(); x++) {
             pase = depts.get(x);
-            if ("DEDUCICLE".equals(pase.getEstado())) {
-                ArrayList<Deduccion> aded;
-                aded = (ArrayList<Deduccion>) serv.obtenerUltimaDeduccionByIdPase(pase.getIdPase());
-                if (aded.isEmpty()) {
-                    ded = serv.findByIdPase(pase.getIdPase());
-                } else {
-                    ded = aded.get(0);
-                }
-                if (ded == null) {
-                    agregarFilas();
-                    jTable3.setValueAt(pase.getIdempleado(), x, 1);
-                    jTable3.setValueAt(pase.getNombre(), x, 2);
-                    jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
-                    sumaded = sumaded + pase.getDeduccion();
-                } else if (ded.getSaldo() > 1) {
-                    agregarFilas();
-                    jTable3.setValueAt(pase.getIdempleado(), x, 1);
-                    jTable3.setValueAt(pase.getNombre(), x, 2);
-                    jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
-                    sumaded = sumaded + pase.getDeduccion();
+            if ("DEDUCIBLE".equals(pase.getEstado())) {
+                if (pase.getMedico().equals(Medico)) {
+                    ArrayList<Deduccion> aded;
+                    aded = (ArrayList<Deduccion>) serv.obtenerUltimaDeduccionByIdPase(pase.getIdPase());
+                    if (aded.isEmpty()) {
+                        ded = serv.findByIdPase(pase.getIdPase());
+                    } else {
+                        ded = aded.get(0);
+                    }
+                    if (ded == null) {
+                        agregarFilas();
+                        jTable3.setValueAt(pase.getIdPase(), x, 1);
+                        jTable3.setValueAt(pase.getNombre(), x, 2);
+                        jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
+                        sumaded = sumaded + pase.getDeduccion();
+                    } else if (ded.getSaldo() > 1) {
+                        agregarFilas();
+                        jTable3.setValueAt(pase.getIdPase(), x, 1);
+                        jTable3.setValueAt(pase.getNombre(), x, 2);
+                        jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
+                        sumaded = sumaded + pase.getDeduccion();
+                    }
                 }
             }
-
         }
         for (int i = 0; i < jTable3.getRowCount(); i++) {
             jTable3.setValueAt(i + 1, i, 0);
@@ -291,11 +336,12 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
         try {
             float sumaded = (float) 0.0;
             String parrafo1 = "DEDUCCIONES PASES MEDICOS A EVENTUALES";
+            String parrafo11 = jMedico.getSelectedItem().toString();
             String parrafo2 = "Periodo desde " + jDesde.getText() + " hasta " + jHasta.getText();
             String parrafo3 = "___________________________________";
             String parrafo4 = "Firma";
 
-            String path = "template.docx";
+            String path = "C:\\Users\\CRISTINA\\Documents\\OLIVOPMED\\Olivomed\\template.docx";
             XWPFDocument writedoc = new XWPFDocument(new FileInputStream(new File(path)));
 
             XWPFParagraph paragraph1 = writedoc.createParagraph();
@@ -304,6 +350,13 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             run1.setFontFamily("Consolas");
             run1.setText(parrafo1);
             paragraph1.setAlignment(ParagraphAlignment.CENTER);
+            
+            XWPFParagraph paragraph11 = writedoc.createParagraph();
+            XWPFRun run11 = paragraph11.createRun();
+            run11.setFontSize(12);
+            run11.setFontFamily("Consolas");
+            run11.setText(parrafo11);
+            paragraph11.setAlignment(ParagraphAlignment.CENTER);
 
             XWPFParagraph paragraph2 = writedoc.createParagraph();
             XWPFRun run2 = paragraph2.createRun();
@@ -333,9 +386,10 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             float suma = (float) 0.0;
             Deduccion ded;
             int rowNr = 1;
+            String Medico = jMedico.getSelectedItem().toString();
 
             ArrayList<Pase> pases;
-            pases = (ArrayList<Pase>) service.findAllPases();
+            pases = (ArrayList<Pase>) service.listEmpleadosDeduccion("Eventual", Medico);
             for (int x = 0; x < pases.size(); x++) {
                 p = pases.get(x);
                 ArrayList<Deduccion> aded;
@@ -347,13 +401,13 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
                 }
                 if (ded == null) {
                     XWPFTableRow row = tableOne.getRow(rowNr++);
-                    row.getCell(1).setText(p.getIdempleado());
+                    row.getCell(1).setText(p.getIdPase());
                     row.getCell(2).setText(p.getNombre());
                     row.getCell(3).setText(formatNumber(p.getDeduccion()));
                     suma = suma + p.getDeduccion();
                 } else if (ded.getSaldo() > 1) {
                     XWPFTableRow row = tableOne.getRow(rowNr++);
-                    row.getCell(1).setText(p.getIdempleado());
+                    row.getCell(1).setText(p.getIdPase());
                     row.getCell(2).setText(p.getNombre());
                     row.getCell(3).setText(formatNumber(p.getDeduccion()));
                     suma = suma + p.getDeduccion();
@@ -384,12 +438,12 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             run4.setText(parrafo4);
             paragraph4.setAlignment(ParagraphAlignment.CENTER);
 
-            try (FileOutputStream outStream = new FileOutputStream("Proximas deduciones.docx")) {
+            try (FileOutputStream outStream = new FileOutputStream("C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\Proximas deduciones a eventuales.docx")) {
                 writedoc.write(outStream);
                 JOptionPane.showMessageDialog(null, "ARCHIVO CREADO CON EXITO!");
             }
 
-        } catch (IOException | SQLException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(proximasDeduccionesEventuales.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

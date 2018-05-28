@@ -621,7 +621,6 @@ public final class registroDeduccion extends javax.swing.JFrame {
     public void limpiar() {
         jDeduccion.setText("");
         jPase.setText("");
-        jFecha.setText("");
         jMedico.setText("");
         jTable2.setValueAt(0, 0, 1);
         jTable2.setValueAt(0, 0, 2);
