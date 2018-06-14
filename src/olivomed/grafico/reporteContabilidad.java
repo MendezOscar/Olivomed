@@ -19,8 +19,10 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import olivomed.logica.transaccionCliente;
 import olivomed.logica.transaccionPase;
+import olivomed.logica.transaccionPaseNDeducible;
 import olivomed.modelos.Empleado;
 import olivomed.modelos.Pase;
+import olivomed.modelos.paseNDeducible;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -279,9 +281,7 @@ public final class reporteContabilidad extends javax.swing.JFrame {
                 int anio = Integer.parseInt(jAño.getText());
                 if ("Socio".equals(emp.getTipo())) {
                     if (anio == obtenerAnio(p.getFecha())) {
-                        if ("DEDUCIBLE".equals(p.getEstado())) {
-                            suma = suma + p.getValor();
-                        }
+                        suma = suma + p.getValor();
                     }
                 }
             } catch (SQLException ex) {
@@ -310,9 +310,8 @@ public final class reporteContabilidad extends javax.swing.JFrame {
                 int anio = Integer.parseInt(jAño.getText());
                 if ("Eventual".equals(emp.getTipo())) {
                     if (anio == obtenerAnio(p.getFecha())) {
-                        if ("DEDUCIBLE".equals(p.getEstado())) {
-                            suma = suma + p.getValor();
-                        }
+                        suma = suma + p.getValor();
+
                     }
                 }
             } catch (SQLException ex) {
@@ -341,9 +340,8 @@ public final class reporteContabilidad extends javax.swing.JFrame {
                 int anio = Integer.parseInt(jAño.getText());
                 if ("Mensual".equals(emp.getTipo())) {
                     if (anio == obtenerAnio(p.getFecha())) {
-                        if ("DEDUCIBLE".equals(p.getEstado())) {
-                            suma = suma + p.getValor();
-                        }
+                        suma = suma + p.getValor();
+
                     }
                 }
             } catch (SQLException ex) {
@@ -356,28 +354,17 @@ public final class reporteContabilidad extends javax.swing.JFrame {
     public void setPasesNoDeducibles() {
         String mes = jMes.getSelectedItem().toString();
         String medico = jMedico.getSelectedItem().toString();
-        transaccionPase service = new transaccionPase();
+        transaccionPaseNDeducible service = new transaccionPaseNDeducible();
         transaccionCliente tc = new transaccionCliente();
-        Pase p;
-        String idCliente;
-        Empleado emp;
+        paseNDeducible p;
         float suma = (float) 0.0;
-        ArrayList<Pase> pases;
-        pases = (ArrayList<Pase>) service.obtenerUltimoPaseByMesMedico(mes, medico);
+        ArrayList<paseNDeducible> pases;
+        pases = (ArrayList<paseNDeducible>) service.obtenerUltimoPaseByMesMedico(mes, medico);
         for (int x = 0; x < pases.size(); x++) {
-            try {
-                p = pases.get(x);
-                idCliente = p.getIdempleado();
-                emp = tc.findByIdClientes(idCliente);
-                int anio = Integer.parseInt(jAño.getText());
-                if (anio == obtenerAnio(p.getFecha())) {
-                    if ("NO DEDUCIBLE".equals(p.getEstado())) {
-                        suma = suma + p.getValor();
-                    }
-                }
-
-            } catch (SQLException ex) {
-                Logger.getLogger(reporteContabilidad.class.getName()).log(Level.SEVERE, null, ex);
+            p = pases.get(x);
+            int anio = Integer.parseInt(jAño.getText());
+            if (anio == obtenerAnio(p.getFecha())) {
+                suma = suma + p.getValor();
             }
         }
         jTable2.setValueAt(suma, 3, 1);
@@ -460,7 +447,7 @@ public final class reporteContabilidad extends javax.swing.JFrame {
             float nodeducible = Float.parseFloat(String.valueOf(tm.getValueAt(3, 1)));
             float sumatotal = Float.parseFloat(String.valueOf(tm.getValueAt(4, 1)));
             int rowNr = 1;
-            for (int i = 0; i < 7 ; i++) {
+            for (int i = 0; i < 7; i++) {
                 XWPFTableRow row = tableOne.getRow(rowNr++);
                 switch (i) {
                     case 0:
@@ -482,7 +469,7 @@ public final class reporteContabilidad extends javax.swing.JFrame {
                     case 4:
                         row.getCell(0).setText("TOTAL");
                         row.getCell(1).setText(formatNumber(sumatotal));
-                       break;
+                        break;
                 }
 
             }

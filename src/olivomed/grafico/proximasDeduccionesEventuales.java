@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -12,9 +13,11 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import olivomed.logica.transaccionCliente;
 import olivomed.logica.transaccionDeduccion;
 import olivomed.logica.transaccionPase;
 import olivomed.modelos.Deduccion;
+import olivomed.modelos.Empleado;
 import olivomed.modelos.Pase;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -28,6 +31,8 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
  * @author Oscar Mendez
  */
 public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
+
+    public DefaultTableModel tm;
 
     public proximasDeduccionesEventuales() {
         initComponents();
@@ -154,7 +159,7 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
                                         .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 462, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -269,38 +274,28 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
         float sumaded = (float) 0.0;
         transaccionPase service = new transaccionPase();
         transaccionDeduccion serv = new transaccionDeduccion();
+        transaccionCliente ser = new transaccionCliente();
         Pase pase;
-        String Medico = jMedico.getSelectedItem().toString();
         Deduccion ded;
+        Empleado emp;
+        String Medico = jMedico.getSelectedItem().toString();
         ArrayList<Pase> depts;
-        depts = (ArrayList<Pase>) service.listEmpleadosDeduccion("Eventual" , Medico);
+        depts = (ArrayList<Pase>) service.listEmpleadosDeduccion("Eventual", Medico);
         for (int x = 0; x < depts.size(); x++) {
-            pase = depts.get(x);
-            if ("DEDUCIBLE".equals(pase.getEstado())) {
-                if (pase.getMedico().equals(Medico)) {
-                    ArrayList<Deduccion> aded;
-                    aded = (ArrayList<Deduccion>) serv.obtenerUltimaDeduccionByIdPase(pase.getIdPase());
-                    if (aded.isEmpty()) {
-                        ded = serv.findByIdPase(pase.getIdPase());
-                    } else {
-                        ded = aded.get(0);
-                    }
-                    if (ded == null) {
-                        agregarFilas();
-                        jTable3.setValueAt(pase.getIdPase(), x, 1);
-                        jTable3.setValueAt(pase.getNombre(), x, 2);
-                        jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
-                        sumaded = sumaded + pase.getDeduccion();
-                    } else if (ded.getSaldo() > 1) {
-                        agregarFilas();
-                        jTable3.setValueAt(pase.getIdPase(), x, 1);
-                        jTable3.setValueAt(pase.getNombre(), x, 2);
-                        jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
-                        sumaded = sumaded + pase.getDeduccion();
-                    }
-                }
+            try {
+                pase = depts.get(x);
+                emp = ser.findByIdClientes(pase.getIdempleado());
+                jTable3.setValueAt(pase.getIdPase(), x, 1);
+                jTable3.setValueAt(pase.getNombre(), x, 2);
+                jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
+                sumaded = sumaded + pase.getDeduccion();
+                agregarFilas();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(proximasDeduccionesEventuales.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+
         for (int i = 0; i < jTable3.getRowCount(); i++) {
             jTable3.setValueAt(i + 1, i, 0);
         }
@@ -308,6 +303,7 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
         Object nuevo[] = {"", "", "", formatNumber(sumaded)};
         temp.addRow(nuevo);
     }
+
 
     public void agregarFilas() {
         DefaultTableModel temp = (DefaultTableModel) jTable3.getModel();
@@ -350,7 +346,7 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             run1.setFontFamily("Consolas");
             run1.setText(parrafo1);
             paragraph1.setAlignment(ParagraphAlignment.CENTER);
-            
+
             XWPFParagraph paragraph11 = writedoc.createParagraph();
             XWPFRun run11 = paragraph11.createRun();
             run11.setFontSize(12);
@@ -392,27 +388,12 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             pases = (ArrayList<Pase>) service.listEmpleadosDeduccion("Eventual", Medico);
             for (int x = 0; x < pases.size(); x++) {
                 p = pases.get(x);
-                ArrayList<Deduccion> aded;
-                aded = (ArrayList<Deduccion>) serv.obtenerUltimaDeduccionByIdPase(p.getIdPase());
-                if (aded.isEmpty()) {
-                    ded = serv.findByIdPase(p.getIdPase());
-                } else {
-                    ded = aded.get(0);
-                }
-                if (ded == null) {
+                
                     XWPFTableRow row = tableOne.getRow(rowNr++);
                     row.getCell(1).setText(p.getIdPase());
                     row.getCell(2).setText(p.getNombre());
                     row.getCell(3).setText(formatNumber(p.getDeduccion()));
                     suma = suma + p.getDeduccion();
-                } else if (ded.getSaldo() > 1) {
-                    XWPFTableRow row = tableOne.getRow(rowNr++);
-                    row.getCell(1).setText(p.getIdPase());
-                    row.getCell(2).setText(p.getNombre());
-                    row.getCell(3).setText(formatNumber(p.getDeduccion()));
-                    suma = suma + p.getDeduccion();
-                }
-
             }
 
             XWPFTableRow row = tableOne.getRow(nRows - 1);

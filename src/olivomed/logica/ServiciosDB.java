@@ -14,9 +14,9 @@ import javax.swing.JOptionPane;
 public class ServiciosDB {
     public Connection con = null;
     Statement st;
-    String url = "jdbc:oracle:thin:@localhost:1521/xe";
-    String username = "OLIVOPMED";
-    String password = "medico";
+    String url = "jdbc:mysql://localhost:3306/olivopmed";
+    String username = "root";
+    String password = "mysql82018";
 
     public ServiciosDB() {
         try {

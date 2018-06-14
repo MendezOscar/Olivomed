@@ -17,10 +17,9 @@ public class Pase {
     String medico;
     String mes;
     int pagos;
-    String Estado;
 
     public Pase(String idPase, String idempleado, String nombre, String fecha, float valor, float deduccion, int contador,
-            int numero, String medico, String mes, int pagos, String Estado) {
+            int numero, String medico, String mes, int pagos) {
         this.idPase = idPase;
         this.idempleado = idempleado;
         this.nombre = nombre;
@@ -32,7 +31,6 @@ public class Pase {
         this.medico = medico;
         this.mes = mes;
         this.pagos = pagos;
-        this.Estado = Estado;
     }
 
     public String getIdPase() {
@@ -123,11 +121,4 @@ public class Pase {
         this.pagos = pagos;
     }
 
-    public String getEstado() {
-        return Estado;
-    }
-
-    public void setEstado(String Estado) {
-        this.Estado = Estado;
-    }
 }

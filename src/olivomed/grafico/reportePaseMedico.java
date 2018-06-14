@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,8 +18,11 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import olivomed.logica.transaccionCliente;
+import olivomed.logica.transaccionDeduccion;
 import olivomed.logica.transaccionPase;
 import olivomed.modelos.Deduccion;
+import olivomed.modelos.Empleado;
 import olivomed.modelos.Pase;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -56,8 +60,6 @@ public class reportePaseMedico extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jLabel4 = new javax.swing.JLabel();
-        jMedico = new javax.swing.JComboBox<>();
         jButton4 = new javax.swing.JButton();
         jAño = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -117,15 +119,15 @@ public class reportePaseMedico extends javax.swing.JFrame {
         jTable2.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "NUMERO", "CODIGO", "NOMBRE", "VALOR"
+                "NUMERO", "CODIGO", "NOMBRE", "VALOR", "DEUDA"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -143,12 +145,6 @@ public class reportePaseMedico extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(jTable2);
-
-        jLabel4.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jLabel4.setText("Medico");
-
-        jMedico.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodriguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy" }));
 
         jButton4.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jButton4.setText("Generar");
@@ -183,10 +179,6 @@ public class reportePaseMedico extends javax.swing.JFrame {
                         .addComponent(jScrollPane2)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jAño, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -202,12 +194,10 @@ public class reportePaseMedico extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4)
-                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jAño, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5)))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
                 .addGap(30, 30, 30))
         );
 
@@ -296,9 +286,7 @@ public class reportePaseMedico extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JComboBox<String> jMedico;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JToolBar jToolBar1;
@@ -312,20 +300,47 @@ public class reportePaseMedico extends javax.swing.JFrame {
     }
 
     public void setPases() {
-        String medico = jMedico.getSelectedItem().toString();
         transaccionPase service = new transaccionPase();
+        transaccionDeduccion serv = new transaccionDeduccion();
+        transaccionCliente ser = new transaccionCliente();
         Pase p;
+        Deduccion ded;
+        Empleado emp;
         float suma = (float) 0.0;
         ArrayList<Pase> pases;
-        pases = (ArrayList<Pase>) service.obtenerUltimoPaseByMedico(medico);
+        pases = (ArrayList<Pase>) service.listEmpleadosDeduccionINACTIVOS();
         for (int x = 0; x < pases.size(); x++) {
-            p = pases.get(x);
-            agregarFilas();
-            jTable2.setValueAt(x + 1, x, 0);
-            jTable2.setValueAt(p.getIdempleado(), x, 1);
-            jTable2.setValueAt(p.getNombre(), x, 2);
-            jTable2.setValueAt(p.getValor(), x, 3);
-            suma = suma + p.getValor();
+            try {
+                p = pases.get(x);
+                emp = ser.findByIdClientes(p.getIdempleado());
+                ArrayList<Deduccion> aded;
+                aded = (ArrayList<Deduccion>) serv.obtenerUltimaDeduccionByIdPase(p.getIdPase());
+                if (aded.isEmpty()) {
+                    ded = serv.findByIdPase(p.getIdPase());
+                } else {
+                    ded = aded.get(0);
+                }
+                if (ded == null) {
+                    jTable2.setValueAt(x + 1, x, 0);
+                    jTable2.setValueAt(p.getIdempleado(), x, 1);
+                    jTable2.setValueAt(p.getNombre(), x, 2);
+                    jTable2.setValueAt(p.getValor(), x, 3);
+                    jTable2.setValueAt(formatNumber(p.getValor()), x, 4);
+                    suma = suma + p.getValor();
+                } else if (ded.getSaldo() > 1) {
+                    jTable2.setValueAt(x + 1, x, 0);
+                    jTable2.setValueAt(p.getIdempleado(), x, 1);
+                    jTable2.setValueAt(p.getNombre(), x, 2);
+                    jTable2.setValueAt(p.getValor(), x, 3);
+                    jTable2.setValueAt(formatNumber(ded.getSaldo()), x, 4);
+                    suma = suma + +p.getDeduccion();
+                }
+
+                agregarFilas();
+
+            } catch (SQLException ex) {
+                Logger.getLogger(reportePaseMedico.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         DefaultTableModel temp = (DefaultTableModel) jTable2.getModel();
         Object nuevo[] = {"", "", "", suma,};
@@ -342,13 +357,11 @@ public class reportePaseMedico extends javax.swing.JFrame {
         }
         trsFiltro.setRowFilter(RowFilter.regexFilter(txtFiltro.getText(), columnaABuscar));
     }
-    
-     public void crearTable() {
+
+    public void crearTable() {
         try {
-            String medico = jMedico.getSelectedItem().toString();
             float sumaded = (float) 0.0;
             String parrafo1 = "PASES MEDICOS";
-            String parrafo2 = jMedico.getSelectedItem().toString();
             String parrafo3 = " del año " + jAño.getText();
             String parrafo4 = "___________________________________";
             String parrafo5 = "Firma";
@@ -363,14 +376,14 @@ public class reportePaseMedico extends javax.swing.JFrame {
             run1.setText(parrafo1);
             paragraph1.setAlignment(ParagraphAlignment.CENTER);
 
-            XWPFParagraph paragraph2 = writedoc.createParagraph();
-            XWPFRun run2 = paragraph2.createRun();
-            run2.setFontSize(12);
-            run2.setBold(true);
-            run2.setFontFamily("Consolas");
-            run2.setText(parrafo2);
-            paragraph2.setAlignment(ParagraphAlignment.CENTER);
-
+            //XWPFParagraph paragraph2 = writedoc.createParagraph();
+            //XWPFRun run2 = paragraph2.createRun();
+            //run2.setFontSize(12);
+            //run2.setBold(true);
+            //run2.setFontFamily("Consolas");
+            //run2.setText(parrafo2);
+            //paragraph2.setAlignment(ParagraphAlignment.CENTER);
+            
             XWPFParagraph paragraph3 = writedoc.createParagraph();
             XWPFRun run3 = paragraph3.createRun();
             run3.setFontSize(12);
@@ -399,7 +412,7 @@ public class reportePaseMedico extends javax.swing.JFrame {
             int rowNr = 1;
 
             ArrayList<Pase> pases;
-            pases = (ArrayList<Pase>) service.obtenerUltimoPaseByMedico(medico);
+            pases = (ArrayList<Pase>) service.listEmpleadosDeduccionINACTIVOS();
             for (int x = 0; x < pases.size(); x++) {
                 p = pases.get(x);
                 int anio = Integer.parseInt(jAño.getText());
@@ -412,9 +425,9 @@ public class reportePaseMedico extends javax.swing.JFrame {
                     suma = suma + p.getValor();
                 }
             }
-            XWPFTableRow row = tableOne.getRow(nRows-1);
+            XWPFTableRow row = tableOne.getRow(nRows - 1);
             row.getCell(3).setText(formatNumber(suma));
-            
+
             XWPFParagraph paragraph4 = writedoc.createParagraph();
             XWPFRun run4 = paragraph4.createRun();
             run4.setFontSize(12);
@@ -432,7 +445,7 @@ public class reportePaseMedico extends javax.swing.JFrame {
             run5.setText(parrafo5);
             paragraph5.setAlignment(ParagraphAlignment.CENTER);
 
-            try (FileOutputStream outStream = new FileOutputStream("C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\Pases medicos de "+ medico + " del año " + jAño.getText()+".docx")) {
+            try (FileOutputStream outStream = new FileOutputStream("C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\Pases medicos de cacelados del año " + jAño.getText() + ".docx")) {
                 writedoc.write(outStream);
                 JOptionPane.showMessageDialog(null, "ARCHIVO CREADO CON EXITO!");
             }
@@ -442,15 +455,15 @@ public class reportePaseMedico extends javax.swing.JFrame {
         }
 
     }
-     
-      public String formatNumber(float cantidad) {
+
+    public String formatNumber(float cantidad) {
         String res;
         DecimalFormat formato = new DecimalFormat("#,###.00");
         res = formato.format(cantidad);
         return res;
     }
-      
-      public int obtenerAnio(String jfecha) {
+
+    public int obtenerAnio(String jfecha) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             String fecha = jfecha;

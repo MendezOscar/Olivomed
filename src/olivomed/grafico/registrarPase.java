@@ -61,8 +61,6 @@ public final class registrarPase extends javax.swing.JFrame {
         jMedico = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jFecha = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        jEstado = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -285,17 +283,6 @@ public final class registrarPase extends javax.swing.JFrame {
             }
         });
 
-        jLabel10.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jLabel10.setText("ESTADO");
-
-        jEstado.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "DEDUCIBLE", "NO DEDUCIBLE" }));
-        jEstado.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jEstadoActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -307,15 +294,11 @@ public final class registrarPase extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -363,9 +346,7 @@ public final class registrarPase extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10)
-                            .addComponent(jEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 32, Short.MAX_VALUE))
@@ -507,20 +488,14 @@ public final class registrarPase extends javax.swing.JFrame {
 
     private void jTable2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable2KeyPressed
         // TODO add your handling code here:
-        String estado = jEstado.getSelectedItem().toString();
         int cell = jTable2.getSelectedColumn();
-        if ("DEDUCIBLE".equals(estado)) {
-            if (evt.getKeyCode() == KeyEvent.VK_ENTER && cell == 3) {
-                DecimalFormat df = new DecimalFormat("#.00");
-                float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
-                int pagos = Integer.parseInt(String.valueOf(tm.getValueAt(0, 2)));
-                float deduccion = valor / pagos;
-                System.out.println(df.format(deduccion));
-                jTable2.setValueAt(df.format(deduccion), 0, 3);
-            }
-        } else if ("NO DEDUCIBLE".equals(estado)){
-            jTable2.setValueAt(0, 0, 2);
-            jTable2.setValueAt(0.0, 0, 3);
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER && cell == 3) {
+            DecimalFormat df = new DecimalFormat("#.00");
+            float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
+            int pagos = Integer.parseInt(String.valueOf(tm.getValueAt(0, 2)));
+            float deduccion = valor / pagos;
+            System.out.println(df.format(deduccion));
+            jTable2.setValueAt(df.format(deduccion), 0, 3);
         }
     }//GEN-LAST:event_jTable2KeyPressed
 
@@ -531,10 +506,6 @@ public final class registrarPase extends javax.swing.JFrame {
     private void jFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFechaKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFechaKeyPressed
-
-    private void jEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jEstadoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jEstadoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -578,9 +549,7 @@ public final class registrarPase extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     public static javax.swing.JTextField jEmpleado;
-    private javax.swing.JComboBox<String> jEstado;
     public static javax.swing.JTextField jFecha;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -614,8 +583,7 @@ public final class registrarPase extends javax.swing.JFrame {
         String medico = jMedico.getSelectedItem().toString();
         String mes = obtenerMes();
         int pagos = Integer.parseInt(String.valueOf(tm.getValueAt(0, 2)));
-        String estado = jEstado.getSelectedItem().toString();
-        p = new Pase(idPase, idEmpleado, nombre, fecha, valor, deduccion, contador, numero, medico, mes, pagos, estado);
+        p = new Pase(idPase, idEmpleado, nombre, fecha, valor, deduccion, contador, numero, medico, mes, pagos);
         return p;
     }
 
@@ -639,7 +607,6 @@ public final class registrarPase extends javax.swing.JFrame {
         jTable2.setValueAt(p.getPagos(), 0, 2);
         jTable2.setValueAt(p.getDeduccion(), 0, 3);
         jMedico.setSelectedItem(p.getMedico());
-        jEstado.setSelectedItem(p.getEstado());
     }
 
     public int setearnumero() {
@@ -701,12 +668,12 @@ public final class registrarPase extends javax.swing.JFrame {
         ArrayList<Pase> depts;
         depts = (ArrayList<Pase>) service.obtenerUltimoPaseByIdCliente(idCliente, Medico);
         if (depts.isEmpty()) {
-            String code = idCliente + "-" + obtenerDr() + "-" + "1";
+            String code = idCliente + obtenerDr() + "1";
             jPase.setText(code);
         } else {
             Pase p = depts.get(0);
             int consecutivo = p.getContador() + 1;
-            String code = idCliente + "-" + obtenerDr() + "-" + consecutivo;
+            String code = idCliente + obtenerDr()+ consecutivo;
             jPase.setText(code);
         }
     }
@@ -717,16 +684,16 @@ public final class registrarPase extends javax.swing.JFrame {
         if (null != doctor) {
             switch (doctor) {
                 case "Dr. Ezer Rodriguez":
-                    doc = "ER";
+                    doc = "1";
                     break;
                 case "Dra. Gilma Ramirez":
-                    doc = "GR";
+                    doc = "2";
                     break;
                 case "Dr. Norman Godoy":
-                    doc = "NG";
+                    doc = "3";
                     break;
                 case "Clinica Los Angeles":
-                    doc = "CN";
+                    doc = "4";
                     break;
                 default:
                     break;

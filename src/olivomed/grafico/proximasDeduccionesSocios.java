@@ -250,29 +250,11 @@ public final class proximasDeduccionesSocios extends javax.swing.JFrame {
         depts = (ArrayList<Pase>) service.listEmpleadosDeduccion("Socio", Medico);
         for (int x = 0; x < depts.size(); x++) {
             pase = depts.get(x);
-            if ("DEDUCIBLE".equals(pase.getEstado())) {
-                ArrayList<Deduccion> aded;
-                aded = (ArrayList<Deduccion>) serv.obtenerUltimaDeduccionByIdPase(pase.getIdPase());
-                if (aded.isEmpty()) {
-                    ded = serv.findByIdPase(pase.getIdPase());
-                } else {
-                    ded = aded.get(0);
-                }
-                if (ded == null) {
-                    agregarFilas();
-                    jTable3.setValueAt(pase.getIdPase(), x, 1);
-                    jTable3.setValueAt(pase.getNombre(), x, 2);
-                    jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
-                    sumaded = sumaded + pase.getDeduccion();
-                } else if (ded.getSaldo() > 1) {
-                    agregarFilas();
-                    jTable3.setValueAt(pase.getIdPase(), x, 1);
-                    jTable3.setValueAt(pase.getNombre(), x, 2);
-                    jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
-                    sumaded = sumaded + pase.getDeduccion();
-                }
-            }
-
+            jTable3.setValueAt(pase.getIdPase(), x, 1);
+            jTable3.setValueAt(pase.getNombre(), x, 2);
+            jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
+            sumaded = sumaded + pase.getDeduccion();
+            agregarFilas();
         }
         for (int i = 0; i < jTable3.getRowCount(); i++) {
             jTable3.setValueAt(i + 1, i, 0);
@@ -364,27 +346,11 @@ public final class proximasDeduccionesSocios extends javax.swing.JFrame {
             pases = (ArrayList<Pase>) service.listEmpleadosDeduccion("Socio", Medico);
             for (int x = 0; x < pases.size(); x++) {
                 p = pases.get(x);
-                ArrayList<Deduccion> aded;
-                aded = (ArrayList<Deduccion>) serv.obtenerUltimaDeduccionByIdPase(p.getIdPase());
-                if (aded.isEmpty()) {
-                    ded = serv.findByIdPase(p.getIdPase());
-                } else {
-                    ded = aded.get(0);
-                }
-                if (ded == null) {
-                    XWPFTableRow row = tableOne.getRow(rowNr++);
-                    row.getCell(1).setText(p.getIdPase());
-                    row.getCell(2).setText(p.getNombre());
-                    row.getCell(3).setText(formatNumber(p.getDeduccion()));
-                    suma = suma + p.getDeduccion();
-                } else if (ded.getSaldo() > 1) {
-                    XWPFTableRow row = tableOne.getRow(rowNr++);
-                    row.getCell(1).setText(p.getIdPase());
-                    row.getCell(2).setText(p.getNombre());
-                    row.getCell(3).setText(formatNumber(p.getDeduccion()));
-                    suma = suma + p.getDeduccion();
-                }
-
+                XWPFTableRow row = tableOne.getRow(rowNr++);
+                row.getCell(1).setText(p.getIdPase());
+                row.getCell(2).setText(p.getNombre());
+                row.getCell(3).setText(formatNumber(p.getDeduccion()));
+                suma = suma + p.getDeduccion();
             }
 
             XWPFTableRow row = tableOne.getRow(nRows - 1);

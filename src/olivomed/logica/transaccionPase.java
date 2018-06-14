@@ -21,8 +21,8 @@ public class transaccionPase {
 
     public void createPase(Pase p) {
         String query = "INSERT INTO PASE "
-                + "(IDPASE, IDEMPLEADO ,NOMBRE, FECHA, VALOR, DEDUCCION, CONTADOR, NUMERO, MEDICO, MES, PAGOS, ESTADO) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(IDPASE, IDEMPLEADO ,NOMBRE, FECHA, VALOR, DEDUCCION, CONTADOR, NUMERO, MEDICO, MES, PAGOS) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, p.getIdPase());
             stmt.setString(2, p.getIdempleado());
@@ -35,7 +35,6 @@ public class transaccionPase {
             stmt.setString(9, p.getMedico());
             stmt.setString(10, p.getMes());
             stmt.setInt(11, p.getPagos());
-            stmt.setString(12, p.getEstado());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, " El pase: " + p.getIdPase() + " se ha guardado Exitosamente.");
         } catch (SQLException se) {
@@ -46,7 +45,7 @@ public class transaccionPase {
 
     public void updatePase(String id, Pase p) throws SQLException {
         String query = "UPDATE PASE "
-                + "SET IDEMPLEADO=?, NOMBRE=?, FECHA=?, VALOR=?, DEDUCCION=?, NUMERO=?, MEDICO=?, MES=?, PAGOS=?, ESTADO=?"
+                + "SET IDEMPLEADO=?, NOMBRE=?, FECHA=?, VALOR=?, DEDUCCION=?, NUMERO=?, MEDICO=?, MES=?, PAGOS=?"
                 + "WHERE IDPASE=?";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, p.getIdempleado());
@@ -58,7 +57,6 @@ public class transaccionPase {
             stmt.setString(7, p.getMedico());
             stmt.setString(8, p.getMes());
             stmt.setInt(9, p.getPagos());
-            stmt.setString(10, p.getEstado());
             stmt.setString(11, p.getIdPase());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "El pase: " + id + " se ha actualizado correctamente.");
@@ -93,8 +91,7 @@ public class transaccionPase {
             }
             return (new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
                     rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                    rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS"),
-                    rs.getString("ESTADO")));
+                    rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(null, "ERROR Codigo de empleado: " + id + "no se ha encontrado.");
         }
@@ -109,8 +106,7 @@ public class transaccionPase {
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
                         rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS"),
-                        rs.getString("ESTADO")));
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
             }
             return depts;
         } catch (SQLException se) {
@@ -128,8 +124,7 @@ public class transaccionPase {
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
                         rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS"),
-                        rs.getString("ESTADO")));
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -147,8 +142,7 @@ public class transaccionPase {
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
                         rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS"),
-                        rs.getString("ESTADO")));
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -166,8 +160,7 @@ public class transaccionPase {
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
                         rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS"),
-                        rs.getString("ESTADO")));
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -185,8 +178,7 @@ public class transaccionPase {
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
                         rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS"),
-                        rs.getString("ESTADO")));
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -204,8 +196,7 @@ public class transaccionPase {
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
                         rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS"),
-                        rs.getString("ESTADO")));
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -216,16 +207,35 @@ public class transaccionPase {
 
     public List<Pase> listEmpleadosDeduccion(String tipoEmpleado, String Medico) {
         try {
-            String query = "SELECT * FROM PASE LEFT JOIN EMPLEADO ON PASE.IDEMPLEADO = EMPLEADO.CODIGO "
-                    + "WHERE EMPLEADO.TIPO = " + "'" + tipoEmpleado + "'" + "AND PASE.MEDICO = " + "'" + Medico + "'";
+            String query = "SELECT * FROM PASE INNER JOIN EMPLEADO ON PASE.IDEMPLEADO = EMPLEADO.CODIGO "
+                    + "WHERE EMPLEADO.TIPO = " + "'" + tipoEmpleado + "'" + "AND EMPLEADO.ESTADO != 'INACTIVO'" +
+                    "AND PASE.MEDICO = " + "'" + Medico + "'" + "AND (SELECT FN_GETSALDO(PASE.IDPASE)) > 1";
             PreparedStatement stmt = service.con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
                         rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS"),
-                        rs.getString("ESTADO")));
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+            }
+            return depts;
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public List<Pase> listEmpleadosDeduccionINACTIVOS() {
+        try {
+            String query = "SELECT * FROM PASE LEFT JOIN EMPLEADO ON PASE.IDEMPLEADO = EMPLEADO.CODIGO "
+                    + "WHERE EMPLEADO.ESTADO = 'INACTIVO'";
+            PreparedStatement stmt = service.con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Pase> depts = new ArrayList<>();
+            while (rs.next()) {
+                depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
+                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
             }
             return depts;
         } catch (SQLException ex) {

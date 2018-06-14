@@ -328,6 +328,7 @@ public class reportePaseMes extends javax.swing.JFrame {
                 jTable2.setValueAt(p.getValor(), x, 3);
                 suma = suma + p.getValor();
             }
+            agregarFilas();
         }
         DefaultTableModel temp = (DefaultTableModel) jTable2.getModel();
         Object nuevo[] = {"", "", "", suma,};
@@ -344,7 +345,7 @@ public class reportePaseMes extends javax.swing.JFrame {
         }
         trsFiltro.setRowFilter(RowFilter.regexFilter(txtFiltro.getText(), columnaABuscar));
     }
-    
+
     public int obtenerAnio(String jfecha) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -358,13 +359,13 @@ public class reportePaseMes extends javax.swing.JFrame {
         }
         return 0;
     }
-    
-     public void crearTable() {
+
+    public void crearTable() {
         try {
             String mes = jMes.getSelectedItem().toString();
             float sumaded = (float) 0.0;
             String parrafo1 = "PASES MEDICOS";
-            String parrafo3 = "Mes "+ jMes.getSelectedItem().toString() + " del año " + jAño.getText();
+            String parrafo3 = "Mes " + jMes.getSelectedItem().toString() + " del año " + jAño.getText();
             String parrafo4 = "___________________________________";
             String parrafo5 = "Firma";
 
@@ -419,9 +420,9 @@ public class reportePaseMes extends javax.swing.JFrame {
                     suma = suma + p.getValor();
                 }
             }
-            XWPFTableRow row = tableOne.getRow(nRows-1);
+            XWPFTableRow row = tableOne.getRow(nRows - 1);
             row.getCell(3).setText(formatNumber(suma));
-            
+
             XWPFParagraph paragraph4 = writedoc.createParagraph();
             XWPFRun run4 = paragraph4.createRun();
             run4.setFontSize(12);
@@ -439,7 +440,7 @@ public class reportePaseMes extends javax.swing.JFrame {
             run5.setText(parrafo5);
             paragraph5.setAlignment(ParagraphAlignment.CENTER);
 
-            try (FileOutputStream outStream = new FileOutputStream("C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\Pases medicos de "+ mes + " del año " + jAño.getText()+".docx")) {
+            try (FileOutputStream outStream = new FileOutputStream("C:\\Users\\CRISTINA\\Documents\\Documentos Medicos\\Pases medicos de " + mes + " del año " + jAño.getText() + ".docx")) {
                 writedoc.write(outStream);
                 JOptionPane.showMessageDialog(null, "ARCHIVO CREADO CON EXITO!");
             }
@@ -449,12 +450,12 @@ public class reportePaseMes extends javax.swing.JFrame {
         }
 
     }
-     
-      public String formatNumber(float cantidad) {
+
+    public String formatNumber(float cantidad) {
         String res;
         DecimalFormat formato = new DecimalFormat("#,###.00");
         res = formato.format(cantidad);
         return res;
     }
-      
+
 }

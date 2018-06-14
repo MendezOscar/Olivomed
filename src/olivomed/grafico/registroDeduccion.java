@@ -635,12 +635,14 @@ public final class registroDeduccion extends javax.swing.JFrame {
             transaccionPase service = new transaccionPase();
             transaccionDeduccion servi = new transaccionDeduccion();
             Pase p = service.findByIdPase(idPres);
-            String[] obnum = idd.split("\\-");
-            String num = obnum[3];
-            int numero = Integer.parseInt(num);
+            String subDeduccion = idd.substring(7);
+            int numero = Integer.parseInt(subDeduccion);
             int numant = numero - 1;
-            int plazo = p.getPagos();
-            String id = obnum[0] + "-" + obnum[1] + "-" + obnum[2] + "-" + numant + "-" + "de" + plazo;
+            String cod = idd.substring(0, 5);
+            String doc = idd.substring(5 , 6);
+            String pas = idd.substring(6 , 7);
+            String id = cod + doc + pas + numant;
+
             if ("".equals(id)) {
                 JOptionPane.showMessageDialog(null, "Ingrese codigo");
             } else {
@@ -737,11 +739,12 @@ public final class registroDeduccion extends javax.swing.JFrame {
         jTable2.setValueAt(p.getPagos(), 0, 2);
         jTable2.setValueAt(p.getDeduccion(), 0, 3);
         String idDeduccion = jDeduccion.getText();
-        String[] obnum = idDeduccion.split("\\-");
-        String num = obnum[3];
-        String numero = num;
+        //00001 1 1 1
+        //0123456
+        //00001-ER-1-de3 
+        String subDeduccion = idDeduccion.substring(7);
         float Saldo;
-        if ("1".equals(numero)) {
+        if ("1".equals(subDeduccion)) {
             Saldo = p.getValor() - p.getDeduccion();
             jTable2.setValueAt(Saldo, 0, 4);
         } else {
@@ -793,13 +796,13 @@ public final class registroDeduccion extends javax.swing.JFrame {
             depts = (ArrayList<Deduccion>) servi.obtenerUltimaDeduccionByIdPase(idPrestamo);
             if (depts.isEmpty()) {
                 int plazo = p.getPagos();
-                String code = idPrestamo + "-" + "1" + "-" + "de" + plazo;
+                String code = idPrestamo + "1";
                 jDeduccion.setText(code);
             } else {
                 int plazo = p.getPagos();
                 Deduccion ded = depts.get(0);
                 int consecutivo = ded.getContador() + 1;
-                String code = idPrestamo + "-" + consecutivo + "-" + "de" + plazo;
+                String code = idPrestamo + consecutivo;
                 jDeduccion.setText(code);
             }
         } catch (SQLException ex) {
