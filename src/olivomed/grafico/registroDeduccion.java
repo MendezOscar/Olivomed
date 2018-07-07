@@ -14,11 +14,13 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import olivomed.logica.transaccionCliente;
+import olivomed.logica.transaccionCuenta_dtl;
+import olivomed.logica.transaccionCuenta_hdr;
 import olivomed.logica.transaccionDeduccion;
-import olivomed.logica.transaccionPase;
+import olivomed.modelos.Cuenta_dtl;
+import olivomed.modelos.Cuenta_hdr;
 import olivomed.modelos.Deduccion;
 import olivomed.modelos.Empleado;
-import olivomed.modelos.Pase;
 
 /**
  *
@@ -61,10 +63,10 @@ public final class registroDeduccion extends javax.swing.JFrame {
         jDeduccion = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jLabel9 = new javax.swing.JLabel();
-        jMedico = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jFecha = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jValorded = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -198,7 +200,7 @@ public final class registroDeduccion extends javax.swing.JFrame {
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/DeduccionFrom.png"))); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jLabel6.setText("CODIGO DEL PASE");
+        jLabel6.setText("CODIGO DE CUENTA CREDITO");
 
         jPase.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jPase.addActionListener(new java.awt.event.ActionListener() {
@@ -245,14 +247,14 @@ public final class registroDeduccion extends javax.swing.JFrame {
         jTable2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null}
+                {null, null, null, null}
             },
             new String [] {
-                "Numero", "Valor del pase", "Nº de Pagos", "Deduccion", "Saldo"
+                "Cantidad de pases", "Valor de la deuda", "Saldo Anterior", "Saldo Actual"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -265,21 +267,6 @@ public final class registroDeduccion extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(jTable2);
-
-        jLabel9.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jLabel9.setText("MEDICO");
-
-        jMedico.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jMedico.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMedicoActionPerformed(evt);
-            }
-        });
-        jMedico.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jMedicoKeyPressed(evt);
-            }
-        });
 
         jLabel10.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel10.setText("FECHA");
@@ -296,11 +283,26 @@ public final class registroDeduccion extends javax.swing.JFrame {
             }
         });
 
+        jLabel9.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jLabel9.setText("DEDUCCION");
+
+        jValorded.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jValorded.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jValordedActionPerformed(evt);
+            }
+        });
+        jValorded.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jValordedKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, 836, Short.MAX_VALUE)
+            .addComponent(jToolBar3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -309,28 +311,26 @@ public final class registroDeduccion extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel8)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jDeduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel9)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 598, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDeduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jValorded, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 129, Short.MAX_VALUE))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
         );
@@ -340,14 +340,12 @@ public final class registroDeduccion extends javax.swing.JFrame {
                 .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(4, 4, 4)
+                        .addGap(1, 1, 1)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -356,14 +354,15 @@ public final class registroDeduccion extends javax.swing.JFrame {
                             .addComponent(jLabel7)
                             .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel8, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jDeduccion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(15, 15, 15)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(jValorded, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 27, Short.MAX_VALUE))
         );
@@ -456,25 +455,23 @@ public final class registroDeduccion extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             try {
-                String idPase = jPase.getText();
-                transaccionPase service = new transaccionPase();
-                Pase p = service.findByIdPase(idPase);
-                if (p == null) {
-                    JOptionPane.showMessageDialog(null, "El Pase: " + idPase + " no existe");
+                String idCuenta = jPase.getText();
+                transaccionCuenta_hdr service = new transaccionCuenta_hdr();
+                Cuenta_hdr cue = service.findByIdCuenta(idCuenta);
+                if (cue == null) {
+                    JOptionPane.showMessageDialog(null, "La cuenta: " + idCuenta + " no existe");
                 } else {
                     Deduccion ded = verificarPagos();
                     if (ded == null) {
                         setearCodigo();
-                        buscarPase();
+                        buscarCuenta();
                         buscarEmpleado();
-                        buscarMedico();
                     } else if (ded.getSaldo() < 1) {
                         JOptionPane.showMessageDialog(null, "El Pase: " + ded.getIdPase() + " ya esta pagado");
                     } else {
                         setearCodigo();
-                        buscarPase();
+                        buscarCuenta();
                         buscarEmpleado();
-                        buscarMedico();
                     }
                 }
 
@@ -525,14 +522,6 @@ public final class registroDeduccion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable2KeyPressed
 
-    private void jMedicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMedicoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMedicoActionPerformed
-
-    private void jMedicoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jMedicoKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMedicoKeyPressed
-
     private void jFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFechaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFechaActionPerformed
@@ -540,6 +529,17 @@ public final class registroDeduccion extends javax.swing.JFrame {
     private void jFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFechaKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFechaKeyPressed
+
+    private void jValordedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jValordedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jValordedActionPerformed
+
+    private void jValordedKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jValordedKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            obtenerSaldoactual();
+        }
+    }//GEN-LAST:event_jValordedKeyPressed
 
     /**
      * @param args the command line arguments
@@ -595,12 +595,12 @@ public final class registroDeduccion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    public static javax.swing.JTextField jMedico;
     public static javax.swing.JTextField jNombre;
     public static javax.swing.JTextField jPase;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JToolBar jToolBar3;
+    public static javax.swing.JTextField jValorded;
     // End of variables declaration//GEN-END:variables
 
     public Deduccion enviarDatos() {
@@ -610,52 +610,47 @@ public final class registroDeduccion extends javax.swing.JFrame {
         String Nombre = jNombre.getText();
         String fecha = jFecha.getText();
         float pase = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
-        float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 3)));
-        float Saldo = Float.parseFloat(String.valueOf(tm.getValueAt(0, 4)));
+        float valor = Float.parseFloat(jValorded.getText());
+        float Saldo = Float.parseFloat(String.valueOf(tm.getValueAt(0, 2))) - Float.parseFloat(jValorded.getText());
         int contador = setearnumero();
-        String medico = jMedico.getText();
-        ded = new Deduccion(idDeduccion, idPase, Nombre, fecha, pase, valor, Saldo, contador, medico);
+        ded = new Deduccion(idDeduccion, Nombre, fecha, pase, valor, Saldo, contador, idPase);
         return ded;
     }
 
     public void limpiar() {
         jDeduccion.setText("");
         jPase.setText("");
-        jMedico.setText("");
         jTable2.setValueAt(0, 0, 1);
         jTable2.setValueAt(0, 0, 2);
         jTable2.setValueAt(0.0, 0, 3);
-        jTable2.setValueAt(0.0, 0, 4);
     }
 
     public void obtenerSaldo() {
         try {
             String idd = jDeduccion.getText();
             String idPres = jPase.getText();
-            transaccionPase service = new transaccionPase();
+            transaccionCuenta_hdr service = new transaccionCuenta_hdr();
             transaccionDeduccion servi = new transaccionDeduccion();
-            Pase p = service.findByIdPase(idPres);
-            String subDeduccion = idd.substring(7);
+            Cuenta_hdr cue = service.findByIdCuenta(idd);
+            String subDeduccion = idd.substring(6,7);
             int numero = Integer.parseInt(subDeduccion);
+            // 00001 12
             int numant = numero - 1;
             String cod = idd.substring(0, 5);
-            String doc = idd.substring(5 , 6);
-            String pas = idd.substring(6 , 7);
-            String id = cod + doc + pas + numant;
-
+            String cuenta = idd.substring(5, 6);
+            String id = cod + cuenta + numant;
+            
+            System.out.println(id);
+            
             if ("".equals(id)) {
                 JOptionPane.showMessageDialog(null, "Ingrese codigo");
             } else {
-                try {
-                    Deduccion ded;
-                    ded = servi.findByIdDeduccion(id);
-                    if (ded != null) {
-                        setearSaldo(ded);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "La Deduccion: " + id + " no existe");
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(registroDeduccion.class.getName()).log(Level.SEVERE, null, ex);
+                Deduccion ded;
+                ded = servi.findByIdDed(id);
+                if (ded != null) {
+                    setearSaldo(ded);
+                } else {
+                    JOptionPane.showMessageDialog(null, "La Deduccion: " + id + " no existe");
                 }
             }
         } catch (SQLException ex) {
@@ -679,33 +674,31 @@ public final class registroDeduccion extends javax.swing.JFrame {
     }
 
     public void setearSaldo(Deduccion ded) {
-        float deduccion = ded.getValor();
         float Saldo = ded.getSaldo();
-        float SaldoDeudor = Saldo - deduccion;
-        jTable2.setValueAt(SaldoDeudor, 0, 4);
+        jTable2.setValueAt(Saldo, 0, 2);
     }
 
     public void setearBusqueda(Deduccion ded) {
         jDeduccion.setText(ded.getIdDeduccion());
         jPase.setText(ded.getIdPase());
         jFecha.setText(ded.getFecha());
-        buscarPase();
+        buscarCuenta();
         buscarEmpleado();
     }
 
-    private void buscarPase() {
+    private void buscarCuenta() {
         String id = jPase.getText();
         if ("".equals(id)) {
             JOptionPane.showMessageDialog(null, "No hay codigo de pase ingresado");
         } else {
             try {
-                Pase p;
-                transaccionPase service = new transaccionPase();
-                p = service.findByIdPase(id);
-                if (p != null) {
-                    setearPase(p);
+                Cuenta_hdr cue;
+                transaccionCuenta_hdr service = new transaccionCuenta_hdr();
+                cue = service.findByIdCuenta(id);
+                if (cue != null) {
+                    setearPase(cue);
                 } else {
-                    JOptionPane.showMessageDialog(null, "El pase: " + id + " no existe");
+                    JOptionPane.showMessageDialog(null, "La cuenta: " + id + " no existe");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(registroDeduccion.class.getName()).log(Level.SEVERE, null, ex);
@@ -719,13 +712,13 @@ public final class registroDeduccion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "No hay codigo de pase ingresado");
         } else {
             try {
-                Pase pres;
-                transaccionPase service = new transaccionPase();
-                pres = service.findByIdPase(id);
-                if (pres != null) {
-                    obtenerCliente(pres);
+                Cuenta_hdr cuenta;
+                transaccionCuenta_hdr service = new transaccionCuenta_hdr();
+                cuenta = service.findByIdCuenta(id);
+                if (cuenta != null) {
+                    obtenerCliente(cuenta);
                 } else {
-                    JOptionPane.showMessageDialog(null, "El Prestamo: " + id + " no existe");
+                    JOptionPane.showMessageDialog(null, "La cuenta: " + id + " no existe");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(registroDeduccion.class.getName()).log(Level.SEVERE, null, ex);
@@ -733,27 +726,27 @@ public final class registroDeduccion extends javax.swing.JFrame {
         }
     }
 
-    private void setearPase(Pase p) {
-        jTable2.setValueAt(p.getNumero(), 0, 0);
-        jTable2.setValueAt(p.getValor(), 0, 1);
-        jTable2.setValueAt(p.getPagos(), 0, 2);
-        jTable2.setValueAt(p.getDeduccion(), 0, 3);
+    private void setearPase(Cuenta_hdr cue) {
+        jTable2.setValueAt(obtenerNumeroPases(), 0, 0);
+        jTable2.setValueAt(obtenerValor(), 0, 1);
         String idDeduccion = jDeduccion.getText();
         //00001 1 1 1
         //0123456
         //00001-ER-1-de3 
-        String subDeduccion = idDeduccion.substring(7);
+        // 0000112
+        String subDeduccion = idDeduccion.substring(6,7);
+        System.out.println(subDeduccion);
         float Saldo;
         if ("1".equals(subDeduccion)) {
-            Saldo = p.getValor() - p.getDeduccion();
-            jTable2.setValueAt(Saldo, 0, 4);
+            Saldo = obtenerValor();
+            jTable2.setValueAt(Saldo, 0, 2);
         } else {
             obtenerSaldo();
         }
     }
 
-    private void obtenerCliente(Pase pres) {
-        String id = pres.getIdempleado();
+    private void obtenerCliente(Cuenta_hdr cue) {
+        String id = cue.getIdEmpleado();
         if ("".equals(id)) {
             JOptionPane.showMessageDialog(null, "Ingrese codigo");
         } else {
@@ -788,21 +781,19 @@ public final class registroDeduccion extends javax.swing.JFrame {
 
     public void setearCodigo() {
         try {
-            String idPrestamo = jPase.getText();
-            transaccionPase service = new transaccionPase();
+            String idCuenta = jPase.getText();
+            transaccionCuenta_hdr service = new transaccionCuenta_hdr();
             transaccionDeduccion servi = new transaccionDeduccion();
-            Pase p = service.findByIdPase(idPrestamo);
+            Cuenta_hdr cue = service.findByIdCuenta(idCuenta);
             ArrayList<Deduccion> depts;
-            depts = (ArrayList<Deduccion>) servi.obtenerUltimaDeduccionByIdPase(idPrestamo);
+            depts = (ArrayList<Deduccion>) servi.obtenerUltimaDeduccionByIdPase(idCuenta);
             if (depts.isEmpty()) {
-                int plazo = p.getPagos();
-                String code = idPrestamo + "1";
+                String code = idCuenta + "1";
                 jDeduccion.setText(code);
             } else {
-                int plazo = p.getPagos();
                 Deduccion ded = depts.get(0);
                 int consecutivo = ded.getContador() + 1;
-                String code = idPrestamo + consecutivo;
+                String code = idCuenta + consecutivo;
                 jDeduccion.setText(code);
             }
         } catch (SQLException ex) {
@@ -812,11 +803,11 @@ public final class registroDeduccion extends javax.swing.JFrame {
 
     public Deduccion verificarPagos() {
         try {
-            transaccionPase service = new transaccionPase();
+            transaccionCuenta_hdr service = new transaccionCuenta_hdr();
             transaccionDeduccion servi = new transaccionDeduccion();
-            String idPrestamo = jPase.getText();
-            Pase pres = service.findByIdPase(idPrestamo);
-            Deduccion ded = servi.findByIdPase(pres.getIdPase());
+            String idCuenta = jPase.getText();
+            Cuenta_hdr cue = service.findByIdCuenta(idCuenta);
+            Deduccion ded = servi.findByIdPase(cue.getIdCuenta());
             return ded;
         } catch (SQLException ex) {
             Logger.getLogger(registroDeduccion.class.getName()).log(Level.SEVERE, null, ex);
@@ -824,20 +815,41 @@ public final class registroDeduccion extends javax.swing.JFrame {
         return null;
     }
 
-    private void buscarMedico() {
-        try {
-            String idPase = jPase.getText();
-            transaccionPase service = new transaccionPase();
-            Pase p = service.findByIdPase(idPase);
-            jMedico.setText(p.getMedico());
-        } catch (SQLException ex) {
-            Logger.getLogger(registroDeduccion.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-    }
-
     public void setearFecha() {
         fechaActual = new Date();
         jFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaActual));
     }
+
+    private float obtenerValor() {
+        String idCuneta = jPase.getText();
+        float valor = 0;
+        Cuenta_dtl cue;
+        transaccionCuenta_dtl service = new transaccionCuenta_dtl();
+        ArrayList<Cuenta_dtl> depts;
+        depts = (ArrayList<Cuenta_dtl>) service.obtenerCuentadtlByIdCuenta(idCuneta);
+        for (int i = 0; i < depts.size(); i++){
+            cue = depts.get(i);
+            valor = valor + cue.getValor();
+        }
+        return valor;
+    }
+
+    private int obtenerNumeroPases() {
+        String idCuneta = jPase.getText();
+        int valor;
+        Cuenta_dtl cue;
+        transaccionCuenta_dtl service = new transaccionCuenta_dtl();
+        ArrayList<Cuenta_dtl> depts;
+        depts = (ArrayList<Cuenta_dtl>) service.obtenerCuentadtlByIdCuenta(idCuneta);
+        valor = depts.size();
+        return valor;
+    }
+
+    private void obtenerSaldoactual() {
+        float SaldoAnterior = Float.parseFloat(String.valueOf(tm.getValueAt(0, 2)));
+        float deduccion = Float.parseFloat(jValorded.getText());
+        float SaldoActual = SaldoAnterior - deduccion;
+        jTable2.setValueAt(SaldoActual, 0, 3);
+    }
+
 }

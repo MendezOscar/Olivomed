@@ -1,4 +1,3 @@
-
 package olivomed.modelos;
 
 /**
@@ -6,27 +5,26 @@ package olivomed.modelos;
  * @author Oscar Mendez
  */
 public class Deduccion {
+
     String idDeduccion;
-    String idPase;
     String Nombre;
     String fecha;
     float pase;
     float valor;
     float saldo;
     int contador;
-    String Medico;
+    String idPase;
 
-    public Deduccion(String idDeduccion, String idPase, String Nombre, String fecha, float pase, float valor, float saldo, 
-            int contador, String Medico) {
+    public Deduccion(String idDeduccion, String Nombre, String fecha, float pase, float valor, float saldo,
+            int contador, String idPase) {
         this.idDeduccion = idDeduccion;
-        this.idPase = idPase;
         this.Nombre = Nombre;
         this.fecha = fecha;
         this.pase = pase;
         this.valor = valor;
         this.saldo = saldo;
         this.contador = contador;
-        this.Medico = Medico;
+        this.idPase = idPase;
     }
 
     public String getIdDeduccion() {
@@ -93,12 +91,4 @@ public class Deduccion {
         this.contador = contador;
     }
 
-    public void setMedico(String Medico) {
-        this.Medico = Medico;
-    }
-
-    public String getMedico() {
-        return Medico;
-    }
-    
 }

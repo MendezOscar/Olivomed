@@ -333,7 +333,6 @@ public class reportePaseMedico extends javax.swing.JFrame {
                     jTable2.setValueAt(p.getNombre(), x, 2);
                     jTable2.setValueAt(p.getValor(), x, 3);
                     jTable2.setValueAt(formatNumber(ded.getSaldo()), x, 4);
-                    suma = suma + +p.getDeduccion();
                 }
 
                 agregarFilas();

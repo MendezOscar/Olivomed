@@ -21,20 +21,18 @@ public class transaccionPase {
 
     public void createPase(Pase p) {
         String query = "INSERT INTO PASE "
-                + "(IDPASE, IDEMPLEADO ,NOMBRE, FECHA, VALOR, DEDUCCION, CONTADOR, NUMERO, MEDICO, MES, PAGOS) "
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                + "(IDPASE, IDEMPLEADO ,NOMBRE, FECHA, VALOR, CONTADOR, NUMERO, MEDICO, MES) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, p.getIdPase());
             stmt.setString(2, p.getIdempleado());
             stmt.setString(3, p.getNombre());
             stmt.setString(4, p.getFecha());
             stmt.setFloat(5, p.getValor());
-            stmt.setFloat(6, p.getDeduccion());
-            stmt.setInt(7, p.getContador());
-            stmt.setInt(8, p.getNumero());
-            stmt.setString(9, p.getMedico());
-            stmt.setString(10, p.getMes());
-            stmt.setInt(11, p.getPagos());
+            stmt.setInt(6, p.getContador());
+            stmt.setInt(7, p.getNumero());
+            stmt.setString(8, p.getMedico());
+            stmt.setString(9, p.getMes());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, " El pase: " + p.getIdPase() + " se ha guardado Exitosamente.");
         } catch (SQLException se) {
@@ -45,19 +43,17 @@ public class transaccionPase {
 
     public void updatePase(String id, Pase p) throws SQLException {
         String query = "UPDATE PASE "
-                + "SET IDEMPLEADO=?, NOMBRE=?, FECHA=?, VALOR=?, DEDUCCION=?, NUMERO=?, MEDICO=?, MES=?, PAGOS=?"
+                + "SET IDEMPLEADO=?, NOMBRE=?, FECHA=?, VALOR=?, NUMERO=?, MEDICO=?, MES=?"
                 + "WHERE IDPASE=?";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, p.getIdempleado());
             stmt.setString(2, p.getNombre());
             stmt.setString(3, p.getFecha());
             stmt.setFloat(4, p.getValor());
-            stmt.setFloat(5, p.getDeduccion());
-            stmt.setInt(6, p.getNumero());
-            stmt.setString(7, p.getMedico());
-            stmt.setString(8, p.getMes());
-            stmt.setInt(9, p.getPagos());
-            stmt.setString(11, p.getIdPase());
+            stmt.setInt(5, p.getNumero());
+            stmt.setString(6, p.getMedico());
+            stmt.setString(7, p.getMes());
+            stmt.setString(8, p.getIdPase());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "El pase: " + id + " se ha actualizado correctamente.");
         } catch (SQLException se) {
@@ -90,8 +86,8 @@ public class transaccionPase {
                 return null;
             }
             return (new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                    rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+                    rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                    rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(null, "ERROR Codigo de empleado: " + id + "no se ha encontrado.");
         }
@@ -105,8 +101,8 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
         } catch (SQLException se) {
@@ -123,8 +119,8 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -141,8 +137,8 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -159,8 +155,8 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -177,8 +173,8 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -195,8 +191,8 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -207,16 +203,16 @@ public class transaccionPase {
 
     public List<Pase> listEmpleadosDeduccion(String tipoEmpleado, String Medico) {
         try {
-            String query = "SELECT * FROM PASE INNER JOIN EMPLEADO ON PASE.IDEMPLEADO = EMPLEADO.CODIGO "
-                    + "WHERE EMPLEADO.TIPO = " + "'" + tipoEmpleado + "'" + "AND EMPLEADO.ESTADO != 'INACTIVO'" +
-                    "AND PASE.MEDICO = " + "'" + Medico + "'" + "AND (SELECT FN_GETSALDO(PASE.IDPASE)) > 1";
+            String query = "SELECT * FROM CUENTA_HDR INNER JOIN EMPLEADO ON CUENTA_HDR.IDEMPLEADO = EMPLEADO.CODIGO "
+                    + "WHERE EMPLEADO.TIPO = " + "'" + tipoEmpleado + "'" + "AND EMPLEADO.ESTADO != 'INACTIVO'"
+                    + "AND (SELECT FN_GETSALDO(PASE.IDPASE)) > 1";
             PreparedStatement stmt = service.con.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -224,7 +220,7 @@ public class transaccionPase {
         }
         return null;
     }
-    
+
     public List<Pase> listEmpleadosDeduccionINACTIVOS() {
         try {
             String query = "SELECT * FROM PASE LEFT JOIN EMPLEADO ON PASE.IDEMPLEADO = EMPLEADO.CODIGO "
@@ -234,8 +230,8 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getFloat("DEDUCCION"), rs.getInt("CONTADOR"),
-                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES"), rs.getInt("PAGOS")));
+                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
         } catch (SQLException ex) {

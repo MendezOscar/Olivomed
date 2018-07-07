@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -14,11 +13,11 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import olivomed.logica.transaccionCliente;
+import olivomed.logica.transaccionCuenta_hdr;
 import olivomed.logica.transaccionDeduccion;
-import olivomed.logica.transaccionPase;
+import olivomed.modelos.Cuenta_hdr;
 import olivomed.modelos.Deduccion;
 import olivomed.modelos.Empleado;
-import olivomed.modelos.Pase;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
@@ -51,8 +50,6 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jHasta = new javax.swing.JTextField();
         jDesde = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        jMedico = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -67,7 +64,7 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Nº", "CODIGO", "EMPLEADO", "DEDUCCION"
+                "Nº", "CODIGO", "EMPLEADO", "DEUDA"
             }
         ) {
             Class[] types = new Class [] {
@@ -116,12 +113,6 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jLabel4.setText("Medico");
-
-        jMedico.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jMedico.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Dr. Ezer Rodriguez", "Dra. Gilma Ramirez", "Dr. Norman Godoy" }));
-
         jButton2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jButton2.setText("Generar");
         jButton2.setFocusable(false);
@@ -144,22 +135,16 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 901, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 462, Short.MAX_VALUE)))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -175,20 +160,19 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3)
-                    .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel4))
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                .addGap(72, 72, 72))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3)
+                            .addComponent(jHasta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDesde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(47, 47, 47)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+                        .addGap(72, 72, 72))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -264,46 +248,34 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JComboBox<String> jMedico;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable3;
     // End of variables declaration//GEN-END:variables
 
     public void setearDeduccion() {
         float sumaded = (float) 0.0;
-        transaccionPase service = new transaccionPase();
+        transaccionCuenta_hdr service = new transaccionCuenta_hdr();
         transaccionDeduccion serv = new transaccionDeduccion();
         transaccionCliente ser = new transaccionCliente();
-        Pase pase;
+        Cuenta_hdr cue;
         Deduccion ded;
         Empleado emp;
-        String Medico = jMedico.getSelectedItem().toString();
-        ArrayList<Pase> depts;
-        depts = (ArrayList<Pase>) service.listEmpleadosDeduccion("Eventual", Medico);
+        ArrayList<Cuenta_hdr> depts;
+        depts = (ArrayList<Cuenta_hdr>) service.listEmpleadosDeduccion("Eventual");
         for (int x = 0; x < depts.size(); x++) {
-            try {
-                pase = depts.get(x);
-                emp = ser.findByIdClientes(pase.getIdempleado());
-                jTable3.setValueAt(pase.getIdPase(), x, 1);
-                jTable3.setValueAt(pase.getNombre(), x, 2);
-                jTable3.setValueAt(formatNumber(pase.getDeduccion()), x, 3);
-                sumaded = sumaded + pase.getDeduccion();
-                agregarFilas();
-
-            } catch (SQLException ex) {
-                Logger.getLogger(proximasDeduccionesEventuales.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            cue = depts.get(x);
+            jTable3.setValueAt(x+1, x, 0);
+            jTable3.setValueAt(cue.getIdEmpleado(), x, 1);
+            jTable3.setValueAt(cue.getNombre(), x, 2);
+            jTable3.setValueAt(obtenerSaldo(cue.getIdCuenta()), x, 3);
+            sumaded = sumaded + obtenerSaldo(cue.getIdCuenta());
+            agregarFilas();
         }
 
-        for (int i = 0; i < jTable3.getRowCount(); i++) {
-            jTable3.setValueAt(i + 1, i, 0);
-        }
         DefaultTableModel temp = (DefaultTableModel) jTable3.getModel();
         Object nuevo[] = {"", "", "", formatNumber(sumaded)};
         temp.addRow(nuevo);
     }
-
 
     public void agregarFilas() {
         DefaultTableModel temp = (DefaultTableModel) jTable3.getModel();
@@ -332,7 +304,6 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
         try {
             float sumaded = (float) 0.0;
             String parrafo1 = "DEDUCCIONES PASES MEDICOS A EVENTUALES";
-            String parrafo11 = jMedico.getSelectedItem().toString();
             String parrafo2 = "Periodo desde " + jDesde.getText() + " hasta " + jHasta.getText();
             String parrafo3 = "___________________________________";
             String parrafo4 = "Firma";
@@ -346,13 +317,6 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             run1.setFontFamily("Consolas");
             run1.setText(parrafo1);
             paragraph1.setAlignment(ParagraphAlignment.CENTER);
-
-            XWPFParagraph paragraph11 = writedoc.createParagraph();
-            XWPFRun run11 = paragraph11.createRun();
-            run11.setFontSize(12);
-            run11.setFontFamily("Consolas");
-            run11.setText(parrafo11);
-            paragraph11.setAlignment(ParagraphAlignment.CENTER);
 
             XWPFParagraph paragraph2 = writedoc.createParagraph();
             XWPFRun run2 = paragraph2.createRun();
@@ -369,31 +333,32 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             tableOneRowOne.getCell(0).setText("Nº");
             tableOneRowOne.getCell(1).setText("CODIGO");
             tableOneRowOne.getCell(2).setText("EMPLEADO");
-            tableOneRowOne.getCell(3).setText("DEDUCCION");
+            tableOneRowOne.getCell(3).setText("DEUDA");
 
             for (int i = 0; i < jTable3.getRowCount(); i++) {
                 XWPFTableRow row = tableOne.getRow(i);
                 row.getCell(0).setText(Integer.toString(i));
             }
 
-            transaccionPase service = new transaccionPase();
+            transaccionCuenta_hdr service = new transaccionCuenta_hdr();
             transaccionDeduccion serv = new transaccionDeduccion();
-            Pase p;
-            float suma = (float) 0.0;
+            transaccionCliente ser = new transaccionCliente();
+            Cuenta_hdr cue;
             Deduccion ded;
+            Empleado emp;
+            ArrayList<Cuenta_hdr> depts;
+            depts = (ArrayList<Cuenta_hdr>) service.listEmpleadosDeduccion("Eventual");
+            float suma = (float) 0.0;
             int rowNr = 1;
-            String Medico = jMedico.getSelectedItem().toString();
+            
+            for (int x = 0; x < depts.size(); x++) {
+                cue = depts.get(x);
 
-            ArrayList<Pase> pases;
-            pases = (ArrayList<Pase>) service.listEmpleadosDeduccion("Eventual", Medico);
-            for (int x = 0; x < pases.size(); x++) {
-                p = pases.get(x);
-                
-                    XWPFTableRow row = tableOne.getRow(rowNr++);
-                    row.getCell(1).setText(p.getIdPase());
-                    row.getCell(2).setText(p.getNombre());
-                    row.getCell(3).setText(formatNumber(p.getDeduccion()));
-                    suma = suma + p.getDeduccion();
+                XWPFTableRow row = tableOne.getRow(rowNr++);
+                row.getCell(1).setText(cue.getIdEmpleado());
+                row.getCell(2).setText(cue.getNombre());
+                row.getCell(2).setText(Float.toString(obtenerSaldo(cue.getIdCuenta())));
+                suma = suma + obtenerSaldo(cue.getIdCuenta());
             }
 
             XWPFTableRow row = tableOne.getRow(nRows - 1);
@@ -427,6 +392,15 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(proximasDeduccionesEventuales.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private float obtenerSaldo(String idCuenta) {
+        transaccionDeduccion service = new transaccionDeduccion();
+        Deduccion ded;
+        ArrayList<Deduccion> depts;
+        depts = (ArrayList<Deduccion>) service.obtenerUltimaDeduccionByIdPase(idCuenta);
+        ded = depts.get(0);
+        return ded.getSaldo();
     }
 
 }

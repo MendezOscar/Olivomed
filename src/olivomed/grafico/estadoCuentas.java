@@ -7,21 +7,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import static olivomed.grafico.desglosePase.jFecha;
-import static olivomed.grafico.desglosePase.txtFiltro;
+import olivomed.logica.transaccionCuenta_dtl;
+import olivomed.logica.transaccionCuenta_hdr;
 import olivomed.logica.transaccionDeduccion;
 import olivomed.logica.transaccionPase;
+import olivomed.modelos.Cuenta_dtl;
+import olivomed.modelos.Cuenta_hdr;
 import olivomed.modelos.Deduccion;
 import olivomed.modelos.Pase;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
@@ -57,12 +53,13 @@ public class estadoCuentas extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel23 = new javax.swing.JLabel();
-        jPlazo = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jNombre = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        jCuentas = new javax.swing.JComboBox<>();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -70,7 +67,7 @@ public class estadoCuentas extends javax.swing.JFrame {
         jToolBar1.setRollover(true);
 
         jLabel1.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jLabel1.setText("Ingrese el codigo del prestamo");
+        jLabel1.setText("Ingrese el codigo del Empleado");
         jToolBar1.add(jLabel1);
 
         jLabel19.setForeground(new java.awt.Color(204, 204, 255));
@@ -116,11 +113,6 @@ public class estadoCuentas extends javax.swing.JFrame {
         jLabel23.setText("...........................................");
         jToolBar1.add(jLabel23);
 
-        jPlazo.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-
-        jLabel3.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jLabel3.setText("Pagos");
-
         jLabel2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel2.setText("Pase a Favor");
 
@@ -151,40 +143,55 @@ public class estadoCuentas extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTable2);
 
+        jLabel3.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jLabel3.setText("Cuentas");
+
+        jButton1.setText("Generar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPlazo, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(238, 238, 238))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane2)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(238, 238, 238))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPlazo, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
                 .addGap(33, 33, 33))
         );
 
@@ -193,7 +200,7 @@ public class estadoCuentas extends javax.swing.JFrame {
 
     private void txtFiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            buscarPase();
+            llenarCombo();
         }
     }//GEN-LAST:event_txtFiltroKeyPressed
 
@@ -205,6 +212,12 @@ public class estadoCuentas extends javax.swing.JFrame {
     private void jTable2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable2KeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable2KeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String idCuenta = jCuentas.getSelectedItem().toString();
+        setCuenta(idCuenta);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -240,7 +253,9 @@ public class estadoCuentas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JComboBox<String> jCuentas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -251,43 +266,47 @@ public class estadoCuentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jNombre;
-    private javax.swing.JLabel jPlazo;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
     private javax.swing.JToolBar jToolBar1;
     public static javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 
-    private void buscarPase() {
-        String id = txtFiltro.getText();
-        if ("".equals(id)) {
-            JOptionPane.showMessageDialog(null, "No hay codigo de prestamo ingresado");
-        } else {
-            try {
-                Pase p;
-                transaccionPase service = new transaccionPase();
-                p = service.findByIdPase(id);
-                if (p != null) {
-                    setearPrestamo(p);
-                } else {
-                    JOptionPane.showMessageDialog(null, "El Prestamo: " + id + " no existe");
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(estadoCuentas.class.getName()).log(Level.SEVERE, null, ex);
+    
+    public void setCuenta(String idCuenta){
+        try {
+            Cuenta_hdr cue;
+            transaccionCuenta_hdr cueservice = new transaccionCuenta_hdr();
+            cue = cueservice.findByIdCuenta(idCuenta);
+            if (cue != null) {
+                setearPrestamo(cue);
+            } else {
+                JOptionPane.showMessageDialog(null, "El Prestamo: " + idCuenta + " no existe");
             }
+        } catch (SQLException ex) {
+            Logger.getLogger(estadoCuentas.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void setearPrestamo(Pase p) {
-        jNombre.setText(p.getNombre());
-        jPlazo.setText(Float.toString(p.getPagos()));
-        jTable2.setValueAt(p.getNumero(), 0, 1);
-        jTable2.setValueAt(p.getFecha(), 0, 2);
-        jTable2.setValueAt(p.getValor(), 0, 3);
-        jTable2.setValueAt(p.getPagos(), 0, 4);
-        jTable2.setValueAt(p.getDeduccion(), 0, 5);
-        jTable2.setValueAt(p.getValor(), 0, 6);
-        obtenerDeducciones();
+    private void setearPrestamo(Cuenta_hdr cue) {
+        float suma = 0;
+        transaccionCuenta_dtl cueservi = new transaccionCuenta_dtl();
+        Cuenta_dtl cue1;
+        ArrayList<Cuenta_dtl> depts;
+        depts = (ArrayList<Cuenta_dtl>) cueservi.obtenerCuentadtlByIdCuenta(cue.getIdCuenta());
+        jNombre.setText(cue.getNombre());
+        for (int i = 0; i < depts.size(); i++) {
+            cue1 = depts.get(i);
+            jTable2.setValueAt(obtenerNumero(cue1.getIdPase()), i, 1);
+            jTable2.setValueAt(obtenerFecha(cue1.getIdPase()), i, 2);
+            jTable2.setValueAt(cue1.getValor(), i, 3);
+            jTable2.setValueAt(cue1.getValor(), i, 6);
+            suma = suma + cue1.getValor();
+            agregarFilas();
+        }
+        jTable2.setValueAt("Total", depts.size(), 5);
+        jTable2.setValueAt(suma, depts.size(), 6);
+        obtenerDeducciones(cue.getIdCuenta());
     }
 
     public void agregarFilas() {
@@ -296,30 +315,27 @@ public class estadoCuentas extends javax.swing.JFrame {
         temp.addRow(nuevo);
     }
 
-    private void obtenerDeducciones() {
-        try {
-            String idPrestamo = txtFiltro.getText();
-            transaccionPase service = new transaccionPase();
-            transaccionDeduccion servi = new transaccionDeduccion();
-            Pase pres = service.findByIdPase(idPrestamo);
-            Deduccion ded;
-            ArrayList<Deduccion> depts;
-            depts = (ArrayList<Deduccion>) servi.obtenerUltimaDeduccionByIdPaseAcs(idPrestamo);
-            for (int x = 0; x < depts.size(); x++) {
-                ded = depts.get(x);
-                agregarFilas();
-                jTable2.setValueAt(ded.getIdDeduccion(), x + 1, 0);
-                jTable2.setValueAt(ded.getFecha(), x + 1, 2);
-                jTable2.setValueAt(ded.getValor(), x + 1, 5);
-                jTable2.setValueAt(ded.getSaldo(), x + 1, 6);
-                
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(estadoCuentas.class.getName()).log(Level.SEVERE, null, ex);
+    private void obtenerDeducciones(String idCuenta) {
+        transaccionCuenta_dtl cueservi = new transaccionCuenta_dtl();
+        ArrayList<Cuenta_dtl> deptsc;
+        deptsc = (ArrayList<Cuenta_dtl>) cueservi.obtenerCuentadtlByIdCuenta(idCuenta);
+        int inicio = deptsc.size() + 1;
+        transaccionDeduccion servi = new transaccionDeduccion();
+        Deduccion ded;
+        ArrayList<Deduccion> depts;
+        depts = (ArrayList<Deduccion>) servi.obtenerUltimaDeduccionByIdPaseAcs(idCuenta);
+        for (int x = 0; x < depts.size(); x++) {
+            ded = depts.get(x);
+            agregarFilas();
+            jTable2.setValueAt(ded.getIdDeduccion(), inicio + x, 0);
+            jTable2.setValueAt(ded.getFecha(), inicio + x, 2);
+            jTable2.setValueAt(ded.getValor(), inicio + x, 5);
+            jTable2.setValueAt(ded.getSaldo(), inicio + x, 6);
+
         }
     }
-    
-     public void crearTable() {
+
+    public void crearTable() {
         try {
             String idPrestamo = txtFiltro.getText();
             transaccionPase service = new transaccionPase();
@@ -328,7 +344,6 @@ public class estadoCuentas extends javax.swing.JFrame {
             String parrafo1 = "PASE MEDICO";
             String parrafo2 = "Estado de cuentas";
             String parrafo3 = "Otorgado a: " + pres.getNombre();
-            String parrafo4 = "Pagadero en " + pres.getPagos() + " pagos quincenales";
 
             String path = "C:\\Users\\CRISTINA\\Documents\\OLIVOPMED\\Olivomed\\template.docx";
             XWPFDocument writedoc = new XWPFDocument(new FileInputStream(new File(path)));
@@ -356,13 +371,6 @@ public class estadoCuentas extends javax.swing.JFrame {
             run3.setText(parrafo3);
             paragraph3.setAlignment(ParagraphAlignment.CENTER);
 
-            XWPFParagraph paragraph4 = writedoc.createParagraph();
-            XWPFRun run4 = paragraph4.createRun();
-            run4.setFontSize(12);
-            run4.setFontFamily("Consolas");
-            run4.setText(parrafo4);
-            paragraph4.setAlignment(ParagraphAlignment.CENTER);
-
             int nRows = jTable2.getRowCount();
             int nCols = jTable2.getColumnCount();
             XWPFTable tableOne = writedoc.createTable(nRows, nCols);
@@ -380,7 +388,6 @@ public class estadoCuentas extends javax.swing.JFrame {
                 tableRowTwo.getCell(1).setText(Float.toString(pres.getNumero()));
                 tableRowTwo.getCell(2).setText(pres.getFecha());
                 tableRowTwo.getCell(3).setText(Float.toString(pres.getValor()));
-                tableRowTwo.getCell(4).setText(Float.toString(pres.getPagos()));
                 tableRowTwo.getCell(6).setText(Float.toString(pres.getValor()));
             }
 
@@ -395,7 +402,7 @@ public class estadoCuentas extends javax.swing.JFrame {
                 agregarFilas();
                 XWPFTableRow row = tableOne.getRow(rowNr++);
                 row.getCell(0).setText(ded.getIdDeduccion());
-                row.getCell(2).setText(ded.getFecha());               
+                row.getCell(2).setText(ded.getFecha());
                 row.getCell(5).setText(Float.toString(ded.getValor()));
                 row.getCell(6).setText(Float.toString(ded.getSaldo()));
             }
@@ -406,10 +413,41 @@ public class estadoCuentas extends javax.swing.JFrame {
             }
 
         } catch (SQLException | FileNotFoundException ex) {
-            Logger.getLogger(desglosePase.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(desglosePase.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-     
+
+    private int obtenerNumero(String idPase) {
+        try {
+            transaccionPase service = new transaccionPase();
+            Pase p = service.findByIdPase(idPase);
+            return p.getNumero();
+        } catch (SQLException ex) {
+            Logger.getLogger(estadoCuentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+
+    private String obtenerFecha(String idPase) {
+        try {
+            transaccionPase service = new transaccionPase();
+            Pase p = service.findByIdPase(idPase);
+            return p.getFecha();
+        } catch (SQLException ex) {
+            Logger.getLogger(estadoCuentas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
+    }
+
+    public void llenarCombo() {
+        String id = txtFiltro.getText();
+        transaccionCuenta_hdr service = new transaccionCuenta_hdr();
+        ArrayList<Cuenta_hdr> depts;
+        depts = (ArrayList<Cuenta_hdr>) service.obtenerCuentahdrByIdCliente(id);
+        for (int x = 0; x < depts.size(); x++) {
+            Cuenta_hdr cue = depts.get(x);
+            jCuentas.addItem(cue.getIdCuenta());
+        }
+    }
+
 }

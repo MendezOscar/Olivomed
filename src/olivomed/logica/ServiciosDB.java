@@ -22,7 +22,6 @@ public class ServiciosDB {
         try {
             con = DriverManager.getConnection(url, username, password);
         } catch (SQLException se) {
-            System.out.println(se.toString());
             JOptionPane.showMessageDialog(null, "Error al conectar");
         }
     }

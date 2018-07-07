@@ -12,7 +12,11 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import olivomed.logica.transaccionCliente;
+import olivomed.logica.transaccionCuenta_dtl;
+import olivomed.logica.transaccionCuenta_hdr;
 import olivomed.logica.transaccionPase;
+import olivomed.modelos.Cuenta_dtl;
+import olivomed.modelos.Cuenta_hdr;
 import olivomed.modelos.Empleado;
 import olivomed.modelos.Pase;
 
@@ -61,6 +65,9 @@ public final class registrarPase extends javax.swing.JFrame {
         jMedico = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
         jFecha = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jCuenta_hdr = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -241,14 +248,14 @@ public final class registrarPase extends javax.swing.JFrame {
         jTable2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null}
+                {null, null}
             },
             new String [] {
-                "Numero", "Valor del pase", "Nº de Pagos", "Deduccion"
+                "Numero", "Valor del pase"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -283,6 +290,28 @@ public final class registrarPase extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jLabel7.setText("CODIGO CREDITO EMPLEADO");
+
+        jCuenta_hdr.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jCuenta_hdr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCuenta_hdrActionPerformed(evt);
+            }
+        });
+        jCuenta_hdr.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jCuenta_hdrKeyPressed(evt);
+            }
+        });
+
+        jButton1.setText("CREAR CREDITO");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -294,28 +323,35 @@ public final class registrarPase extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jButton1))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jMedico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jCuenta_hdr, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 110, Short.MAX_VALUE))
                     .addComponent(jScrollPane2))
                 .addContainerGap())
@@ -334,7 +370,8 @@ public final class registrarPase extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
@@ -346,10 +383,14 @@ public final class registrarPase extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel7)
+                            .addComponent(jCuenta_hdr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 32, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
 
         pack();
@@ -363,10 +404,14 @@ public final class registrarPase extends javax.swing.JFrame {
         } else {
             try {
                 transaccionPase service = new transaccionPase();
+                transaccionCuenta_dtl servi = new transaccionCuenta_dtl();
                 if (service.findByIdPase(id) == null) {
+                    Cuenta_dtl cue;
                     Pase p;
                     p = enviarDatos();
+                    cue = enviarCuenta_dtl();
                     service.createPase(p);
+                    servi.createCuenta_dtl(cue);
                 } else {
                     JOptionPane.showMessageDialog(null, "El pase: " + id + " no se registro");
                 }
@@ -446,8 +491,14 @@ public final class registrarPase extends javax.swing.JFrame {
     private void jEmpleadoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jEmpleadoKeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            buscarCliente();
-            setearCodigo();
+            if (verificarCredito()) {
+                buscarCliente();
+                setearCodigo();
+                setearIdCuenta();
+            } else {
+                JOptionPane.showMessageDialog(null, "El empleado nesecita tener una cuenta credito");
+            }
+
         }
     }//GEN-LAST:event_jEmpleadoKeyPressed
 
@@ -488,15 +539,7 @@ public final class registrarPase extends javax.swing.JFrame {
 
     private void jTable2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTable2KeyPressed
         // TODO add your handling code here:
-        int cell = jTable2.getSelectedColumn();
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER && cell == 3) {
-            DecimalFormat df = new DecimalFormat("#.00");
-            float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
-            int pagos = Integer.parseInt(String.valueOf(tm.getValueAt(0, 2)));
-            float deduccion = valor / pagos;
-            System.out.println(df.format(deduccion));
-            jTable2.setValueAt(df.format(deduccion), 0, 3);
-        }
+
     }//GEN-LAST:event_jTable2KeyPressed
 
     private void jFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFechaActionPerformed
@@ -506,6 +549,20 @@ public final class registrarPase extends javax.swing.JFrame {
     private void jFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFechaKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_jFechaKeyPressed
+
+    private void jCuenta_hdrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCuenta_hdrActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCuenta_hdrActionPerformed
+
+    private void jCuenta_hdrKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCuenta_hdrKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCuenta_hdrKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        registrarCuenta_hdr rc = new registrarCuenta_hdr();
+        rc.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -542,12 +599,14 @@ public final class registrarPase extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    public static javax.swing.JTextField jCuenta_hdr;
     public static javax.swing.JTextField jEmpleado;
     public static javax.swing.JTextField jFecha;
     private javax.swing.JLabel jLabel14;
@@ -560,6 +619,7 @@ public final class registrarPase extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JComboBox<String> jMedico;
@@ -577,14 +637,23 @@ public final class registrarPase extends javax.swing.JFrame {
         String nombre = jNombre.getText();
         String fecha = jFecha.getText();
         float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
-        float deduccion = Float.parseFloat(String.valueOf(tm.getValueAt(0, 3)));
         int contador = setearnumero();
         int numero = Integer.parseInt(String.valueOf(tm.getValueAt(0, 0)));
         String medico = jMedico.getSelectedItem().toString();
         String mes = obtenerMes();
-        int pagos = Integer.parseInt(String.valueOf(tm.getValueAt(0, 2)));
-        p = new Pase(idPase, idEmpleado, nombre, fecha, valor, deduccion, contador, numero, medico, mes, pagos);
+        p = new Pase(idPase, idEmpleado, nombre, fecha, valor, contador, numero, medico, mes);
         return p;
+    }
+
+    public Cuenta_dtl enviarCuenta_dtl() {
+        Cuenta_dtl cue;
+        String idPase = jPase.getText();
+        float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
+        String idCuenta = obtenerIdCuenta();
+        int contador = obtenerContador();
+        String idCorr = obtenerCorr();
+        cue = new Cuenta_dtl(idCorr, idCuenta, idPase, valor, contador);
+        return cue;
     }
 
     public void limpiar() {
@@ -604,8 +673,6 @@ public final class registrarPase extends javax.swing.JFrame {
         jFecha.setText(p.getFecha());
         jTable2.setValueAt(p.getNumero(), 0, 0);
         jTable2.setValueAt(p.getValor(), 0, 1);
-        jTable2.setValueAt(p.getPagos(), 0, 2);
-        jTable2.setValueAt(p.getDeduccion(), 0, 3);
         jMedico.setSelectedItem(p.getMedico());
     }
 
@@ -673,7 +740,7 @@ public final class registrarPase extends javax.swing.JFrame {
         } else {
             Pase p = depts.get(0);
             int consecutivo = p.getContador() + 1;
-            String code = idCliente + obtenerDr()+ consecutivo;
+            String code = idCliente + obtenerDr() + consecutivo;
             jPase.setText(code);
         }
     }
@@ -712,6 +779,48 @@ public final class registrarPase extends javax.swing.JFrame {
     public void setearFecha() {
         fechaActual = new Date();
         jFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaActual));
+    }
+
+    private String obtenerIdCuenta() {
+        String idEmpleado = jEmpleado.getText();
+        transaccionCuenta_hdr service = new transaccionCuenta_hdr();
+        Cuenta_hdr cue = service.obtenerCuentahdrAtivaByIdCliente(idEmpleado);
+        return cue.getIdCuenta();
+    }
+
+    private int obtenerContador() {
+        String idCuenta = obtenerIdCuenta();
+        Cuenta_dtl cue;
+        int numero;
+        transaccionCuenta_dtl service = new transaccionCuenta_dtl();
+        ArrayList<Cuenta_dtl> depts;
+        depts = (ArrayList<Cuenta_dtl>) service.obtenerCuentadtlByIdCuenta(idCuenta);
+        numero = depts.size() + 1;
+        return numero;
+    }
+
+    private String obtenerCorr() {
+        String idCuenta = obtenerIdCuenta();
+        Cuenta_dtl cue;
+        int numero;
+        transaccionCuenta_dtl service = new transaccionCuenta_dtl();
+        ArrayList<Cuenta_dtl> depts;
+        depts = (ArrayList<Cuenta_dtl>) service.obtenerCuentadtlByIdCuenta(idCuenta);
+        numero = depts.size() + 1;
+        String idCorr = idCuenta + numero;
+        return idCorr;
+    }
+
+    private boolean verificarCredito() {
+        String idEmpleado = jEmpleado.getText();
+        transaccionCuenta_hdr service = new transaccionCuenta_hdr();
+        Cuenta_hdr cue = service.obtenerCuentahdrAtivaByIdCliente(idEmpleado);
+        return cue != null;
+    }
+
+    private void setearIdCuenta() {
+        String idCuenta = obtenerIdCuenta();
+        jCuenta_hdr.setText(idCuenta);
     }
 
 }
