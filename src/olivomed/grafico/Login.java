@@ -7,6 +7,7 @@ package olivomed.grafico;
 
 import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
+import olivomed.logica.ServiciosDB;
 
 /**
  *

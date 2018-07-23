@@ -706,7 +706,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void jLabel13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel13MouseClicked
         // TODO add your handling code here:
-        reportePaseMedico rpm = new reportePaseMedico();
+        reporteInactivos rpm = new reporteInactivos();
         rpm.setVisible(true);
     }//GEN-LAST:event_jLabel13MouseClicked
 

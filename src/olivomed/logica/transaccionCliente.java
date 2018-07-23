@@ -80,6 +80,7 @@ public class transaccionCliente {
             return (new Empleado(rs.getString("CODIGO"), rs.getString("NOMBRE"), rs.getInt("CONTADOR"),
                     rs.getString("CAPATAZ"), rs.getString("TIPO"), rs.getString("ESTADO")));
         } catch (SQLException se) {
+            se.toString();
             JOptionPane.showMessageDialog(null, "ERROR Codigo de empleado: " + id + "no se ha encontrado.");
         }
         return null;

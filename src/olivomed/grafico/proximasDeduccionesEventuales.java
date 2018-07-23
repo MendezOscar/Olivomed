@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -13,8 +14,10 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import olivomed.logica.transaccionCliente;
+import olivomed.logica.transaccionCuenta_dtl;
 import olivomed.logica.transaccionCuenta_hdr;
 import olivomed.logica.transaccionDeduccion;
+import olivomed.modelos.Cuenta_dtl;
 import olivomed.modelos.Cuenta_hdr;
 import olivomed.modelos.Deduccion;
 import olivomed.modelos.Empleado;
@@ -264,7 +267,7 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
         depts = (ArrayList<Cuenta_hdr>) service.listEmpleadosDeduccion("Eventual");
         for (int x = 0; x < depts.size(); x++) {
             cue = depts.get(x);
-            jTable3.setValueAt(x+1, x, 0);
+            jTable3.setValueAt(x + 1, x, 0);
             jTable3.setValueAt(cue.getIdEmpleado(), x, 1);
             jTable3.setValueAt(cue.getNombre(), x, 2);
             jTable3.setValueAt(obtenerSaldo(cue.getIdCuenta()), x, 3);
@@ -350,7 +353,7 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
             depts = (ArrayList<Cuenta_hdr>) service.listEmpleadosDeduccion("Eventual");
             float suma = (float) 0.0;
             int rowNr = 1;
-            
+
             for (int x = 0; x < depts.size(); x++) {
                 cue = depts.get(x);
 
@@ -396,11 +399,32 @@ public final class proximasDeduccionesEventuales extends javax.swing.JFrame {
 
     private float obtenerSaldo(String idCuenta) {
         transaccionDeduccion service = new transaccionDeduccion();
+        transaccionCuenta_hdr _service = new transaccionCuenta_hdr();
+        transaccionCuenta_dtl _servicedtl = new transaccionCuenta_dtl();
+        Cuenta_dtl _cue;
+        Cuenta_hdr _cuenta;
         Deduccion ded;
+        float saldo = 0;
         ArrayList<Deduccion> depts;
         depts = (ArrayList<Deduccion>) service.obtenerUltimaDeduccionByIdPase(idCuenta);
-        ded = depts.get(0);
-        return ded.getSaldo();
+        if (depts.isEmpty()) {
+            try {
+                _cuenta = _service.findByIdCuenta(idCuenta);
+                ArrayList<Cuenta_dtl> deptsdtl;
+                deptsdtl = (ArrayList<Cuenta_dtl>) _servicedtl.obtenerCuentadtlByIdCuenta(idCuenta);
+                for (int i = 0; i < deptsdtl.size(); i++) {
+                    _cue = deptsdtl.get(i);
+                    saldo = saldo + _cue.getValor();
+                }
+                return saldo;
+            } catch (SQLException ex) {
+                Logger.getLogger(proximasDeduccionesEventuales.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            ded = depts.get(0);
+            return ded.getSaldo();
+        }
+        return saldo;
     }
 
 }

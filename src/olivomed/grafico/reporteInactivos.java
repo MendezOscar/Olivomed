@@ -19,8 +19,12 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import olivomed.logica.transaccionCliente;
+import olivomed.logica.transaccionCuenta_dtl;
+import olivomed.logica.transaccionCuenta_hdr;
 import olivomed.logica.transaccionDeduccion;
 import olivomed.logica.transaccionPase;
+import olivomed.modelos.Cuenta_dtl;
+import olivomed.modelos.Cuenta_hdr;
 import olivomed.modelos.Deduccion;
 import olivomed.modelos.Empleado;
 import olivomed.modelos.Pase;
@@ -35,12 +39,12 @@ import org.apache.poi.xwpf.usermodel.XWPFTableRow;
  *
  * @author Oscar Mendez
  */
-public class reportePaseMedico extends javax.swing.JFrame {
+public class reporteInactivos extends javax.swing.JFrame {
 
     DefaultTableModel modelo = new DefaultTableModel();
     public TableRowSorter trsFiltro;
 
-    public reportePaseMedico() {
+    public reporteInactivos() {
         initComponents();
     }
 
@@ -119,15 +123,15 @@ public class reportePaseMedico extends javax.swing.JFrame {
         jTable2.setFont(new java.awt.Font("Consolas", 0, 11)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "NUMERO", "CODIGO", "NOMBRE", "VALOR", "DEUDA"
+                "NUMERO", "CODIGO", "NOMBRE", "VALOR"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -258,20 +262,22 @@ public class reportePaseMedico extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(reportePaseMedico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporteInactivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(reportePaseMedico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporteInactivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(reportePaseMedico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporteInactivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(reportePaseMedico.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(reporteInactivos.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new reportePaseMedico().setVisible(true);
+            new reporteInactivos().setVisible(true);
         });
     }
 
@@ -300,50 +306,33 @@ public class reportePaseMedico extends javax.swing.JFrame {
     }
 
     public void setPases() {
-        transaccionPase service = new transaccionPase();
+        transaccionDeduccion service = new transaccionDeduccion();
+        transaccionCuenta_hdr _service = new transaccionCuenta_hdr();
+        transaccionCuenta_dtl _servicedtl = new transaccionCuenta_dtl();
+        Cuenta_dtl _cue;
+        Cuenta_hdr _cuenta;
+
         transaccionDeduccion serv = new transaccionDeduccion();
         transaccionCliente ser = new transaccionCliente();
-        Pase p;
         Deduccion ded;
         Empleado emp;
         float suma = (float) 0.0;
-        ArrayList<Pase> pases;
-        pases = (ArrayList<Pase>) service.listEmpleadosDeduccionINACTIVOS();
+        ArrayList<Cuenta_hdr> pases;
+        pases = (ArrayList<Cuenta_hdr>) _service.listEmpleadosInactivos();
         for (int x = 0; x < pases.size(); x++) {
-            try {
-                p = pases.get(x);
-                emp = ser.findByIdClientes(p.getIdempleado());
-                ArrayList<Deduccion> aded;
-                aded = (ArrayList<Deduccion>) serv.obtenerUltimaDeduccionByIdPase(p.getIdPase());
-                if (aded.isEmpty()) {
-                    ded = serv.findByIdPase(p.getIdPase());
-                } else {
-                    ded = aded.get(0);
-                }
-                if (ded == null) {
-                    jTable2.setValueAt(x + 1, x, 0);
-                    jTable2.setValueAt(p.getIdempleado(), x, 1);
-                    jTable2.setValueAt(p.getNombre(), x, 2);
-                    jTable2.setValueAt(p.getValor(), x, 3);
-                    jTable2.setValueAt(formatNumber(p.getValor()), x, 4);
-                    suma = suma + p.getValor();
-                } else if (ded.getSaldo() > 1) {
-                    jTable2.setValueAt(x + 1, x, 0);
-                    jTable2.setValueAt(p.getIdempleado(), x, 1);
-                    jTable2.setValueAt(p.getNombre(), x, 2);
-                    jTable2.setValueAt(p.getValor(), x, 3);
-                    jTable2.setValueAt(formatNumber(ded.getSaldo()), x, 4);
-                }
+            _cuenta = pases.get(x);
 
-                agregarFilas();
+            jTable2.setValueAt(x + 1, x, 0);
+            jTable2.setValueAt(_cuenta.getIdEmpleado(), x, 1);
+            jTable2.setValueAt(_cuenta.getNombre(), x, 2);
+            jTable2.setValueAt(obtenerSaldo(_cuenta.getIdCuenta()), x, 3);
+            //suma = suma + p.getValor();
 
-            } catch (SQLException ex) {
-                Logger.getLogger(reportePaseMedico.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            agregarFilas();
         }
-        DefaultTableModel temp = (DefaultTableModel) jTable2.getModel();
-        Object nuevo[] = {"", "", "", suma,};
-        temp.addRow(nuevo);
+        //DefaultTableModel temp = (DefaultTableModel) jTable2.getModel();
+        //Object nuevo[] = {"", "", "", suma,};
+        //temp.addRow(nuevo);
     }
 
     public void filtro() {
@@ -382,7 +371,6 @@ public class reportePaseMedico extends javax.swing.JFrame {
             //run2.setFontFamily("Consolas");
             //run2.setText(parrafo2);
             //paragraph2.setAlignment(ParagraphAlignment.CENTER);
-            
             XWPFParagraph paragraph3 = writedoc.createParagraph();
             XWPFRun run3 = paragraph3.createRun();
             run3.setFontSize(12);
@@ -397,7 +385,7 @@ public class reportePaseMedico extends javax.swing.JFrame {
             tableOneRowOne.getCell(0).setText("Nº");
             tableOneRowOne.getCell(1).setText("CODIGO");
             tableOneRowOne.getCell(2).setText("EMPLEADO");
-            tableOneRowOne.getCell(3).setText("DEDUCCION");
+            tableOneRowOne.getCell(3).setText("SALDO");
 
             for (int i = 0; i < jTable2.getRowCount(); i++) {
                 XWPFTableRow row = tableOne.getRow(i);
@@ -474,5 +462,35 @@ public class reportePaseMedico extends javax.swing.JFrame {
             Logger.getLogger(reportePase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
+    }
+
+    public float obtenerSaldo(String idCuenta) {
+        transaccionDeduccion service = new transaccionDeduccion();
+        transaccionCuenta_hdr _service = new transaccionCuenta_hdr();
+        transaccionCuenta_dtl _servicedtl = new transaccionCuenta_dtl();
+        Cuenta_dtl _cue;
+        Cuenta_hdr _cuenta;
+        Deduccion ded;
+        float saldo = 0;
+        ArrayList<Deduccion> depts;
+        depts = (ArrayList<Deduccion>) service.obtenerUltimaDeduccionByIdPase(idCuenta);
+        if (depts.isEmpty()) {
+            try {
+                _cuenta = _service.findByIdCuenta(idCuenta);
+                ArrayList<Cuenta_dtl> deptsdtl;
+                deptsdtl = (ArrayList<Cuenta_dtl>) _servicedtl.obtenerCuentadtlByIdCuenta(idCuenta);
+                for (int i = 0; i < deptsdtl.size(); i++) {
+                    _cue = deptsdtl.get(i);
+                    saldo = saldo + _cue.getValor();
+                }
+                return saldo;
+            } catch (SQLException ex) {
+                Logger.getLogger(reporteInactivos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            ded = depts.get(0);
+            return ded.getSaldo();
+        }
+        return saldo;
     }
 }

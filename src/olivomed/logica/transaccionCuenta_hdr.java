@@ -170,5 +170,22 @@ public class transaccionCuenta_hdr {
         return null;
     }
     
-    
+    public List<Cuenta_hdr> listEmpleadosInactivos() {
+        try {
+            String query = "SELECT * FROM CUENTA_HDR LEFT JOIN EMPLEADO ON CUENTA_HDR.IDEMPLEADO = EMPLEADO.CODIGO "
+                    + "WHERE EMPLEADO.ESTADO = 'INACTIVO'";
+            PreparedStatement stmt = service.con.prepareStatement(query);
+            ResultSet rs = stmt.executeQuery();
+            ArrayList<Cuenta_hdr> depts = new ArrayList<>();
+            while (rs.next()) {
+                depts.add(new Cuenta_hdr(rs.getString("IDCUENTA"),
+                        rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"), rs.getString("ESTATUSFINANCIERO"),
+                        rs.getInt("CONTADOR"), rs.getString("FECHA"), rs.getString("FECHAPAGADA")));
+            }
+            return depts;
+        } catch (SQLException ex) {
+            Logger.getLogger(ServiciosDB.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
 }
