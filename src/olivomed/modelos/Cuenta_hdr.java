@@ -5,6 +5,9 @@
  */
 package olivomed.modelos;
 
+import java.sql.Date;
+
+
 /**
  *
  * @author admin
@@ -15,36 +18,25 @@ public class Cuenta_hdr {
     String nombre;
     String estatuFinanciero;
     int contador;
-    String fecha;
-    String fechaPagada;
+    Date fecha;
 
     public Cuenta_hdr(String idCuenta, String idEmpleado, String nombre, String estatuFinanciero, 
-            int contador, String fecha, String fechaPagada) {
+            int contador, Date fecha) {
         this.idCuenta = idCuenta;
         this.idEmpleado = idEmpleado;
         this.nombre = nombre;
         this.estatuFinanciero = estatuFinanciero;
         this.contador = contador;
         this.fecha = fecha;
-        this.fechaPagada = fechaPagada;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-
-    public String getFechaPagada() {
-        return fechaPagada;
-    }
-
-    public void setFechaPagada(String fechaPagada) {
-        this.fechaPagada = fechaPagada;
-    }
-    
 
     public String getIdCuenta() {
         return idCuenta;

@@ -5,6 +5,7 @@
  */
 package olivomed.logica;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,16 +27,15 @@ public class transaccionCuenta_hdr {
 
     public void createCuenta(Cuenta_hdr cue) {
         String query = "INSERT INTO CUENTA_HDR "
-                + "(IDCUENTA, IDEMPLEADO, NOMBRE, ESTATUSFINANCIERO, CONTADOR, FECHA, FECHAPAGADA) "
-                + "VALUES (? , ? , ?, ?, ?, ?, ?)";
+                + "(IDCUENTA, IDEMPLEADO, NOMBRE, ESTATUSFINANCIERO, CONTADOR, FECHA) "
+                + "VALUES (? , ? , ?, ?, ?, ?)";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, cue.getIdCuenta());
             stmt.setString(2, cue.getIdEmpleado());
             stmt.setString(3, cue.getNombre());
             stmt.setString(4, cue.getEstatuFinanciero());
             stmt.setInt(5, cue.getContador());
-            stmt.setString(6, cue.getFecha());
-            stmt.setString(7, cue.getFechaPagada());
+            stmt.setDate(6, (Date) cue.getFecha());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "La cuenta: " + cue.getIdCuenta() + " se ha guardado Exitosamente.");
         } catch (SQLException se) {
@@ -52,9 +52,8 @@ public class transaccionCuenta_hdr {
             stmt.setString(1, cue.getIdEmpleado());
             stmt.setString(2, cue.getNombre());
             stmt.setString(2, cue.getEstatuFinanciero());
-            stmt.setString(3, cue.getFecha());
-            stmt.setString(4, cue.getFechaPagada());
-            stmt.setString(5, cue.getIdCuenta());
+            stmt.setDate(3, (Date) cue.getFecha());
+            stmt.setString(4, cue.getIdCuenta());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "El empleado: " + id + " se ha actualizado correctamente.");
         } catch (SQLException se) {
@@ -88,7 +87,7 @@ public class transaccionCuenta_hdr {
             }
             return (new Cuenta_hdr(rs.getString("IDCUENTA"),
                     rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"), rs.getString("ESTATUSFINANCIERO"),
-                    rs.getInt("CONTADOR"), rs.getString("FECHA"), rs.getString("FECHAPAGADA")));
+                    rs.getInt("CONTADOR"), rs.getDate("FECHA")));
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(null, "ERROR Codigo de empleado: " + id + "no se ha encontrado.");
         }
@@ -103,7 +102,7 @@ public class transaccionCuenta_hdr {
             while (rs.next()) {
                 depts.add(new Cuenta_hdr(rs.getString("IDCUENTA"),
                         rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"), rs.getString("ESTATUSFINANCIERO"),
-                        rs.getInt("CONTADOR"), rs.getString("FECHA"), rs.getString("FECHAPAGADA")));
+                        rs.getInt("CONTADOR"), rs.getDate("FECHA")));
             }
             return depts;
         } catch (SQLException se) {
@@ -122,7 +121,7 @@ public class transaccionCuenta_hdr {
             while (rs.next()) {
                 depts.add(new Cuenta_hdr(rs.getString("IDCUENTA"),
                         rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"), rs.getString("ESTATUSFINANCIERO"),
-                        rs.getInt("CONTADOR"), rs.getString("FECHA"), rs.getString("FECHAPAGADA")));
+                        rs.getInt("CONTADOR"), rs.getDate("FECHA")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -141,7 +140,7 @@ public class transaccionCuenta_hdr {
             if (rs.next()) {
                 cue = (new Cuenta_hdr(rs.getString("IDCUENTA"),
                         rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"), rs.getString("ESTATUSFINANCIERO"),
-                        rs.getInt("CONTADOR"), rs.getString("FECHA"), rs.getString("FECHAPAGADA")));
+                        rs.getInt("CONTADOR"), rs.getDate("FECHA")));
             }
             return cue;
         } catch (SQLException ex) {
@@ -161,7 +160,7 @@ public class transaccionCuenta_hdr {
             while (rs.next()) {
                 depts.add(new Cuenta_hdr(rs.getString("IDCUENTA"),
                         rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"), rs.getString("ESTATUSFINANCIERO"),
-                        rs.getInt("CONTADOR"), rs.getString("FECHA"), rs.getString("FECHAPAGADA")));
+                        rs.getInt("CONTADOR"), rs.getDate("FECHA")));
             }
             return depts;
         } catch (SQLException ex) {
@@ -180,7 +179,7 @@ public class transaccionCuenta_hdr {
             while (rs.next()) {
                 depts.add(new Cuenta_hdr(rs.getString("IDCUENTA"),
                         rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"), rs.getString("ESTATUSFINANCIERO"),
-                        rs.getInt("CONTADOR"), rs.getString("FECHA"), rs.getString("FECHAPAGADA")));
+                        rs.getInt("CONTADOR"), rs.getDate("FECHA")));
             }
             return depts;
         } catch (SQLException ex) {

@@ -17,10 +17,12 @@ import olivomed.logica.transaccionCliente;
 import olivomed.logica.transaccionCuenta_dtl;
 import olivomed.logica.transaccionCuenta_hdr;
 import olivomed.logica.transaccionDeduccion;
+import olivomed.logica.transaccionEstado;
 import olivomed.modelos.Cuenta_dtl;
 import olivomed.modelos.Cuenta_hdr;
 import olivomed.modelos.Deduccion;
 import olivomed.modelos.Empleado;
+import olivomed.modelos.Estado;
 
 /**
  *
@@ -64,9 +66,9 @@ public final class registroDeduccion extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
         jLabel10 = new javax.swing.JLabel();
-        jFecha = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         jValorded = new javax.swing.JTextField();
+        jDate = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -271,18 +273,6 @@ public final class registroDeduccion extends javax.swing.JFrame {
         jLabel10.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel10.setText("FECHA");
 
-        jFecha.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jFecha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFechaActionPerformed(evt);
-            }
-        });
-        jFecha.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jFechaKeyPressed(evt);
-            }
-        });
-
         jLabel9.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel9.setText("DEDUCCION");
 
@@ -324,8 +314,8 @@ public final class registroDeduccion extends javax.swing.JFrame {
                                 .addComponent(jDeduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDate, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -338,14 +328,16 @@ public final class registroDeduccion extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel10)
-                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(1, 1, 1)
+                            .addComponent(jDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(4, 4, 4)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -362,7 +354,6 @@ public final class registroDeduccion extends javax.swing.JFrame {
                             .addComponent(jLabel9)
                             .addComponent(jValorded, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(9, 9, 9)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 27, Short.MAX_VALUE))
         );
@@ -377,10 +368,14 @@ public final class registroDeduccion extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingrese codigo");
         } else {
             transaccionDeduccion service = new transaccionDeduccion();
+            transaccionEstado serv = new transaccionEstado();
             if (service.findByIdPase(id) == null) {
                 Deduccion d;
+                Estado est;
                 d = enviarDatos();
+                est = enviarEstado();
                 service.createDeduccion(d);
+                serv.createEstado(est);
             } else {
                 JOptionPane.showMessageDialog(null, "la deduccion: " + id + " no se registro");
             }
@@ -522,14 +517,6 @@ public final class registroDeduccion extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTable2KeyPressed
 
-    private void jFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFechaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFechaActionPerformed
-
-    private void jFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFechaKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFechaKeyPressed
-
     private void jValordedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jValordedActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jValordedActionPerformed
@@ -581,8 +568,8 @@ public final class registroDeduccion extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
+    private com.toedter.calendar.JDateChooser jDate;
     public static javax.swing.JTextField jDeduccion;
-    public static javax.swing.JTextField jFecha;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
@@ -608,13 +595,31 @@ public final class registroDeduccion extends javax.swing.JFrame {
         String idDeduccion = jDeduccion.getText();
         String idPase = jPase.getText();
         String Nombre = jNombre.getText();
-        String fecha = jFecha.getText();
+        java.util.Date utilDate = jDate.getDate();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         float pase = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
         float valor = Float.parseFloat(jValorded.getText());
         float Saldo = Float.parseFloat(String.valueOf(tm.getValueAt(0, 2))) - Float.parseFloat(jValorded.getText());
         int contador = setearnumero();
-        ded = new Deduccion(idDeduccion, Nombre, fecha, pase, valor, Saldo, contador, idPase);
+        ded = new Deduccion(idDeduccion, Nombre, sqlDate, pase, valor, Saldo, contador, idPase);
         return ded;
+    }
+
+    public Estado enviarEstado() {
+        Estado est;
+        String idcuenta = jPase.getText();
+        String idEstado = "E" + obtenerEmpleado(idcuenta) + obtenerContadorest();
+        java.util.Date utilDate = jDate.getDate();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        String trans = "Deduccion";
+        String idPase = jPase.getText();
+        float monto = Float.parseFloat(jValorded.getText());
+        float saldo = obtenerSaldoest();
+        int contador = obtenerContadorest();
+        String idClente = obtenerEmpleado(idcuenta);
+        String nombre = jNombre.getText();
+        est = new Estado(idEstado, sqlDate, trans, monto, saldo, contador, idPase, idClente, nombre);
+        return est;
     }
 
     public void limpiar() {
@@ -632,16 +637,14 @@ public final class registroDeduccion extends javax.swing.JFrame {
             transaccionCuenta_hdr service = new transaccionCuenta_hdr();
             transaccionDeduccion servi = new transaccionDeduccion();
             Cuenta_hdr cue = service.findByIdCuenta(idd);
-            String subDeduccion = idd.substring(6,7);
+            String subDeduccion = idd.substring(6, 7);
             int numero = Integer.parseInt(subDeduccion);
             // 00001 12
             int numant = numero - 1;
             String cod = idd.substring(0, 5);
             String cuenta = idd.substring(5, 6);
             String id = cod + cuenta + numant;
-            
-            System.out.println(id);
-            
+
             if ("".equals(id)) {
                 JOptionPane.showMessageDialog(null, "Ingrese codigo");
             } else {
@@ -681,9 +684,14 @@ public final class registroDeduccion extends javax.swing.JFrame {
     public void setearBusqueda(Deduccion ded) {
         jDeduccion.setText(ded.getIdDeduccion());
         jPase.setText(ded.getIdPase());
-        jFecha.setText(ded.getFecha());
+        jDate.setDate(ded.getFecha());
         buscarCuenta();
         buscarEmpleado();
+    }
+
+    public void setearFecha() {
+        java.util.Date utilDate = new Date();
+        jDate.setDate(utilDate);
     }
 
     private void buscarCuenta() {
@@ -734,8 +742,7 @@ public final class registroDeduccion extends javax.swing.JFrame {
         //0123456
         //00001-ER-1-de3 
         // 0000112
-        String subDeduccion = idDeduccion.substring(6,7);
-        System.out.println(subDeduccion);
+        String subDeduccion = idDeduccion.substring(6, 7);
         float Saldo;
         if ("1".equals(subDeduccion)) {
             Saldo = obtenerValor();
@@ -815,11 +822,6 @@ public final class registroDeduccion extends javax.swing.JFrame {
         return null;
     }
 
-    public void setearFecha() {
-        fechaActual = new Date();
-        jFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaActual));
-    }
-
     private float obtenerValor() {
         String idCuneta = jPase.getText();
         float valor = 0;
@@ -827,7 +829,7 @@ public final class registroDeduccion extends javax.swing.JFrame {
         transaccionCuenta_dtl service = new transaccionCuenta_dtl();
         ArrayList<Cuenta_dtl> depts;
         depts = (ArrayList<Cuenta_dtl>) service.obtenerCuentadtlByIdCuenta(idCuneta);
-        for (int i = 0; i < depts.size(); i++){
+        for (int i = 0; i < depts.size(); i++) {
             cue = depts.get(i);
             valor = valor + cue.getValor();
         }
@@ -850,6 +852,45 @@ public final class registroDeduccion extends javax.swing.JFrame {
         float deduccion = Float.parseFloat(jValorded.getText());
         float SaldoActual = SaldoAnterior - deduccion;
         jTable2.setValueAt(SaldoActual, 0, 3);
+    }
+
+    private float obtenerSaldoest() {
+        String idcuenta = jPase.getText();
+        String idClente = obtenerEmpleado(idcuenta);
+        System.out.println(idClente);
+        transaccionEstado service = new transaccionEstado();
+        ArrayList<Estado> depts;
+        depts = (ArrayList<Estado>) service.obtenerUltimaEstadoByIdPase(idClente);
+        Estado est = depts.get(0);
+        float valor = Float.parseFloat(jValorded.getText());
+        float newsaldo = est.getSaldo() - valor;
+        return newsaldo;
+
+    }
+
+    private int obtenerContadorest() {
+        String idcuenta = jPase.getText();
+        String idClente = obtenerEmpleado(idcuenta);
+        Estado est;
+        int numero;
+        transaccionEstado service = new transaccionEstado();
+        ArrayList<Estado> depts;
+        depts = (ArrayList<Estado>) service.obtenerEstadoByIdCliente(idClente);
+        numero = depts.size() + 1;
+        return numero;
+    }
+
+    private String obtenerEmpleado(String idcuenta) {
+        try {
+            String idCuenta = jPase.getText();
+            Cuenta_hdr cue;
+            transaccionCuenta_hdr service = new transaccionCuenta_hdr();
+            cue = service.findByIdCuenta(idCuenta);
+            return cue.getIdEmpleado();
+        } catch (SQLException ex) {
+            Logger.getLogger(registroDeduccion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return "";
     }
 
 }

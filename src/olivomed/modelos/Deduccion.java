@@ -1,5 +1,7 @@
 package olivomed.modelos;
 
+import java.util.Date;
+
 /**
  *
  * @author Oscar Mendez
@@ -8,14 +10,14 @@ public class Deduccion {
 
     String idDeduccion;
     String Nombre;
-    String fecha;
+    Date fecha;
     float pase;
     float valor;
     float saldo;
     int contador;
     String idPase;
 
-    public Deduccion(String idDeduccion, String Nombre, String fecha, float pase, float valor, float saldo,
+    public Deduccion(String idDeduccion, String Nombre, Date fecha, float pase, float valor, float saldo,
             int contador, String idPase) {
         this.idDeduccion = idDeduccion;
         this.Nombre = Nombre;
@@ -39,7 +41,7 @@ public class Deduccion {
         return Nombre;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
@@ -71,7 +73,7 @@ public class Deduccion {
         this.Nombre = Nombre;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

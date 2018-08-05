@@ -1,5 +1,6 @@
 package olivomed.logica;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -27,7 +28,7 @@ public class transaccionPase {
             stmt.setString(1, p.getIdPase());
             stmt.setString(2, p.getIdempleado());
             stmt.setString(3, p.getNombre());
-            stmt.setString(4, p.getFecha());
+            stmt.setDate(4, (Date) p.getFecha());
             stmt.setFloat(5, p.getValor());
             stmt.setInt(6, p.getContador());
             stmt.setInt(7, p.getNumero());
@@ -48,7 +49,7 @@ public class transaccionPase {
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, p.getIdempleado());
             stmt.setString(2, p.getNombre());
-            stmt.setString(3, p.getFecha());
+            stmt.setDate(3, (Date) p.getFecha());
             stmt.setFloat(4, p.getValor());
             stmt.setInt(5, p.getNumero());
             stmt.setString(6, p.getMedico());
@@ -86,7 +87,7 @@ public class transaccionPase {
                 return null;
             }
             return (new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                    rs.getTimestamp("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
                     rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(null, "ERROR Codigo de empleado: " + id + "no se ha encontrado.");
@@ -101,7 +102,7 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
@@ -119,7 +120,7 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
@@ -137,7 +138,7 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
@@ -155,7 +156,7 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
@@ -173,7 +174,7 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
@@ -191,7 +192,7 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
@@ -211,7 +212,7 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;
@@ -230,7 +231,7 @@ public class transaccionPase {
             ArrayList<Pase> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Pase(rs.getString("IDPASE"), rs.getString("IDEMPLEADO"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
+                        rs.getTimestamp("FECHA"), rs.getFloat("VALOR"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("MEDICO"), rs.getString("MES")));
             }
             return depts;

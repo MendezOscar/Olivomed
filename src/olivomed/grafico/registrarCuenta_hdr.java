@@ -2,9 +2,8 @@ package olivomed.grafico;
 
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -49,9 +48,9 @@ public final class registrarCuenta_hdr extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jNombre = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        jFecha = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jCuenta_hdr = new javax.swing.JTextField();
+        jDate = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -217,18 +216,6 @@ public final class registrarCuenta_hdr extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel9.setText("FECHA");
 
-        jFecha.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jFecha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFechaActionPerformed(evt);
-            }
-        });
-        jFecha.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jFechaKeyPressed(evt);
-            }
-        });
-
         jLabel7.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel7.setText("CODIGO CREDITO EMPLEADO");
 
@@ -255,22 +242,23 @@ public final class registrarCuenta_hdr extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCuenta_hdr, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(128, Short.MAX_VALUE))
+                        .addComponent(jCuenta_hdr, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jDate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(126, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -288,9 +276,9 @@ public final class registrarCuenta_hdr extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
-                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
@@ -414,14 +402,6 @@ public final class registrarCuenta_hdr extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCuenta_hdrKeyPressed
 
-    private void jFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFechaKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFechaKeyPressed
-
-    private void jFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFechaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFechaActionPerformed
-
     /**
      * @param args the command line arguments
      */
@@ -466,8 +446,8 @@ public final class registrarCuenta_hdr extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     public static javax.swing.JTextField jCuenta_hdr;
+    private com.toedter.calendar.JDateChooser jDate;
     public static javax.swing.JTextField jEmpleado;
-    private javax.swing.JTextField jFecha;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -491,9 +471,10 @@ public final class registrarCuenta_hdr extends javax.swing.JFrame {
         int contador = setearnumero1();
         String idCuenta = setNumerocuenta();
         String estatusfinanciero = "A";
-        String fecha = jFecha.getText();
+        java.util.Date utilDate =jDate.getDate();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         String fechapagada = "";
-        cuenta_hdr = new Cuenta_hdr(idCuenta, idEmpleado, nombre, estatusfinanciero, contador, fecha, fechapagada);
+        cuenta_hdr = new Cuenta_hdr(idCuenta, idEmpleado, nombre, estatusfinanciero, contador, sqlDate);
         return cuenta_hdr;
     }
 
@@ -501,11 +482,16 @@ public final class registrarCuenta_hdr extends javax.swing.JFrame {
         jEmpleado.setText("");
         jNombre.setText("");
     }
+    
+    public void setearFecha() {
+        java.util.Date utilDate = new java.util.Date();
+        jDate.setDate(utilDate);
+    }
 
     public void setearBusqueda(Cuenta_hdr cuenta) {
         jEmpleado.setText(cuenta.getIdEmpleado());
         jNombre.setText(cuenta.getNombre());
-        jFecha.setText("");
+        jDate.setDate(cuenta.getFecha());
         jCuenta_hdr.setText(cuenta.getIdCuenta());
     }
     
@@ -534,10 +520,6 @@ public final class registrarCuenta_hdr extends javax.swing.JFrame {
         jNombre.setText(emp.getNombre());
     }
 
-    public void setearFecha() {
-        fechaActual = new Date();
-        jFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaActual));
-    }
 
     private int setearnumero1() {
         int numero;

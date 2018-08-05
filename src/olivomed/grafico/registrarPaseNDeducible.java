@@ -59,9 +59,9 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jMedico = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jFecha = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jCodigo = new javax.swing.JTextField();
+        jDate = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -262,18 +262,6 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel9.setText("FECHA");
 
-        jFecha.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jFecha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFechaActionPerformed(evt);
-            }
-        });
-        jFecha.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jFechaKeyPressed(evt);
-            }
-        });
-
         jLabel7.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel7.setText("CODIGO DEL EMPLEADO");
 
@@ -316,9 +304,9 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                         .addGroup(layout.createSequentialGroup()
                                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(441, 441, 441))
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                            .addComponent(jDate, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(415, 415, 415))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -341,8 +329,10 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
@@ -360,10 +350,10 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel9)
-                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(15, 15, 15)
+                            .addComponent(jDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 32, Short.MAX_VALUE))
         );
@@ -495,14 +485,6 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTable2KeyPressed
 
-    private void jFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFechaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFechaActionPerformed
-
-    private void jFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFechaKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFechaKeyPressed
-
     private void jPaseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPaseMouseClicked
         // TODO add your handling code here:
         setearCodigo();
@@ -569,7 +551,7 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     public static javax.swing.JTextField jCodigo;
-    public static javax.swing.JTextField jFecha;
+    private com.toedter.calendar.JDateChooser jDate;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -594,34 +576,27 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
         paseNDeducible p;
         String idPase = jPase.getText();
         String nombre = jNombre.getText();
-        String fecha = jFecha.getText();
+        java.util.Date utilDate = jDate.getDate();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
         int contador = setearnumero();
         int numero = Integer.parseInt(String.valueOf(tm.getValueAt(0, 0)));
         String medico = jMedico.getSelectedItem().toString();
         String mes = obtenerMes();
         String codigo = jCodigo.getText();
-        p = new paseNDeducible(idPase, nombre, fecha, valor, medico, contador, numero, codigo, mes);
+        p = new paseNDeducible(idPase, nombre, sqlDate, valor, medico, contador, numero, codigo, mes);
         return p;
     }
 
     public String obtenerMes() {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            String fecha = jFecha.getText();
-            Date date = format.parse(fecha);
-            String formato = "MM";
-            SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
-            int mes = Integer.parseInt(dateFormat.format(date));
-            String meses[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
-                "octubre", "Noviembre", "Diciembre"};
-            return meses[mes - 1];
-        } catch (ParseException ex) {
-            Logger.getLogger(registrarPase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        String formato = "MM";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+        int mes = Integer.parseInt(dateFormat.format(jDate.getDate()));
+        String meses[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
+            "octubre", "Noviembre", "Diciembre"};
+        return meses[mes - 1];
     }
-    
+
     public void limpiar() {
         jPase.setText("");
         jNombre.setText("");
@@ -633,7 +608,7 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
     public void setearBusqueda(paseNDeducible p) {
         jPase.setText(p.getIdPase());
         jNombre.setText(p.getNombre());
-        jFecha.setText(p.getFecha());
+        jDate.setDate(p.getFecha());
         jTable2.setValueAt(p.getNumero(), 0, 0);
         jTable2.setValueAt(p.getValor(), 0, 1);
         jMedico.setSelectedItem(p.getMedico());
@@ -729,9 +704,9 @@ public final class registrarPaseNDeducible extends javax.swing.JFrame {
         return res;
     }
 
-    public void setearFecha() {
-        fechaActual = new Date();
-        jFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaActual));
+   public void setearFecha() {
+        java.util.Date utilDate = new Date();
+        jDate.setDate(utilDate);
     }
 
 }

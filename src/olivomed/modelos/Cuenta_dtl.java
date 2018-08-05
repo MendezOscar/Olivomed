@@ -5,6 +5,8 @@
  */
 package olivomed.modelos;
 
+import java.util.Date;
+
 /**
  *
  * @author admin
@@ -15,13 +17,16 @@ public class Cuenta_dtl {
     String idPase;
     float valor;
     int contador;
+    Date fecha;
 
-    public Cuenta_dtl(String idCorr, String idCuenta, String idPase, float valor, int contador) {
+    public Cuenta_dtl(String idCorr, String idCuenta, String idPase, float valor, int contador, Date fecha) {
         this.idCorr = idCorr;
         this.idCuenta = idCuenta;
         this.idPase = idPase;
         this.valor = valor;
         this.contador = contador;
+        this.fecha = fecha;
+        
     }
     
     
@@ -64,6 +69,14 @@ public class Cuenta_dtl {
 
     public void setContador(int contador) {
         this.contador = contador;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
     
     

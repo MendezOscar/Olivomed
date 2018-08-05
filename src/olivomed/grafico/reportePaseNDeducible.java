@@ -556,18 +556,10 @@ public class reportePaseNDeducible extends javax.swing.JFrame {
         trsFiltro.setRowFilter(RowFilter.regexFilter(txtFiltro.getText(), columnaABuscar));
     }
 
-    public int obtenerAnio(String jfecha) {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            String fecha = jfecha;
-            Date date = format.parse(fecha);
-            String formato = "yyyy";
-            SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
-            return Integer.parseInt(dateFormat.format(date));
-        } catch (ParseException ex) {
-            Logger.getLogger(reportePaseNDeducible.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+    public int obtenerAnio(Date jfecha) {
+        String formato = "yyyy";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+        return Integer.parseInt(dateFormat.format(jfecha));
     }
     
     

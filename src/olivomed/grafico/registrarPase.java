@@ -3,7 +3,6 @@ package olivomed.grafico;
 import java.awt.event.KeyEvent;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,10 +13,12 @@ import javax.swing.table.DefaultTableModel;
 import olivomed.logica.transaccionCliente;
 import olivomed.logica.transaccionCuenta_dtl;
 import olivomed.logica.transaccionCuenta_hdr;
+import olivomed.logica.transaccionEstado;
 import olivomed.logica.transaccionPase;
 import olivomed.modelos.Cuenta_dtl;
 import olivomed.modelos.Cuenta_hdr;
 import olivomed.modelos.Empleado;
+import olivomed.modelos.Estado;
 import olivomed.modelos.Pase;
 
 /**
@@ -64,10 +65,10 @@ public final class registrarPase extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jMedico = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jFecha = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jCuenta_hdr = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jDate = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -278,18 +279,6 @@ public final class registrarPase extends javax.swing.JFrame {
         jLabel9.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel9.setText("FECHA");
 
-        jFecha.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jFecha.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jFechaActionPerformed(evt);
-            }
-        });
-        jFecha.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jFechaKeyPressed(evt);
-            }
-        });
-
         jLabel7.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jLabel7.setText("CODIGO CREDITO EMPLEADO");
 
@@ -328,7 +317,7 @@ public final class registrarPase extends javax.swing.JFrame {
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jDate, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -381,16 +370,16 @@ public final class registrarPase extends javax.swing.JFrame {
                             .addComponent(jLabel6)
                             .addComponent(jPase, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel9)
-                            .addComponent(jFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jDate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel7)
                             .addComponent(jCuenta_hdr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 12, Short.MAX_VALUE))
+                .addGap(0, 15, Short.MAX_VALUE))
         );
 
         pack();
@@ -403,15 +392,19 @@ public final class registrarPase extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Ingrese codigo");
         } else {
             try {
+                transaccionEstado serv = new transaccionEstado();
                 transaccionPase service = new transaccionPase();
                 transaccionCuenta_dtl servi = new transaccionCuenta_dtl();
                 if (service.findByIdPase(id) == null) {
                     Cuenta_dtl cue;
                     Pase p;
+                    Estado est;
                     p = enviarDatos();
                     cue = enviarCuenta_dtl();
+                    est = enviarEstado();
                     service.createPase(p);
                     servi.createCuenta_dtl(cue);
+                    serv.createEstado(est);
                 } else {
                     JOptionPane.showMessageDialog(null, "El pase: " + id + " no se registro");
                 }
@@ -542,14 +535,6 @@ public final class registrarPase extends javax.swing.JFrame {
 
     }//GEN-LAST:event_jTable2KeyPressed
 
-    private void jFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFechaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFechaActionPerformed
-
-    private void jFechaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFechaKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jFechaKeyPressed
-
     private void jCuenta_hdrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCuenta_hdrActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCuenta_hdrActionPerformed
@@ -607,8 +592,8 @@ public final class registrarPase extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     public static javax.swing.JTextField jCuenta_hdr;
+    private com.toedter.calendar.JDateChooser jDate;
     public static javax.swing.JTextField jEmpleado;
-    public static javax.swing.JTextField jFecha;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
@@ -635,13 +620,14 @@ public final class registrarPase extends javax.swing.JFrame {
         String idPase = jPase.getText();
         String idEmpleado = jEmpleado.getText();
         String nombre = jNombre.getText();
-        String fecha = jFecha.getText();
+        java.util.Date utilDate = jDate.getDate();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
         int contador = setearnumero();
         int numero = Integer.parseInt(String.valueOf(tm.getValueAt(0, 0)));
         String medico = jMedico.getSelectedItem().toString();
         String mes = obtenerMes();
-        p = new Pase(idPase, idEmpleado, nombre, fecha, valor, contador, numero, medico, mes);
+        p = new Pase(idPase, idEmpleado, nombre, sqlDate, valor, contador, numero, medico, mes);
         return p;
     }
 
@@ -652,8 +638,28 @@ public final class registrarPase extends javax.swing.JFrame {
         String idCuenta = obtenerIdCuenta();
         int contador = obtenerContador();
         String idCorr = obtenerCorr();
-        cue = new Cuenta_dtl(idCorr, idCuenta, idPase, valor, contador);
+        java.util.Date utilDate = jDate.getDate();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        cue = new Cuenta_dtl(idCorr, idCuenta, idPase, valor, contador, sqlDate);
         return cue;
+    }
+
+    public Estado enviarEstado() {
+        Estado est;
+        String idEstado = "E" + jEmpleado.getText() + obtenerContadorEst();
+        java.util.Date utilDate = jDate.getDate();
+        System.out.println(utilDate);
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        System.out.println(sqlDate);
+        String trans = "Pase";
+        String idPase = jPase.getText();
+        float monto = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
+        float saldo = obtenerSaldo();
+        int contador = obtenerContadorEst();
+        String idEmpleado = jEmpleado.getText();
+        String nombre = jNombre.getText();
+        est = new Estado(idEstado, sqlDate, trans, monto, saldo, contador, idPase, idEmpleado, nombre);
+        return est;
     }
 
     public void limpiar() {
@@ -670,7 +676,7 @@ public final class registrarPase extends javax.swing.JFrame {
         jPase.setText(p.getIdPase());
         jEmpleado.setText(p.getIdempleado());
         jNombre.setText(p.getNombre());
-        jFecha.setText(p.getFecha());
+        jDate.setDate(p.getFecha());
         jTable2.setValueAt(p.getNumero(), 0, 0);
         jTable2.setValueAt(p.getValor(), 0, 1);
         jMedico.setSelectedItem(p.getMedico());
@@ -687,20 +693,12 @@ public final class registrarPase extends javax.swing.JFrame {
     }
 
     public String obtenerMes() {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            String fecha = jFecha.getText();
-            Date date = format.parse(fecha);
-            String formato = "MM";
-            SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
-            int mes = Integer.parseInt(dateFormat.format(date));
-            String meses[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
-                "octubre", "Noviembre", "Diciembre"};
-            return meses[mes - 1];
-        } catch (ParseException ex) {
-            Logger.getLogger(registrarPase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return "";
+        String formato = "MM";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+        int mes = Integer.parseInt(dateFormat.format(jDate.getDate()));
+        String meses[] = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
+            "octubre", "Noviembre", "Diciembre"};
+        return meses[mes - 1];
     }
 
     public void buscarCliente() {
@@ -777,8 +775,8 @@ public final class registrarPase extends javax.swing.JFrame {
     }
 
     public void setearFecha() {
-        fechaActual = new Date();
-        jFecha.setText(new SimpleDateFormat("dd/MM/yyyy").format(fechaActual));
+        java.util.Date utilDate = new Date();
+        jDate.setDate(utilDate);
     }
 
     private String obtenerIdCuenta() {
@@ -821,6 +819,33 @@ public final class registrarPase extends javax.swing.JFrame {
     private void setearIdCuenta() {
         String idCuenta = obtenerIdCuenta();
         jCuenta_hdr.setText(idCuenta);
+    }
+
+    private float obtenerSaldo() {
+        String idCliente = jEmpleado.getText();
+        transaccionEstado service = new transaccionEstado();
+        ArrayList<Estado> depts;
+        depts = (ArrayList<Estado>) service.obtenerUltimaEstadoByIdPase(idCliente);
+        if (depts.isEmpty()) {
+            float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
+            return valor;
+        } else {
+            Estado est = depts.get(0);
+            float valor = Float.parseFloat(String.valueOf(tm.getValueAt(0, 1)));
+            float newsaldo = valor + est.getSaldo();
+            return newsaldo;
+        }
+    }
+
+    private int obtenerContadorEst() {
+        String idClente = jEmpleado.getText();
+        Estado est;
+        int numero;
+        transaccionEstado service = new transaccionEstado();
+        ArrayList<Estado> depts;
+        depts = (ArrayList<Estado>) service.obtenerEstadoByIdCliente(idClente);
+        numero = depts.size() + 1;
+        return numero;
     }
 
 }

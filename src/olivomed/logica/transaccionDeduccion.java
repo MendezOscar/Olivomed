@@ -1,5 +1,6 @@
 package olivomed.logica;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -26,7 +27,7 @@ public class transaccionDeduccion {
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, d.getIdDeduccion());
             stmt.setString(2, d.getNombre());
-            stmt.setString(3, d.getFecha());
+            stmt.setDate(3, (Date) d.getFecha());
             stmt.setFloat(4, d.getPase());
             stmt.setFloat(5, d.getValor());
             stmt.setFloat(6, d.getSaldo());
@@ -47,7 +48,7 @@ public class transaccionDeduccion {
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, d.getIdPase());
             stmt.setString(2, d.getNombre());
-            stmt.setString(3, d.getFecha());
+            stmt.setDate(3, (Date) d.getFecha());
             stmt.setFloat(4, d.getPase());
             stmt.setFloat(5, d.getValor());
             stmt.setFloat(6, d.getSaldo());
@@ -84,7 +85,7 @@ public class transaccionDeduccion {
                 return null;
             }
             return (new Deduccion(rs.getString("IDDEDUCCION"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
+                    rs.getDate("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
                     rs.getInt("CONTADOR"), rs.getString("IDDUEDA")));
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(null, "ERROR Codigo de la Deduccion: " + id + "no se ha encontrado.");
@@ -99,7 +100,7 @@ public class transaccionDeduccion {
             ArrayList<Deduccion> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Deduccion(rs.getString("IDDEDUCCION"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
+                    rs.getDate("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
                     rs.getInt("CONTADOR"), rs.getString("IDCUENTA")));
             }
             return depts;
@@ -118,7 +119,7 @@ public class transaccionDeduccion {
                 return null;
             }
             return (new Deduccion(rs.getString("IDDEDUCCION"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
+                    rs.getDate("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
                     rs.getInt("CONTADOR"), rs.getString("IDDEUDA")));
         } catch (SQLException ex) {
             Logger.getLogger(ServiciosDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -134,7 +135,7 @@ public class transaccionDeduccion {
             ArrayList<Deduccion> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Deduccion(rs.getString("IDDEDUCCION"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
+                    rs.getDate("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
                     rs.getInt("CONTADOR"), rs.getString("IDDEUDA")));
             }
             return depts;
@@ -152,7 +153,7 @@ public class transaccionDeduccion {
             ArrayList<Deduccion> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Deduccion(rs.getString("IDDEDUCCION"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
+                    rs.getDate("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
                     rs.getInt("CONTADOR"), rs.getString("IDDEUDA")));
             }
             return depts;
@@ -170,7 +171,7 @@ public class transaccionDeduccion {
             ArrayList<Deduccion> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Deduccion(rs.getString("IDDEDUCCION"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
+                    rs.getDate("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
                     rs.getInt("CONTADOR"), rs.getString("IDDEUDA")));
             }
             return depts;
@@ -190,7 +191,7 @@ public class transaccionDeduccion {
                 return null;
             }
             return (new Deduccion(rs.getString("IDDEDUCCION"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
+                    rs.getDate("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
                     rs.getInt("CONTADOR"), rs.getString("IDDEUDA")));
         } catch (SQLException ex) {
             Logger.getLogger(ServiciosDB.class.getName()).log(Level.SEVERE, null, ex);
@@ -207,7 +208,7 @@ public class transaccionDeduccion {
             ArrayList<Deduccion> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new Deduccion(rs.getString("IDDEDUCCION"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
+                    rs.getDate("FECHA"), rs.getFloat("DEUDA"), rs.getFloat("VALOR"), rs.getFloat("SALDO"),
                     rs.getInt("CONTADOR"), rs.getString("IDDEUDA")));
             }
             return depts;

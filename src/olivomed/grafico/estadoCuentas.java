@@ -8,17 +8,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import olivomed.logica.transaccionCuenta_dtl;
-import olivomed.logica.transaccionCuenta_hdr;
+import olivomed.logica.transaccionCliente;
 import olivomed.logica.transaccionDeduccion;
+import olivomed.logica.transaccionEstado;
 import olivomed.logica.transaccionPase;
-import olivomed.modelos.Cuenta_dtl;
-import olivomed.modelos.Cuenta_hdr;
 import olivomed.modelos.Deduccion;
+import olivomed.modelos.Empleado;
+import olivomed.modelos.Estado;
 import olivomed.modelos.Pase;
 import org.apache.poi.xwpf.usermodel.ParagraphAlignment;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
@@ -57,9 +58,12 @@ public class estadoCuentas extends javax.swing.JFrame {
         jNombre = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable2 = new javax.swing.JTable();
-        jLabel3 = new javax.swing.JLabel();
-        jCuentas = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jDateI = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        jDateF = new com.toedter.calendar.JDateChooser();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -114,22 +118,22 @@ public class estadoCuentas extends javax.swing.JFrame {
         jToolBar1.add(jLabel23);
 
         jLabel2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jLabel2.setText("Pase a Favor");
+        jLabel2.setText("Estado Cuenta de");
 
         jNombre.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
 
         jTable2.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Codigo deduccion", "Numero", "Fecha", "Valor del pase", "Nº de Pagos", "Deduccion", "Saldo"
+                "Id Estado", "Id Cliente", "Cliente", "Fecha", "Id Transaccion", "Transaccion", "Monto", "Saldo"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -142,14 +146,27 @@ public class estadoCuentas extends javax.swing.JFrame {
             }
         });
         jScrollPane2.setViewportView(jTable2);
+        if (jTable2.getColumnModel().getColumnCount() > 0) {
+            jTable2.getColumnModel().getColumn(7).setResizable(false);
+        }
 
-        jLabel3.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
-        jLabel3.setText("Cuentas");
-
-        jButton1.setText("Generar");
+        jButton1.setText("General");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jLabel3.setText("Fin");
+
+        jLabel4.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+        jLabel4.setText("Entre Fechas   Inicio");
+
+        jButton3.setText("Generar por fechas");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
             }
         });
 
@@ -157,42 +174,49 @@ public class estadoCuentas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 864, Short.MAX_VALUE)
+            .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 864, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(214, 214, 214)
+                .addComponent(jLabel2)
+                .addGap(6, 6, 6)
+                .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(4, 4, 4)
+                .addComponent(jButton1))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(55, 55, 55)
+                .addComponent(jLabel4)
+                .addGap(10, 10, 10)
+                .addComponent(jDateI, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(jLabel3)
+                .addGap(10, 10, 10)
+                .addComponent(jDateF, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton3))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
                 .addComponent(jScrollPane2)
-                .addContainerGap())
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(238, 238, 238))
+                .addGap(10, 10, 10))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jCuentas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
-                .addGap(33, 33, 33))
+                .addGap(8, 8, 8)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDateF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addGap(24, 24, 24)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
+                .addGap(118, 118, 118))
         );
 
         pack();
@@ -200,7 +224,8 @@ public class estadoCuentas extends javax.swing.JFrame {
 
     private void txtFiltroKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFiltroKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            llenarCombo();
+            String idCliente = txtFiltro.getText();
+            setCliente(idCliente);
         }
     }//GEN-LAST:event_txtFiltroKeyPressed
 
@@ -215,9 +240,13 @@ public class estadoCuentas extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String idCuenta = jCuentas.getSelectedItem().toString();
-        setCuenta(idCuenta);
+        estadoCuenta();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        estadoCuentaFechas();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -255,7 +284,9 @@ public class estadoCuentas extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jCuentas;
+    private javax.swing.JButton jButton3;
+    private com.toedter.calendar.JDateChooser jDateF;
+    private com.toedter.calendar.JDateChooser jDateI;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
@@ -265,6 +296,7 @@ public class estadoCuentas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jNombre;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
@@ -272,67 +304,56 @@ public class estadoCuentas extends javax.swing.JFrame {
     public static javax.swing.JTextField txtFiltro;
     // End of variables declaration//GEN-END:variables
 
-    
-    public void setCuenta(String idCuenta){
-        try {
-            Cuenta_hdr cue;
-            transaccionCuenta_hdr cueservice = new transaccionCuenta_hdr();
-            cue = cueservice.findByIdCuenta(idCuenta);
-            if (cue != null) {
-                setearPrestamo(cue);
-            } else {
-                JOptionPane.showMessageDialog(null, "El Prestamo: " + idCuenta + " no existe");
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(estadoCuentas.class.getName()).log(Level.SEVERE, null, ex);
+    private void estadoCuenta() {
+        String idCliente = txtFiltro.getText();
+        Estado est;
+        transaccionEstado service = new transaccionEstado();
+        ArrayList<Estado> depts;
+        depts = (ArrayList<Estado>) service.obtenerUltimaEstadoByIdPaseAcs(idCliente);
+        for (int x = 0; x < depts.size(); x++) {
+            est = depts.get(x);
+            jTable2.setValueAt(est.getId(), x, 0);
+            jTable2.setValueAt(est.getIdcliente(), x, 1);
+            jTable2.setValueAt(est.getNombre(), x, 2);
+            System.out.println(est.getFecha());
+            java.sql.Date sqlDate = new java.sql.Date(est.getFecha().getTime());
+            jTable2.setValueAt(sqlDate, x, 3);
+            jTable2.setValueAt(est.getIdTrans(), x, 4);
+            jTable2.setValueAt(est.getTrasaccion(), x, 5);
+            jTable2.setValueAt(Float.toString(est.getMonto()), x, 6);
+            jTable2.setValueAt(Float.toString(est.getSaldo()), x, 7);
+            agregarFilas();
         }
     }
 
-    private void setearPrestamo(Cuenta_hdr cue) {
-        float suma = 0;
-        transaccionCuenta_dtl cueservi = new transaccionCuenta_dtl();
-        Cuenta_dtl cue1;
-        ArrayList<Cuenta_dtl> depts;
-        depts = (ArrayList<Cuenta_dtl>) cueservi.obtenerCuentadtlByIdCuenta(cue.getIdCuenta());
-        jNombre.setText(cue.getNombre());
-        for (int i = 0; i < depts.size(); i++) {
-            cue1 = depts.get(i);
-            jTable2.setValueAt(obtenerNumero(cue1.getIdPase()), i, 1);
-            jTable2.setValueAt(obtenerFecha(cue1.getIdPase()), i, 2);
-            jTable2.setValueAt(cue1.getValor(), i, 3);
-            jTable2.setValueAt(cue1.getValor(), i, 6);
-            suma = suma + cue1.getValor();
+    private void estadoCuentaFechas() {
+        String idCliente = txtFiltro.getText();
+        Estado est;
+        transaccionEstado service = new transaccionEstado();
+        ArrayList<Estado> depts;
+        java.util.Date finicio = jDateI.getDate();
+        java.sql.Date sqlDate1 = new java.sql.Date(finicio.getTime());
+        java.util.Date ffin = jDateF.getDate();
+        java.sql.Date sqlDate2 = new java.sql.Date(ffin.getTime());
+        depts = (ArrayList<Estado>) service.obtenerUltimaEstadoByFechas(sqlDate1, sqlDate2, idCliente);
+        for (int x = 0; x < depts.size(); x++) {
+            est = depts.get(x);
+            jTable2.setValueAt(est.getId(), x, 0);
+            jTable2.setValueAt(est.getIdcliente(), x, 1);
+            jTable2.setValueAt(est.getNombre(), x, 2);
+            jTable2.setValueAt(est.getFecha(), x, 3);
+            jTable2.setValueAt(est.getIdTrans(), x, 4);
+            jTable2.setValueAt(est.getTrasaccion(), x, 5);
+            jTable2.setValueAt(Float.toString(est.getMonto()), x, 6);
+            jTable2.setValueAt(Float.toString(est.getSaldo()), x, 7);
             agregarFilas();
         }
-        jTable2.setValueAt("Total", depts.size(), 5);
-        jTable2.setValueAt(suma, depts.size(), 6);
-        obtenerDeducciones(cue.getIdCuenta());
     }
 
     public void agregarFilas() {
         DefaultTableModel temp = (DefaultTableModel) jTable2.getModel();
         Object nuevo[] = {"", "", "", "", "", "", "", "", "", "", ""};
         temp.addRow(nuevo);
-    }
-
-    private void obtenerDeducciones(String idCuenta) {
-        transaccionCuenta_dtl cueservi = new transaccionCuenta_dtl();
-        ArrayList<Cuenta_dtl> deptsc;
-        deptsc = (ArrayList<Cuenta_dtl>) cueservi.obtenerCuentadtlByIdCuenta(idCuenta);
-        int inicio = deptsc.size() + 1;
-        transaccionDeduccion servi = new transaccionDeduccion();
-        Deduccion ded;
-        ArrayList<Deduccion> depts;
-        depts = (ArrayList<Deduccion>) servi.obtenerUltimaDeduccionByIdPaseAcs(idCuenta);
-        for (int x = 0; x < depts.size(); x++) {
-            ded = depts.get(x);
-            agregarFilas();
-            jTable2.setValueAt(ded.getIdDeduccion(), inicio + x, 0);
-            jTable2.setValueAt(ded.getFecha(), inicio + x, 2);
-            jTable2.setValueAt(ded.getValor(), inicio + x, 5);
-            jTable2.setValueAt(ded.getSaldo(), inicio + x, 6);
-
-        }
     }
 
     public void crearTable() {
@@ -375,21 +396,14 @@ public class estadoCuentas extends javax.swing.JFrame {
             int nCols = jTable2.getColumnCount();
             XWPFTable tableOne = writedoc.createTable(nRows, nCols);
             XWPFTableRow tableOneRowOne = tableOne.getRow(0);
-            tableOneRowOne.getCell(0).setText("DEDUCCION");
-            tableOneRowOne.getCell(1).setText("NUMERO");
-            tableOneRowOne.getCell(2).setText("FECHA");
-            tableOneRowOne.getCell(3).setText("PASE");
-            tableOneRowOne.getCell(4).setText("PAGOS");
-            tableOneRowOne.getCell(5).setText("DEDUCCION");
+            tableOneRowOne.getCell(0).setText("IDESTADO");
+            tableOneRowOne.getCell(1).setText("IDCLIENTE");
+            tableOneRowOne.getCell(2).setText("CLIENTE");
+            tableOneRowOne.getCell(3).setText("FECHA");
+            tableOneRowOne.getCell(4).setText("IDTRANSACCION");
+            tableOneRowOne.getCell(5).setText("TRANSACCION");
+            tableOneRowOne.getCell(6).setText("MONTO");
             tableOneRowOne.getCell(6).setText("SALDO");
-
-            for (int x = 0; x < 1; x++) {
-                XWPFTableRow tableRowTwo = tableOne.getRow(1);
-                tableRowTwo.getCell(1).setText(Float.toString(pres.getNumero()));
-                tableRowTwo.getCell(2).setText(pres.getFecha());
-                tableRowTwo.getCell(3).setText(Float.toString(pres.getValor()));
-                tableRowTwo.getCell(6).setText(Float.toString(pres.getValor()));
-            }
 
             int rowNr = 2;
             Deduccion ded;
@@ -402,7 +416,7 @@ public class estadoCuentas extends javax.swing.JFrame {
                 agregarFilas();
                 XWPFTableRow row = tableOne.getRow(rowNr++);
                 row.getCell(0).setText(ded.getIdDeduccion());
-                row.getCell(2).setText(ded.getFecha());
+                row.getCell(2).setText(ded.getFecha().toString());
                 row.getCell(5).setText(Float.toString(ded.getValor()));
                 row.getCell(6).setText(Float.toString(ded.getSaldo()));
             }
@@ -428,7 +442,7 @@ public class estadoCuentas extends javax.swing.JFrame {
         return 0;
     }
 
-    private String obtenerFecha(String idPase) {
+    private Date obtenerFecha(String idPase) {
         try {
             transaccionPase service = new transaccionPase();
             Pase p = service.findByIdPase(idPase);
@@ -436,18 +450,19 @@ public class estadoCuentas extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(estadoCuentas.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return "";
+        return null;
     }
 
-    public void llenarCombo() {
-        String id = txtFiltro.getText();
-        transaccionCuenta_hdr service = new transaccionCuenta_hdr();
-        ArrayList<Cuenta_hdr> depts;
-        depts = (ArrayList<Cuenta_hdr>) service.obtenerCuentahdrByIdCliente(id);
-        for (int x = 0; x < depts.size(); x++) {
-            Cuenta_hdr cue = depts.get(x);
-            jCuentas.addItem(cue.getIdCuenta());
+    private void setCliente(String idCliente) {
+        try {
+            Empleado emp;
+            transaccionCliente service = new transaccionCliente();
+            emp = service.findByIdClientes(idCliente);
+            jNombre.setText(emp.getNombre());
+        } catch (SQLException ex) {
+            Logger.getLogger(estadoCuentas.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
 }

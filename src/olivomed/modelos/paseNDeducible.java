@@ -5,6 +5,8 @@
  */
 package olivomed.modelos;
 
+import java.util.Date;
+
 /**
  *
  * @author admin
@@ -13,7 +15,7 @@ public class paseNDeducible {
 
     String idPase;
     String nombre;
-    String fecha;
+    Date fecha;
     float valor;
     String medico;
     int contador;
@@ -21,7 +23,7 @@ public class paseNDeducible {
     String codigo;
     String mes;
 
-    public paseNDeducible(String idPase, String nombre, String fecha, float valor, String medico, 
+    public paseNDeducible(String idPase, String nombre, Date fecha, float valor, String medico, 
             int contador, int numero, String codigo, String mes) {
         this.idPase = idPase;
         this.nombre = nombre;
@@ -42,7 +44,7 @@ public class paseNDeducible {
         return nombre;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
@@ -70,7 +72,7 @@ public class paseNDeducible {
         this.nombre = nombre;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

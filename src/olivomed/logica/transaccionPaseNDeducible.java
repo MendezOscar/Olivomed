@@ -5,6 +5,7 @@
  */
 package olivomed.logica;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import olivomed.modelos.Pase;
 import olivomed.modelos.paseNDeducible;
 
 /**
@@ -32,7 +32,7 @@ public class transaccionPaseNDeducible {
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, p.getIdPase());
             stmt.setString(2, p.getNombre());
-            stmt.setString(3, p.getFecha());
+            stmt.setDate(3, (Date) p.getFecha());
             stmt.setFloat(4, p.getValor());
             stmt.setString(5, p.getMedico());
             stmt.setInt(6, p.getContador());
@@ -53,7 +53,7 @@ public class transaccionPaseNDeducible {
                 + "WHERE IDPASENODEDUCIBLE=?";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, p.getNombre());
-            stmt.setString(2, p.getFecha());
+            stmt.setDate(2, (Date) p.getFecha());
             stmt.setFloat(3, p.getValor());
             stmt.setString(4, p.getMedico());
             stmt.setInt(5, p.getNumero());
@@ -92,7 +92,7 @@ public class transaccionPaseNDeducible {
                 return null;
             }
             return (new paseNDeducible(rs.getString("IDPASENODEDUCIBLE"), rs.getString("NOMBRE"),
-                    rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
+                    rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
                     rs.getInt("NUMERO"), rs.getString("CODIGO"), rs.getString("MES")));
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(null, "ERROR Codigo de empleado: " + id + "no se ha encontrado.");
@@ -107,7 +107,7 @@ public class transaccionPaseNDeducible {
             ArrayList<paseNDeducible> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new paseNDeducible(rs.getString("IDPASENODEDUCIBLE"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("CODIGO"), rs.getString("MES")));
             }
             return depts;
@@ -125,7 +125,7 @@ public class transaccionPaseNDeducible {
             ArrayList<paseNDeducible> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new paseNDeducible(rs.getString("IDPASENODEDUCIBLE"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("CODIGO"), rs.getString("MES")));
             }
             return depts;
@@ -143,7 +143,7 @@ public class transaccionPaseNDeducible {
             ArrayList<paseNDeducible> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new paseNDeducible(rs.getString("IDPASENODEDUCIBLE"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("CODIGO"), rs.getString("MES")));
             }
             return depts;
@@ -161,7 +161,7 @@ public class transaccionPaseNDeducible {
             ArrayList<paseNDeducible> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new paseNDeducible(rs.getString("IDPASENODEDUCIBLE"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("CODIGO"), rs.getString("MES")));
             }
             return depts;
@@ -179,7 +179,7 @@ public class transaccionPaseNDeducible {
             ArrayList<paseNDeducible> depts = new ArrayList<>();
             while (rs.next()) {
                 depts.add(new paseNDeducible(rs.getString("IDPASENODEDUCIBLE"), rs.getString("NOMBRE"),
-                        rs.getString("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
+                        rs.getDate("FECHA"), rs.getFloat("VALOR"), rs.getString("MEDICO"), rs.getInt("CONTADOR"),
                         rs.getInt("NUMERO"), rs.getString("CODIGO"), rs.getString("MES")));
             }
             return depts;

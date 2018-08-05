@@ -5,6 +5,7 @@
  */
 package olivomed.logica;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import olivomed.modelos.Cuenta_dtl;
 
+
 /**
  *
  * @author admin
@@ -25,14 +27,15 @@ public class transaccionCuenta_dtl {
 
     public void createCuenta_dtl(Cuenta_dtl cue) {
         String query = "INSERT INTO CUENTA_DTL "
-                + "(IDCORR, IDCUENTA, IDPASE, VALOR, CONTADOR) "
-                + "VALUES (? , ? , ?, ?, ?)";
+                + "(IDCORR, IDCUENTA, IDPASE, VALOR, CONTADOR, FECHA) "
+                + "VALUES (? , ? , ?, ?, ?, ?)";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, cue.getIdCorr());
             stmt.setString(2, cue.getIdCuenta());
             stmt.setString(3, cue.getIdPase());
             stmt.setFloat(4, cue.getValor());
             stmt.setInt(5, cue.getContador());
+            stmt.setDate(6, (Date) cue.getFecha());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "La cuenta: " + cue.getIdCuenta() + " se ha guardado Exitosamente.");
         } catch (SQLException se) {
@@ -43,13 +46,14 @@ public class transaccionCuenta_dtl {
 
     public void updateCuenta_dtl(String id, Cuenta_dtl cue) throws SQLException {
         String query = "UPDATE CUENTA_DTL "
-                + "SET IDCUENTA=?, IDPASE=?, VALOR=?"
+                + "SET IDCUENTA=?, IDPASE=?, VALOR=?, FECHA=?"
                 + "WHERE IDCORR=?";
         try (PreparedStatement stmt = service.con.prepareStatement(query)) {
             stmt.setString(1, cue.getIdCuenta());
             stmt.setString(2, cue.getIdPase());
-            stmt.setFloat(2, cue.getValor());
-            stmt.setString(3, cue.getIdCuenta());
+            stmt.setFloat(3, cue.getValor());
+            stmt.setDate(4, (Date) cue.getFecha());
+            stmt.setString(5, cue.getIdCuenta());
             stmt.executeUpdate();
             JOptionPane.showMessageDialog(null, "La cuenta: " + id + " se ha actualizado correctamente.");
         } catch (SQLException se) {
@@ -83,7 +87,7 @@ public class transaccionCuenta_dtl {
             }
             return (new Cuenta_dtl(rs.getString("IDCORR"),
                     rs.getString("IDCUENTA"), rs.getString("IDPASE"), rs.getFloat("VALOR"),
-                    rs.getInt("CONTADOR")));
+                    rs.getInt("CONTADOR"), rs.getDate("FECHA")));
         } catch (SQLException se) {
             JOptionPane.showMessageDialog(null, "ERROR Codigo de empleado: " + id + "no se ha encontrado.");
         }
@@ -98,7 +102,7 @@ public class transaccionCuenta_dtl {
             while (rs.next()) {
                 depts.add(new Cuenta_dtl(rs.getString("IDCORR"),
                     rs.getString("IDCUENTA"), rs.getString("IDPASE"), rs.getFloat("VALOR"),
-                    rs.getInt("CONTADOR")));
+                    rs.getInt("CONTADOR"), rs.getDate("FECHA")));
             }
             return depts;
         } catch (SQLException se) {
@@ -117,7 +121,7 @@ public class transaccionCuenta_dtl {
             while (rs.next()) {
                 depts.add(new Cuenta_dtl(rs.getString("IDCORR"),
                     rs.getString("IDCUENTA"), rs.getString("IDPASE"), rs.getFloat("VALOR"),
-                    rs.getInt("CONTADOR")));
+                    rs.getInt("CONTADOR"), rs.getDate("FECHA")));
             }
             return depts;
         } catch (SQLException ex) {

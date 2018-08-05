@@ -912,18 +912,10 @@ public class reportePase extends javax.swing.JFrame {
         trsFiltro2.setRowFilter(RowFilter.regexFilter(txtFiltro2.getText(), columnaABuscar));
     }
 
-    public int obtenerAnio(String jfecha) {
-        try {
-            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            String fecha = jfecha;
-            Date date = format.parse(fecha);
-            String formato = "yyyy";
-            SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
-            return Integer.parseInt(dateFormat.format(date));
-        } catch (ParseException ex) {
-            Logger.getLogger(reportePase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
+    public int obtenerAnio(Date jfecha) {
+        String formato = "yyyy";
+        SimpleDateFormat dateFormat = new SimpleDateFormat(formato);
+        return Integer.parseInt(dateFormat.format(jfecha));
     }
 
     public void crearTable() {
